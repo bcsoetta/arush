@@ -46,7 +46,7 @@ class IPController extends Controller
 
         $dokumen = Dokumen::findOrFail($id);
 
-        $users= User::where('active', 1)->where('hadir', 1)->where('lokasi_id', $dokumen->lokasi_id)->whereHas('roles', function($q){
+        $users= User::where('active', 1)->where('hadir', 1)->whereHas('roles', function($q){
             $q->where('name', 'PEMERIKSA');
         })->get();
 

@@ -71,7 +71,10 @@ Route::get('/hs','HsController@dataHs')->name('data.hs');
 
 //LOKASI
 Route::resource('lokasi', 'LokasiController');
+
+//KURS
 Route::resource('kurs', 'KursController');
+Route::get('kurs-update-all', 'KursController@updateAll')->name('kurs.update.all');
 
 
 //CETAK

@@ -122,4 +122,75 @@ class KursController extends Controller
     {
         //
     }
+
+    public function updateAll()
+    {
+        $url = 'http://192.168.146.226/utiliti/updatekursrh.php';
+        Alert::success('Update');
+        return redirect()->away($url);        
+
+    }
+
+    // public function updateAll()
+    // {
+    //     $queries=array();
+    //     $validity=array();
+
+    //     //untuk konverter
+    //     $months=array(
+    //         'January', 'Januari', 'February', 'Pebruari', 'Februari', 'March', 'Maret', 'April', 'May', 'Mei', 'June', 'Juni',
+    //         'July', 'Juli', 'August', 'Agustus', 'September', 'October', 'Oktober', 'November', 'Nopember', 'December', 'Desember'
+    //     );
+    //     $month_ids=array(
+    //         '01', '01', '02', '02', '02', '03', '03', '04', '05', '05', '06', '06', '07', '07', '08', '08', '09', '10', '10',
+    //         '11', '11', '12', '12'
+    //     );
+
+    //     $doc = new \DOMDocument;
+
+    //     if(@$doc->loadHTMLFile('http://www.fiskal.kemenkeu.go.id/dw-kurs-db.asp'))
+    //     {
+    //         // dd($doc);
+    //         $tds=$doc->getElementsByTagName('td');
+
+    //         $valuta;
+    //         foreach ($tds as $td) {
+    //             $value=$td->nodeValue;
+    //             // var_dump($value);
+    //             $matches;
+    //             if(preg_match('/\(([^\)]*)\)/', $value, $matches)){
+    //                 //echo $matches[1]."<br>";
+    //                 $valuta=$matches[1];
+    //                 continue;
+    //             }
+
+    //             if(isset($valuta)){
+    //                 // var_dump($valuta);
+    //                 $value = $this->grab_number($td->nodeValue);
+    //                 if(strlen($valuta)===3){
+    //                     $data = Kurs::where('code', $valuta)->first();
+
+    //                     $kurs = Kurs::findOrFail($data->id);
+    //                     dd($kurs);
+    //                     $kurs->nilai = $value;
+    //                     $kurs->save();
+    //                 }
+
+
+    //                 // var_dump($value);
+    //             }
+    //         }
+
+
+    //     } else {
+    //         echo 'none';
+    //     }
+        
+    // }
+
+    public function grab_number($kmk)
+    {
+        $data = str_replace(',', '', $kmk);
+        return str_replace(',', '.', $data);
+    }
 }

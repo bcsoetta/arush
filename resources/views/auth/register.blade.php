@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('pageName')
+Register
+@endsection
+
 @section('content')
 
         <section id="main" style="">

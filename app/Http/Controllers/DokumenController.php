@@ -191,13 +191,13 @@ class DokumenController extends Controller
             Alert::error('Sorry');
             return back();
         }
+
+        $dokumen = Dokumen::findOrFail($id);
         //cek user pengguna jasa
         if (auth()->user()->hasRole('PENGGUNA-JASA') AND $dokumen->user_id != auth()->user()->id) {           
             Alert::error('Sorry');
             return back();
         }
-
-        $dokumen = Dokumen::findOrFail($id);
         return view('dokumen.show', compact('dokumen'));
     }
 

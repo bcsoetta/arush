@@ -21,13 +21,24 @@
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Setting <span class="caret"></span></a>
         <ul class="dropdown-menu">
-
+            {{-- @can('USERS') --}}
             <li><a href="{{route('users.index')}}">Users</a></li>
+            {{-- @endcan --}}
+            @can('PROFILE')
             <li><a href="{{route('profiles.index')}}">Profile</a></li>
+            @endcan
+            {{-- @can('KURS') --}}
             <li><a href="{{route('kurs.index')}}">Kurs</a></li>
+            {{-- @endcan --}}
+            {{-- @can('LOKASI') --}}
             <li><a href="{{route('lokasi.index')}}">Lokasi</a></li>
+            {{-- @endcan --}}
+            {{-- @can('ROLE') --}}
             <li><a href="{{route('roles.index')}}">Role</a></li>
+            {{-- @endcan --}}
+            {{-- @can('PERMISSION') --}}
             <li><a href="{{route('permissions.index')}}">Permissions</a></li>
+            {{-- @endcan --}}
         </ul>
     </li>
 </ul>

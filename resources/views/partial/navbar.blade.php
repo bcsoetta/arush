@@ -24,6 +24,9 @@
             {{-- @can('USERS') --}}
             <li><a href="{{route('users.index')}}">Users</a></li>
             {{-- @endcan --}}
+            {{-- @can('ABSENSI') --}}
+            <li><a href="{{route('absensi.index')}}">Absensi</a></li>
+            {{-- @endcan --}}
             @can('PROFILE')
             <li><a href="{{route('profiles.index')}}">Profile</a></li>
             @endcan

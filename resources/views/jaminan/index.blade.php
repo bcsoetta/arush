@@ -28,7 +28,7 @@ Jaminan
             <tbody>
                 @foreach($jaminan as $data)
                 <tr>
-                    <td>1</td>
+                    <td>{{$no++}}</td>
                     <td>{{$data->nomor}}</td>
                     <td>{{$data->tanggal}}</td>
                     <td>{{$data->penjamin}}</td>

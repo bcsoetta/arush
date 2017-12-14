@@ -1,27 +1,25 @@
 @extends('layouts.app')
 
 @section('pageName')
-Users
+Absensi
 @endsection
 
 @section('content')
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title">Users</h3>
+        <h3 class="panel-title">Absensi</h3>
     </div>
     <div class="panel-body">
-        <a href="{{route('users.create')}}"><button class="btn btn-primary pull-right" style="margin: 10px">tambah User</button></a>
         <table id="" class="table table-condensed table-hover table-bordered table-striped">
             <thead>
                 <tr>
                     <th>No</th>
                     <th>Nama</th>
                     <th>NIP</th>
-                    <th>Username</th>
                     <th>Lokasi</th>
                     <th>Role</th>
-                    <th>User is</th>
-                    <th></th>
+                    <th>Bertugas</th>
+                    <th>ACt</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,23 +28,25 @@ Users
                     <td>{{$no++}}</td>
                     <td>{{$user->name}}</td>
                     <td>{{$user->nip}}</td>
-                    <td>{{$user->user_name}}</td>
                     <td>{{$user->lokasi}}</td>
                     <td>
                         @foreach($user->roles as $role)
                             <span class="btn btn-xs btn-primary">{{$role->name}}</span>,
                         @endforeach
                     </td>
-                    <td>{{$user->user_is}}</td>
-
+                    <td style="text-align: center">
+                        @if($user->hadir == 1)
+                        <span class="btn btn-xs btn-primary">Hadir</span>
+                        @else
+                        <span class="btn btn-xs btn-danger">Tidak</span>
+                        @endif
+                    </td>
                     <td style="text-align: center;">
-                        <a class="btn btn-xs btn-primary" href="{{route('users.edit', $user->id)}}">Edit</a>
                         <a class="btn btn-xs btn-danger" href="#" 
                             onclick="event.preventDefault();
-                            document.getElementById('delete-form').submit();">Hapus</a>
-                            <form id="delete-form" action="{{route('users.destroy', $user->id)}}" method="POST" style="display: none;">
+                            document.getElementById('update-form-{{$user->id}}').submit();">Edit</a>
+                            <form id="update-form-{{$user->id}}" action="{{route('absensi.ubah', $user->id)}}" method="POST" style="display: none;">
                                 {{ csrf_field() }}
-                                {{ method_field('DELETE') }}
                             </form>
                     </td>
                 </tr>

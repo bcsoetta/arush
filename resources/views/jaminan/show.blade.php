@@ -109,7 +109,7 @@ Jaminan
                     <tbody>
                         @foreach($jaminan->dokumen as $data)
                         <tr>
-                            <td>1</td>
+                            <td>{{$no++}}</td>
                             <td>{{$data->daftar_no}}</td>
                             <td>{{$data->daftar_tgl}}</td>
                             <td>{{$data->importir_nm}}</td>

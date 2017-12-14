@@ -90,3 +90,7 @@ Route::get('pendok/index', 'PendokController@index')->name('pendox.index');
 Route::get('pendok/search', 'PendokController@search')->name('pendok.search');
 Route::get('pendok/create/{id}', 'PendokController@create')->name('pendok.create');
 Route::post('pendok/store/{id}', 'PendokController@store')->name('pendok.store');
+
+//ABESENSI
+Route::get('absensi/index', 'AbsensiController@index')->name('absensi.index');
+Route::post('absensi/ubah/{id}', 'AbsensiController@ubahKehadiran')->name('absensi.ubah');

@@ -41,9 +41,10 @@ class LoginController extends Controller
     protected function credentials(Request $request)
     {
         if(is_numeric($request->get('user_name'))){
-            return ['nip'=>$request->get('user_name'),'password'=>$request->get('password')];
+            return ['nip'=>$request->get('user_name'),'password'=>$request->get('password'), 'active' => 1];
         }
-        return $request->only($this->username(), 'password');
+        // return $request->only($this->username(), 'password');
+        return array_merge($request->only($this->username(), 'password'), ['active' => 1]);
     }
 
     public function username()

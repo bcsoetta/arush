@@ -28,7 +28,8 @@ class JaminanController extends Controller
             return back();
         }
         $jaminan = Jaminan::all();
-        return view('jaminan.index', compact('jaminan'));
+        $no = 1;
+        return view('jaminan.index', compact('jaminan', 'no'));
     }
 
     /**
@@ -100,8 +101,9 @@ class JaminanController extends Controller
         $dokumen =  Dokumen::where('jaminan_id', NULL)->has('perhitunganJaminan')->get();
         // $data = $jaminan->dokumen;
         // dd($data->last()->sppb);
+        $no =1;
 
-        return view('jaminan.show', compact('jaminan', 'dokumen'));
+        return view('jaminan.show', compact('jaminan', 'dokumen', 'no'));
     }
 
     /**

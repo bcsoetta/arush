@@ -18,6 +18,9 @@
     @can('PENDOK')
     <li><a href="{{ route('pendox.index')}}">Pendok</a></li>
     @endcan
+    @can('SEARCH')
+    <li><a href="{{ route('search.index')}}">Pencarian</a></li>
+    @endcan
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Setting <span class="caret"></span></a>
         <ul class="dropdown-menu">
@@ -25,7 +28,7 @@
             <li><a href="{{route('users.index')}}">Users</a></li>
             {{-- @endcan --}}
             {{-- @can('ABSENSI') --}}
-            <li><a href="{{route('absensi.index')}}">Absensi</a></li>
+            <li><a href="{{route('absensi.index')}}">Absensi (pemeriksa)</a></li>
             {{-- @endcan --}}
             @can('PROFILE')
             <li><a href="{{route('profiles.index')}}">Profile</a></li>

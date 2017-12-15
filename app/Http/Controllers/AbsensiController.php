@@ -9,7 +9,10 @@ class AbsensiController extends Controller
 {
     public function index()
     {
-        $users = User::where('active', 1)->get();
+        // $users = User::where('active', 1)->orderBy('hadir', 'desc')->paginate(20);
+        $users = User::where('active', 1)->whereHas('roles', function($q){
+            $q->where('name', 'PEMERIKSA');
+        })->orderBy('hadir', 'desc')->paginate(20);
         $no =1;
         return view('absensi.index', compact('users', 'no'));
     }

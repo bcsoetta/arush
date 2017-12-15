@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DB;
+use App\Dokumen;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
@@ -17,18 +18,30 @@ class SearchController extends Controller
         if($request->ajax())
         {
             $output="";
-            $products=DB::table('dokumen')->where('title','LIKE','%'.$request->search."%")->get();
-            if($products)
+            // $dokumens=DB::table('dokumen')->where('daftar_no','LIKE','%'.$request->search."%")->get();
+            
+            $dokumens = Dokumen::where('daftar_no','LIKE','%'.$request->search.'%')
+                        ->orWhere('mawb_no','LIKE','%'.$request->search.'%')
+                        ->orWhere('hawb_no','LIKE','%'.$request->search.'%')
+                        ->orWhere('importir_nm','LIKE','%'.$request->search.'%')
+                        ->orWhere('ppjk_nm','LIKE','%'.$request->search.'%')
+                        ->get();
+
+            if($dokumens)
             {
 
-                foreach ($products as $key => $product) {
+                foreach ($dokumens as $key => $dokumen) {
                     $output.='<tr>'.
-                    '<td>'.$product->id.'</td>'.
-                    '<td>'.$product->title.'</td>'.
-                    '<td>'.$product->description.'</td>'.
-                    '<td>'.$product->price.'</td>'.
+                    '<td>'.$dokumen->daftar_no.'</td>'.
+                    '<td>'.$dokumen->importir_nm.'</td>'.
+                    '<td>'.$dokumen->ppjk_nm.'</td>'.
+                    '<td>'.$dokumen->hawb_no.'</td>'.
+                    '<td>'.$dokumen->status_label.'</td>'.
                     '</tr>';
                 }
             }
+
+            return Response($output);
         }
-    }    
+    }
+} 

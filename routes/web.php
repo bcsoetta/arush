@@ -94,3 +94,7 @@ Route::post('pendok/store/{id}', 'PendokController@store')->name('pendok.store')
 //ABESENSI
 Route::get('absensi/index', 'AbsensiController@index')->name('absensi.index');
 Route::post('absensi/ubah/{id}', 'AbsensiController@ubahKehadiran')->name('absensi.ubah');
+
+//SEARCh
+Route::get('search', 'SearchController@index')->name('search.index');
+Route::get('search/data', 'SearchController@search')->name('search.data');

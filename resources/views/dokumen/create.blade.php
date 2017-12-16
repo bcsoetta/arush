@@ -33,20 +33,6 @@ Rekam Dokumen
 <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ asset('js/select2.min.js') }}"></script>
 <script>
-    var options = {
-            source: '{{url('importir')}}',
-            minLength:2,
-            autoFocus: true,
-            select: function(event, ui) {
-                $('#importir').val(ui.item.value);
-        }
-    };
-
-    var selector = 'input#importir';
-    $(document).on('keydown.autocomplete', selector, function() {
-            $(this).autocomplete(options);
-    });
-
     $('#tgl input').datepicker({
         format: "dd-mm-yyyy",
         language: "id",
@@ -68,6 +54,32 @@ Rekam Dokumen
     $("#angkut").select2({
         placeholder: "Pilih",
         allowClear: true
+    });
+
+    $(function() {
+        $("#importir_nm").autocomplete({
+            source:  "{{route('auto.importir')}}",
+            minLength: 1,
+            autoFocus:true,
+            select: function( event, ui ) {
+                $('#importir_nm').val(ui.item.nama);
+                $('#importir_npwp').val(ui.item.npwp);
+                $('#importir_alamat').val(ui.item.alamat);
+            }
+        });
+    });
+
+    $(function() {
+        $("#ppjk_nm").autocomplete({
+            source:  "{{route('auto.ppjk')}}",
+            minLength: 1,
+            autoFocus:true,
+            select: function( event, ui ) {
+                $('#ppjk_nm').val(ui.item.nama);
+                $('#ppjk_npwp').val(ui.item.npwp);
+                $('#ppjk_alamat').val(ui.item.alamat);
+            }
+        });
     });
 </script>
 @endsection

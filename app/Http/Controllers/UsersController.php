@@ -6,6 +6,7 @@ use Alert;
 use App\Role;
 use App\User;
 use App\Lokasi;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 
 class UsersController extends Controller
@@ -17,6 +18,12 @@ class UsersController extends Controller
      */
     public function index()
     {
+        // if(Gate::denies('USERS'))
+        // {
+        //     Alert::error('Sorry');
+        //     return back();
+        // }
+
         $users = User::all();
         $no=1;
         return view('admin.users.index', compact('users', 'no'));
@@ -29,6 +36,11 @@ class UsersController extends Controller
      */
     public function create()
     {
+        // if(Gate::denies('USERS'))
+        // {
+        //     Alert::error('Sorry');
+        //     return back();
+        // }
         $roles = Role::all();
         $lokasi = Lokasi::all();
         return view('admin.users.create', compact('roles', 'lokasi'));
@@ -42,6 +54,11 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
+        // if(Gate::denies('USERS'))
+        // {
+        //     Alert::error('Sorry');
+        //     return back();
+        // }
         $this->validate($request,[
             'name' => 'required|string|max:255',
             'nip' => 'required|numeric|unique:users',
@@ -89,6 +106,11 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
+        // if(Gate::denies('USERS'))
+        // {
+        //     Alert::error('Sorry');
+        //     return back();
+        // }
         $user = User::findOrFail($id);
         $roles = Role::all();
         $lokasi = Lokasi::all();
@@ -104,6 +126,11 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // if(Gate::denies('USERS'))
+        // {
+        //     Alert::error('Sorry');
+        //     return back();
+        // }
         $this->validate($request,[
             'name' => 'required|string|max:255',
             'nip' => 'required|numeric',
@@ -142,6 +169,11 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
+        // if(Gate::denies('USERS'))
+        // {
+        //     Alert::error('Sorry');
+        //     return back();
+        // }
         $user= User::findOrFail($id);
         $user->permissions()->detach();
         $user->delete();

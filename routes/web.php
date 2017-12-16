@@ -95,6 +95,8 @@ Route::post('pendok/store/{id}', 'PendokController@store')->name('pendok.store')
 Route::get('absensi/index', 'AbsensiController@index')->name('absensi.index');
 Route::post('absensi/ubah/{id}', 'AbsensiController@ubahKehadiran')->name('absensi.ubah');
 
-//SEARCh
+//SEARCH
 Route::get('search', 'SearchController@index')->name('search.index');
 Route::get('search/data', 'SearchController@search')->name('search.data');
+Route::get('autocomplete/importir', 'SearchController@importir')->name('auto.importir');
+Route::get('autocomplete/ppjk', 'SearchController@ppjk')->name('auto.ppjk');

@@ -64,8 +64,7 @@ Dokumen
 
     $('#search').on('keyup',function(){
 
-        $value=$(this).val();
-
+        $value = $(this).val();
         $.ajax({
             type : 'get',
             url : '{{route('search.data')}}',

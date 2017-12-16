@@ -4,7 +4,7 @@
         <h3>Importir :</h3>
         <div class="form-group {{ $errors->has('importir_nm') ? ' has-error' : '' }}">
             <label for="importir_npwp">Nama</label>
-            <input type="text" class="form-control" name="importir_nm" value="{{ old('importir_nm') }}" placeholder="nama" id="importir" autofocus>
+            <input type="text" class="form-control" name="importir_nm" value="{{ old('importir_nm') }}" placeholder="nama" id="importir_nm" autofocus>
             @if ($errors->has('importir_nm'))
             <span class="help-block">
                 {{ $errors->first('importir_nm') }}
@@ -13,7 +13,7 @@
         </div>
         <div class="form-group {{ $errors->has('importir_npwp') ? ' has-error' : '' }}">
             <label for="importir_npwp">NPWP</label>
-            <input type="text" class="form-control" name="importir_npwp" value="{{ old('importir_npwp') }}" placeholder="npwp">
+            <input type="text" class="form-control" name="importir_npwp" value="{{ old('importir_npwp') }}" placeholder="npwp" id="importir_npwp">
             @if ($errors->has('importir_npwp'))
             <span class="help-block">
                 {{ $errors->first('importir_npwp') }}
@@ -22,7 +22,7 @@
         </div>
         <div class="form-group {{ $errors->has('importir_alamat') ? ' has-error' : '' }}">
             <label for="importir_alamat">Alamat</label>
-            <textarea class="form-control" rows="2" name="importir_alamat" placeholder="alamat">{{ old('importir_alamat') }}</textarea>
+            <textarea class="form-control" rows="2" name="importir_alamat" placeholder="alamat" id="importir_alamat">{{ old('importir_alamat') }}</textarea>
             @if ($errors->has('importir_alamat'))
             <span class="help-block">
                 {{ $errors->first('importir_alamat') }}
@@ -34,7 +34,7 @@
         <h3>PPJK :</h3>
         <div class="form-group {{ $errors->has('ppjk_nm') ? ' has-error' : '' }}">
             <label for="ppjk_nm">Nama</label>
-            <input type="text" class="form-control" name="ppjk_nm" value="{{ old('ppjk_nm') }}" placeholder="nama" autofocus>
+            <input type="text" class="form-control" name="ppjk_nm" value="{{ old('ppjk_nm') }}" placeholder="nama" id="ppjk_nm" autofocus>
             @if ($errors->has('ppjk_nm'))
             <span class="help-block">
                 {{ $errors->first('ppjk_nm') }}
@@ -43,7 +43,7 @@
         </div>
         <div class="form-group {{ $errors->has('ppjk_npwp') ? ' has-error' : '' }}">
             <label for="ppjk_npwp">NPWP</label>
-            <input type="npwp" class="form-control" name="ppjk_npwp" value="{{ old('ppjk_npwp') }}" placeholder="npwp">
+            <input type="npwp" class="form-control" name="ppjk_npwp" value="{{ old('ppjk_npwp') }}" id="ppjk_npwp" placeholder="npwp">
             @if ($errors->has('ppjk_npwp'))
             <span class="help-block">
                 {{ $errors->first('ppjk_npwp') }}
@@ -52,7 +52,7 @@
         </div>
         <div class="form-group {{ $errors->has('ppjk_alamat') ? ' has-error' : '' }}">
             <label for="ppjk_alamat">Alamat</label>
-            <textarea class="form-control" rows="2" name="ppjk_alamat" placeholder="alamat">{{ old('ppjk_alamat') }}</textarea>
+            <textarea class="form-control" rows="2" name="ppjk_alamat" placeholder="alamat" id="ppjk_alamat" >{{ old('ppjk_alamat') }}</textarea>
             @if ($errors->has('ppjk_alamat'))
             <span class="help-block">
                 {{ $errors->first('ppjk_alamat') }}

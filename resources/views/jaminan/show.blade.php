@@ -124,6 +124,7 @@ Jaminan
                             @if($data->definitif == null)
                             <td></td>
                             <td></td>
+                            <td></td>
                             @else
                             <td>
                                 {{$data->definitif->nomor}} / {{$data->definitif->tanggal}}
@@ -131,8 +132,8 @@ Jaminan
                             <td>
                                 {{$data->definitif->created_at}}
                             </td>
-                            @endif
                             <td>{{ \Carbon\Carbon::createFromFormat('d-m-Y H:s:i', $data->definitif->created_at)->diffForHumans( \Carbon\Carbon::createFromFormat('d-m-Y H:s:i', $data->sppb->waktu_keluar))}}</td>
+                            @endif
                         </tr>
                         @endforeach
                     </tbody>

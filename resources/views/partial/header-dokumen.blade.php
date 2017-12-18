@@ -6,6 +6,8 @@
 @endif
 @if($dokumen->status_id > 3)
 <li {{Request::is('lhp/show/*') ? 'class=active' : ''}}><a href="{{ route('lhp.show.tab', $dokumen->id)}}">LHP</a></li>
+@endif
+@if($dokumen->status_id > 5)
 <li {{Request::is('jaminan/dokumen/*') ? 'class=active' : ''}}><a href="{{route('dokumen.jaminan', $dokumen->id)}}">Jaminan</a></li>
 @endif
 <li {{Request::is('cetak/*') ? 'class=active' : ''}}><a href="{{route('cetak.show', $dokumen->id)}}">Cetak</a></li>

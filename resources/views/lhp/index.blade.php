@@ -22,7 +22,6 @@ Laporan Hasil Pemeriksaan (LHP)
                     <th>Dokumen nomor</th>
                     <th>Importir</th>
                     <th>Ppjk</th>
-                    <th>MAWB</th>
                     <th>HAWB</th>
                     <th>Pemeriksa</th>
                     <th>Ket</th>
@@ -35,7 +34,6 @@ Laporan Hasil Pemeriksaan (LHP)
                     <td>{{$dok->dokumen->daftar_no}}</td>
                     <td>{{$dok->dokumen->importir_nm}}</td>
                     <td>{{$dok->dokumen->ppjk_nm}}</td>
-                    <td>{{$dok->dokumen->mawb_no}}</td>
                     <td>{{$dok->dokumen->hawb_no}}</td>
                     <td>{{$dok->pemeriksa_nama}}</td>
                     <td>
@@ -47,6 +45,7 @@ Laporan Hasil Pemeriksaan (LHP)
                 @endforeach
             </tbody>
         </table>
+        <div class="pull-right">{{ $lhp->links() }}</div>
     </div>
 </div> {{-- end-panel --}}
 @endsection

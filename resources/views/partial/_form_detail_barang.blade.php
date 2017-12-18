@@ -30,6 +30,12 @@
                                         <input type="text" class="form-control {{ $errors->has('kemasan_jenis') ? 'salah' : '' }}" name="kemasan_jenis">
                                     </td>
                                 </tr>
+                                <tr >
+                                    <th style="width:200px">NEGARA ASAL</th>
+                                    <td colspan="2">
+                                        <input type="text" class="form-control {{ $errors->has('negara_asal') ? 'salah' : '' }}" name="negara_asal">
+                                    </td>
+                                </tr>
                                 <tr>
                                     <th style="width:200px">HS</th>
                                     <td colspan="2">

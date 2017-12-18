@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\carbon;
+use App\Penomoran;
 use Illuminate\Database\Eloquent\Model;
 
 class Dokumen extends Model
@@ -38,6 +39,26 @@ class Dokumen extends Model
     public function definitif()
     {
         return $this->hasOne('App\DokumenDefinitif');
+    }
+
+    public function penomoran($codeNomor)
+    {
+        $tahun = date('Y');
+        $adaNomor = Penomoran::where('tahun', $tahun)->where('kode', $codeNomor)->first();
+        
+        if ($adaNomor == null){
+            $nomorBaru = new Penomoran;
+            $nomorBaru->nomor = 1;
+            $nomorBaru->kode = 'PENDAFTARAN RH';
+            $nomorBaru->tahun = $tahun;
+            $nomorBaru->save();
+            $nomor = $nomorBaru->nomor;
+        } else{
+            $adaNomor->nomor = $adaNomor->nomor + 1;
+            $adaNomor->save();
+            $nomor = $adaNomor->nomor;
+        }
+        return $nomor;
     }
 
     //SET TO DATABASE

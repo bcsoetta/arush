@@ -33,8 +33,8 @@ Kurs
                         <td>{{$data->code}}</td>
                         <td>{{$data->label}}</td>
                         <td>{{$data->nilai}}</td>
-                        <td>{{$data->tgl_awal}}</td>
-                        <td>{{$data->tgl_akhir}}</td>
+                        <td style="text-align: center">{{$data->tgl_awal}}</td>
+                        <td style="background-color: {{  \Carbon\Carbon::today()->gt(\Carbon\Carbon::createFromFormat('d-m-Y', $data->tgl_akhir)) ? '#ff5858' : '' }}; text-align: center;" >{{$data->tgl_akhir}}</td>
 
                         <td style="text-align: center;">
                             <a class="btn btn-xs btn-primary" href="{{route('kurs.edit', $data->id)}}">Edit</a>

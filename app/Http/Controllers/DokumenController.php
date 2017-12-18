@@ -9,7 +9,6 @@ use App\Pengangkut;
 use App\Lokasi;
 use App\Jaminan;
 use App\Setatus;
-use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -103,7 +102,6 @@ class DokumenController extends Controller
             'lokasi' => 'required'
         ]);
 
-        // DB::transaction(function() use ($request){
         try{
             DB::beginTransaction();
 
@@ -111,25 +109,8 @@ class DokumenController extends Controller
             $lokasi = Lokasi::findOrFail($request->lokasi);
             $pengangkut = Pengangkut::findOrFail($request->pengangkut);
 
-            $tahun = date('Y');
-
-            $adaNomor = Penomoran::where('tahun', $tahun)->where('kode', 'PENDAFTARAN RH')->first();
-
-            if ($adaNomor == null){
-                $nomorBaru = new Penomoran;
-                $nomorBaru->nomor = 1;
-                $nomorBaru->kode = 'PENDAFTARAN RH';
-                $nomorBaru->tahun = $tahun;
-                $nomorBaru->save();
-                $nomor = $nomorBaru->nomor;
-            } else{
-                $adaNomor->nomor = $adaNomor->nomor + 1;
-                $adaNomor->save();
-                $nomor = $adaNomor->nomor;
-            }
-
             $dokumen = new Dokumen;
-            $dokumen->daftar_no = $nomor;
+            // $dokumen->daftar_no = $nomor;
             $dokumen->daftar_tgl = date('Y-m-d H:i:s');
             $dokumen->importir_nm = $request->importir_nm;
             $dokumen->importir_npwp = $request->importir_npwp;
@@ -272,6 +253,8 @@ class DokumenController extends Controller
             'lokasi' => 'required'
         ]);
 
+        try{
+            DB::beginTransaction();
 
             $lokasi = Lokasi::findOrFail($request->lokasi);
             $pengangkut = Pengangkut::findOrFail($request->pengangkut);
@@ -311,8 +294,18 @@ class DokumenController extends Controller
             $dokumen->ket_fasilitas = $request->ket_fasilitas;
             $dokumen->save();
 
-        Alert::success('Berhasil Update');
-        return redirect()->route('dokumen.show', $dokumen->id);
+            DB::commit();
+
+            Alert::success('Berhasil Update');
+            return redirect()->route('dokumen.show', $dokumen->id);
+
+        } catch(\Exception $e){
+            DB::rollback();
+
+            Alert::error($e->getMessage());
+            return back();
+        }
+
     }
 
     /**
@@ -342,20 +335,35 @@ class DokumenController extends Controller
             return back();
         }
 
-        $setatus = Setatus::findOrFail('2');
-        $dokumen = Dokumen::findOrFail($id);
+        try{
+            DB::beginTransaction();
 
-        if($dokumen->status_id != 1){
-            Alert::error('error setatus');
+            $setatus = Setatus::findOrFail('2');
+            $dokumen = Dokumen::findOrFail($id);
+
+            if($dokumen->status_id != 1){
+                Alert::error('error setatus');
+                return back();
+            }
+
+            $dokumen->daftar_no = $dokumen->penomoran('PENDAFTARAN RH');
+            $dokumen->status_id = $setatus->id;
+            $dokumen->status_label = $setatus->label;
+            $dokumen->save();
+            
+            DB::commit();
+            
+            Alert::success('Penerimaan Berhasil');
+            return back();            
+
+         } catch(\Exception $e){
+            DB::rollback();
+
+            Alert::error($e->getMessage());
             return back();
         }
 
-        $dokumen->status_id = $setatus->id;
-        $dokumen->status_label = $setatus->label;
-        $dokumen->save();
-        
-        Alert::success('Penerimaan Berhasil');
-        return back();
+
     }
 
     public function jaminan($id)
@@ -363,7 +371,7 @@ class DokumenController extends Controller
         $dokumen = Dokumen::findOrFail($id);
         if(!$dokumen->jaminan_id)
         {
-            Alert::error('Belum ada jaminan');
+            Alert::error('Rekam jaminan');
             return back();
         }
         $jaminan = Jaminan::findOrFail($dokumen->jaminan_id);
@@ -371,17 +379,17 @@ class DokumenController extends Controller
         return view('dokumen.jaminan', compact('jaminan', 'dokumen'));
     }
 
-    public function importir(Request $request){
-        $term = $request->term;//jquery
-        // $data= Profile::where('nama', 'like', '%'.$term.'%')->get();
-        $data= DB::table('view_importir_dokumen')->where('importir_nm', 'like', '%'.$term.'%')->get();
-        dd($data); 
-        $result=array();
-        foreach ($data as $query)
-        {
-            $results[] = [ 'id' => $query->importir_id, 'value' => $query->importir_nm ];
-        }
-        return Response()->json($results);
-    }
+    // public function importir(Request $request){
+    //     $term = $request->term;//jquery
+    //     // $data= Profile::where('nama', 'like', '%'.$term.'%')->get();
+    //     $data= DB::table('view_importir_dokumen')->where('importir_nm', 'like', '%'.$term.'%')->get();
+    //     dd($data); 
+    //     $result=array();
+    //     foreach ($data as $query)
+    //     {
+    //         $results[] = [ 'id' => $query->importir_id, 'value' => $query->importir_nm ];
+    //     }
+    //     return Response()->json($results);
+    // }
     
 }

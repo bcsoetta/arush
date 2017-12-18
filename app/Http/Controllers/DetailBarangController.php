@@ -7,7 +7,7 @@ use App\Dokumen;
 use App\Kurs;
 use App\DokumenDetail;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class DetailBarangController extends Controller
@@ -78,6 +78,7 @@ class DetailBarangController extends Controller
             'uraian_barang' =>   'required',
             'kemasan_jumlah' =>   'required',
             'kemasan_jenis' =>   'required',
+            'negara_asal' =>   'required',
             'hs_code' =>   'required',
             'harga_jenis' =>   'required',
             'harga_barang' =>   'required|numeric',
@@ -126,6 +127,7 @@ class DetailBarangController extends Controller
         $detail->uraian_barang = $request->uraian_barang;
         $detail->kemasan_jumlah = $request->kemasan_jumlah;
         $detail->kemasan_jenis = $request->kemasan_jenis;
+        $detail->negara_asal = $request->negara_asal;
         $detail->hs_code = $request->hs_code;
         $detail->harga_jenis = $request->harga_jenis;
         $detail->harga_barang = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->harga_barang));
@@ -159,10 +161,8 @@ class DetailBarangController extends Controller
         $detail->dibebaskan_ppnbm = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->dibebaskan_ppnbm));
         $detail->dibebaskan_pph = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->dibebaskan_pph));
         $detail->dibebaskan_total = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->dibebaskan_total));
-        //save
-        DB::transaction(function() use ($detail){
-            $detail->save();
-        });
+
+        $detail->save();
         
         return redirect()->route('dokumen.show', $detail->dokumen_id);
     }
@@ -221,6 +221,9 @@ class DetailBarangController extends Controller
         $this->validate($request,[
             'dokumen_id' =>   'required',
             'uraian_barang' =>   'required',
+            'kemasan_jumlah' =>   'required',
+            'kemasan_jenis' =>   'required',
+            'negara_asal' =>   'required',
             'hs_code' =>   'required',
             'harga_jenis' =>   'required',
             'harga_barang' =>   'required',
@@ -257,14 +260,18 @@ class DetailBarangController extends Controller
             'dibebaskan_total' =>   'required',
         ]);
 
+        $dokumen = Dokumen::findOrFail($request->dokumen_id);
         //cek user pengguna jasa
-        if (auth()->user()->hasRole('PENGGUNA-JASA') AND $dokumenDetail->dokumen_id != auth()->user()->id) {           
+        if (auth()->user()->hasRole('PENGGUNA-JASA') AND $dokumen->user_id != auth()->user()->id) {           
             Alert::error('Sorry');
             return back();
         }
 
         // $dokumenDetail->dokumen_id = $request->dokumen_id;
         $dokumenDetail->uraian_barang = $request->uraian_barang;
+        $dokumenDetail->kemasan_jumlah = $request->kemasan_jumlah;
+        $dokumenDetail->kemasan_jenis = $request->kemasan_jenis;
+        $dokumenDetail->negara_asal = $request->negara_asal;
         $dokumenDetail->hs_code = $request->hs_code;
         $dokumenDetail->harga_jenis = $request->harga_jenis;
         $dokumenDetail->harga_barang = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->harga_barang));
@@ -298,12 +305,10 @@ class DetailBarangController extends Controller
         $dokumenDetail->dibebaskan_ppnbm = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->dibebaskan_ppnbm));
         $dokumenDetail->dibebaskan_pph = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->dibebaskan_pph));
         $dokumenDetail->dibebaskan_total = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->dibebaskan_total));
-        //save
-        DB::transaction(function() use ($dokumenDetail){
-            $dokumenDetail->save();
-        });
 
-        return back();
+        $dokumenDetail->save();
+
+        return redirect()->route('detail.show', $dokumenDetail->id);
 
     }
 

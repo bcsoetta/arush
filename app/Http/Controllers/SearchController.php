@@ -51,6 +51,7 @@ class SearchController extends Controller
 
     public function importir(Request $request)
     {
+        //jquey mrnggunakan term buka name dari input
         $term = trim($request->term);
 
         // if (empty($term)) {

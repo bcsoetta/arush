@@ -8,6 +8,7 @@ use App\Setatus;
 use App\Sppb;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\DB;
 
 class SPPBController extends Controller
 {
@@ -19,23 +20,31 @@ class SPPBController extends Controller
             return back();
         }
 
-        $setatus = Setatus::findOrFail(7);
-        $dokumen = Dokumen::findOrFail($id);
+        try{
+            DB::beginTransaction();
+            $setatus = Setatus::findOrFail(7);
+            $dokumen = Dokumen::findOrFail($id);
 
-        $sppb = new Sppb;
-        $sppb->dokumen_id = $dokumen->id;
-        $sppb->seksi_id = auth()->user()->id;
-        $sppb->seksi_nip = auth()->user()->nip;
-        $sppb->seksi_nama = auth()->user()->name;
-        $sppb->save();
+            $sppb = new Sppb;
+            $sppb->dokumen_id = $dokumen->id;
+            $sppb->seksi_id = auth()->user()->id;
+            $sppb->seksi_nip = auth()->user()->nip;
+            $sppb->seksi_nama = auth()->user()->name;
+            $sppb->save();
 
+            $dokumen->status_id = $setatus->id;
+            $dokumen->status_label = $setatus->label;
+            $dokumen->save();
 
-        $dokumen->status_id = $setatus->id;
-        $dokumen->status_label = $setatus->label;
-        $dokumen->save();
+            DB::commit();
+            Alert::success('Berhasil SPPB');    
+            return back();
 
-        Alert::success('Berhasil SPPB');
-        
-        return back();
+        } catch(\Exception $e){
+            DB::rollback();
+
+            Alert::error($e->getMessage());
+            return back();
+        }
     }
 }

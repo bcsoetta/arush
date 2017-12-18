@@ -10,6 +10,7 @@ use App\GateOut;
 use App\Setatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\DB;
 
 class PendokController extends Controller
 {
@@ -62,26 +63,36 @@ class PendokController extends Controller
             'nomor' => 'required',
             'tanggal' => 'required|date'
         ]);
+        try{
+            DB::beginTransaction();
+            $setatus = Setatus::findOrFail(9);
+            $dokumen = Dokumen::findOrFail($id);
+            //mau disimpan kemana
+            $definitif = new DokumenDefinitif;
+            $definitif->dokumen_id = $dokumen->id;
+            $definitif->jenis = $request->jenis;
+            $definitif->nomor = $request->nomor;
+            $definitif->tanggal = $request->tanggal;
+            $definitif->pendok_id = auth()->user()->id;;
+            $definitif->pendok_nama = auth()->user()->nip;
+            $definitif->pendok_nip = auth()->user()->name;
+            $definitif->save();
 
-        $setatus = Setatus::findOrFail(9);
-        $dokumen = Dokumen::findOrFail($id);
-        //mau disimpan kemana
-        $definitif = new DokumenDefinitif;
-        $definitif->dokumen_id = $dokumen->id;
-        $definitif->jenis = $request->jenis;
-        $definitif->nomor = $request->nomor;
-        $definitif->tanggal = $request->tanggal;
-        $definitif->pendok_id = auth()->user()->id;;
-        $definitif->pendok_nama = auth()->user()->nip;
-        $definitif->pendok_nip = auth()->user()->name;
-        $definitif->save();
+            $dokumen->status_id = $setatus->id;
+            $dokumen->status_label = $setatus->label;
+            $dokumen->save();
 
-        $dokumen->status_id = $setatus->id;
-        $dokumen->status_label = $setatus->label;
-        $dokumen->save();
+            DB::commit();
+            Alert::success('Penerimaan dokumen berhasil');
 
-        Alert::success('Penerimaan dokumen berhasil');
+            return redirect()->route('gateout.index');
+            
 
-        return redirect()->route('gateout.index');
+        } catch(\Exception $e){
+            DB::rollback();
+
+            Alert::error($e->getMessage());
+            return back();
+        }
     }
 }

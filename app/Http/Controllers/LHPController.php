@@ -13,6 +13,7 @@ use App\Setatus;
 Use App\Http\Requests\LhpRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\DB;
 
 class LHPController extends Controller
 {
@@ -23,7 +24,7 @@ class LHPController extends Controller
      */
     public function index()
     {
-        $lhp = LHP::where('pemeriksa_id', auth()->user()->id)->get();
+        $lhp = LHP::where('pemeriksa_id', auth()->user()->id)->orderBy('updated_at', 'desc')->paginate(10);
         $no = 1;
         return view('lhp.index', compact('lhp', 'no'));
     }
@@ -65,69 +66,79 @@ class LHPController extends Controller
             'lokasi' => 'required',
             'kesimpulan' => 'required',
         ]);
+        try{
+            DB::beginTransaction();
+            $setatus = Setatus::findOrFail(4);
+            $dokumen = Dokumen::findOrFail($id);
 
-        $setatus = Setatus::findOrFail(4);
-        $dokumen = Dokumen::findOrFail($id);
+            $lhp = new Lhp;
+            $lhp->dokumen_id = $dokumen->id;
+            $lhp->tgl_periksa = $request->tgl_periksa;
+            $lhp->jam_periksa = $request->jam_periksa;
+            $lhp->jam_selesai = $request->jam_selesai;
+            $lhp->lokasi = $request->lokasi;
+            $lhp->jumlah_partai_barang = $request->jumlah_partai_barang;
+            $lhp->no_kemasan = $request->no_kemasan;
+            $lhp->kondisi_segel = $request->kondisi_segel;
+            $lhp->jumlah_jenis_barang_diperiksa = $request->jumlah_jenis_barang_diperiksa;
+            $lhp->kesimpulan = $request->kesimpulan;
+            $lhp->pemeriksa_id = auth()->user()->id;
+            $lhp->pemeriksa_nip = auth()->user()->nip;
+            $lhp->pemeriksa_nama = auth()->user()->name;
+            $lhp->save();
 
-        $lhp = new Lhp;
-        $lhp->dokumen_id = $dokumen->id;
-        $lhp->tgl_periksa = $request->tgl_periksa;
-        $lhp->jam_periksa = $request->jam_periksa;
-        $lhp->jam_selesai = $request->jam_selesai;
-        $lhp->lokasi = $request->lokasi;
-        $lhp->jumlah_partai_barang = $request->jumlah_partai_barang;
-        $lhp->no_kemasan = $request->no_kemasan;
-        $lhp->kondisi_segel = $request->kondisi_segel;
-        $lhp->jumlah_jenis_barang_diperiksa = $request->jumlah_jenis_barang_diperiksa;
-        $lhp->kesimpulan = $request->kesimpulan;
-        $lhp->pemeriksa_id = auth()->user()->id;
-        $lhp->pemeriksa_nip = auth()->user()->nip;
-        $lhp->pemeriksa_nama = auth()->user()->name;
-        $lhp->save();
+            $dokumen->status_id = $setatus->id;
+            $dokumen->status_label = $setatus->label;
+            $dokumen->save();
 
-        $dokumen->status_id = $setatus->id;
-        $dokumen->status_label = $setatus->label;
-        $dokumen->save();
-
-        //urain barang lhp
-        if ($request->uraian[0]== null) {
-            return 'uraian tidak boleh kosong';
-        }
-
-        $c = count($request->uraian);
-        
-        for($i=0; $i < $c; $i++)
-        {
-            $lhp_barang = new LhpBarang;
-            $lhp_barang->dokumen_id = $dokumen->id;
-            $lhp_barang->dokumen_lhp_id = $lhp->id;
-            $lhp_barang->jumlah_jenis_ukuran_kemasan = $request->jumlah_jenis_ukuran_kemasan[$i];
-            $lhp_barang->uraian = $request->uraian[$i];
-            $lhp_barang->jumlah_satuan = $request->jumlah_satuan[$i];
-            $lhp_barang->spesifikasi = $request->spesifikasi[$i];
-            $lhp_barang->negara_asal = $request->negara_asal[$i];
-            $lhp_barang->keterangan = $request->keterangan[$i];
-            $lhp_barang->save();
-        }
-
-        if($request->hasFile('photos'))
-        {
-            foreach ($request->photos as $photo) {
-                $fileName = 'dok'. '_'.$dokumen->id. '_' . 'lhp'. '_'. $lhp->id . '_' . $photo->hashName();
-                $size = $photo->getClientSize();
-                $photo->storeAs('public\lhp_photos', $fileName);
-                LhpPhoto::create([
-                    'dokumen_lhp_id' => $lhp->id,
-                    'dokumen_id' => $dokumen->id,
-                    'size' => $size,
-                    'filename' => $fileName
-                ]);
+            //urain barang lhp
+            if ($request->uraian[0]== null) {
+                return 'uraian tidak boleh kosong';
             }
+
+            $c = count($request->uraian);
+
+            for($i=0; $i < $c; $i++)
+            {
+                $lhp_barang = new LhpBarang;
+                $lhp_barang->dokumen_id = $dokumen->id;
+                $lhp_barang->dokumen_lhp_id = $lhp->id;
+                $lhp_barang->jumlah_jenis_ukuran_kemasan = $request->jumlah_jenis_ukuran_kemasan[$i];
+                $lhp_barang->uraian = $request->uraian[$i];
+                $lhp_barang->jumlah_satuan = $request->jumlah_satuan[$i];
+                $lhp_barang->spesifikasi = $request->spesifikasi[$i];
+                $lhp_barang->negara_asal = $request->negara_asal[$i];
+                $lhp_barang->keterangan = $request->keterangan[$i];
+                $lhp_barang->save();
+            }
+
+            if($request->hasFile('photos'))
+            {
+                foreach ($request->photos as $photo) {
+                    $fileName = 'dok'. '_'.$dokumen->id. '_' . 'lhp'. '_'. $lhp->id . '_' . $photo->hashName();
+                    $size = $photo->getClientSize();
+                    $photo->storeAs('public\lhp_photos', $fileName);
+                    LhpPhoto::create([
+                        'dokumen_lhp_id' => $lhp->id,
+                        'dokumen_id' => $dokumen->id,
+                        'size' => $size,
+                        'filename' => $fileName
+                    ]);
+                }
+            }
+            
+            DB::commit();
+            Alert::success('Berhasil disimpan');
+
+            return redirect()->route('lhp.show', $dokumen->id);
+            
+         } catch(\Exception $e){
+            DB::rollback();
+
+            Alert::error($e->getMessage());
+            return back();
         }
 
-        Alert::success('Berhasil disimpan');
-        
-        return redirect()->route('lhp.show', $dokumen->id);
     }
 
     /**

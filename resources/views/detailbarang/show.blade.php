@@ -39,6 +39,12 @@ Detail Dokumen
                                         <input type="text" class="form-control" name="kemasan_jumlah" value="{{$dokumenDetail->kemasan_jumlah}} {{$dokumenDetail->kemasan_jenis}}" readonly>
                                     </td>
                                 </tr>
+                                <tr >
+                                    <th style="width:200px">NEGARA ASAL</th>
+                                    <td colspan="2">
+                                        <input type="text" class="form-control" name="kemasan_jumlah" value="{{$dokumenDetail->negara_asal}}" readonly>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <th style="width:200px">HS</th>
                                     <td colspan="2">
@@ -77,7 +83,7 @@ Detail Dokumen
                                 </tr>
                                 <tr>
                                     <th style="width:200px">KURS</th>
-                                    <td><input type="text" class="form-control" id="kurs_nilai" name="kurs_nilai" value="{{$dokumenDetail->kurs_nilai}} {{$dokumenDetail->kurs_label}}" readonly></td>
+                                    <td><input type="text" class="form-control" id="kurs_nilai" name="kurs_nilai" value="{{number_format($dokumenDetail->kurs_nilai,1,",",".")}} {{$dokumenDetail->kurs_label}}" readonly></td>
                                 </tr>
                                 <tr>
                                     <th style="width:200px">NILAI PABEAN</th>

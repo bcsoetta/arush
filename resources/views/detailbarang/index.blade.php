@@ -23,7 +23,9 @@ Detail Dokumen
                     @can('CREATE-DETAIL')
                     @if($dokumen->status_id > 1 AND auth()->user()->hasRole('PENGGUNA-JASA'))
                     @else
+                        @if($dokumen->status_id <= 4)
                         <a href="{{route('detail.create', $dokumen->id)}}"><button class="btn btn-primary pull-right">Tambah Detail Barang</button></a>
+                        @endif
                     @endif
                     @endcan
                 </h3>
@@ -59,7 +61,7 @@ Detail Dokumen
                                 @if($dokumen->status_id <= 1 AND auth()->user()->hasRole('PENGGUNA-JASA'))
                                 <a class="btn btn-danger btn-xs" href="{{ route('detail.edit', $item->id)}}">Edit</a>
                                 @endif
-                                @if($dokumen->status_id <= 4)
+                                @if($dokumen->status_id <= 4 AND !auth()->user()->hasRole('PENGGUNA-JASA'))
                                 <a class="btn btn-danger btn-xs" href="{{ route('detail.edit', $item->id)}}">Edit</a>
                                 @endif
                                 @endcan

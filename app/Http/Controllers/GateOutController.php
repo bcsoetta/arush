@@ -8,6 +8,7 @@ use App\Sppb;
 use App\GateOut;
 use App\Setatus;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class GateOutController extends Controller
@@ -46,26 +47,37 @@ class GateOutController extends Controller
         $this->validate($request,[
             'catatan' => 'required'
         ]);
+        try{
+            DB::beginTransaction();
+            $setatus = Setatus::findOrFail(8);
+            $dokumen = Dokumen::findOrFail($id);
 
-        $setatus = Setatus::findOrFail(8);
-        $dokumen = Dokumen::findOrFail($id);
+            $sppb = new Sppb;
+            $sppb->dokumen_id = $dokumen->id;
+            $sppb->catatan_pengeluaran = $request->catatan;
+            $sppb->gate_id = auth()->user()->id;;
+            $sppb->gate_nama = auth()->user()->nip;
+            $sppb->gate_nip = auth()->user()->name;
+            $sppb->waktu_keluar = now();
+            $sppb->save();
 
-        $sppb = new Sppb;
-        $sppb->dokumen_id = $dokumen->id;
-        $sppb->catatan_pengeluaran = $request->catatan;
-        $sppb->gate_id = auth()->user()->id;;
-        $sppb->gate_nama = auth()->user()->nip;
-        $sppb->gate_nip = auth()->user()->name;
-        $sppb->waktu_keluar = now();
-        $sppb->save();
+            $dokumen->status_id = $setatus->id;
+            $dokumen->status_label = $setatus->label;
+            $dokumen->save();
+            DB::commit();
+            
+            Alert::success('Perekaman pengeluaran Berhasil');
+            return redirect()->route('gateout.index');
+            
 
-        $dokumen->status_id = $setatus->id;
-        $dokumen->status_label = $setatus->label;
-        $dokumen->save();
+         } catch(\Exception $e){
+            DB::rollback();
 
-        Alert::success('Perekaman pengeluaran Berhasil');
+            Alert::error($e->getMessage());
+            return back();
+        }
 
-        return redirect()->route('gateout.index');
+
     }
 
     /**

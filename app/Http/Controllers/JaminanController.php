@@ -27,7 +27,7 @@ class JaminanController extends Controller
             Alert::error('Sorry');
             return back();
         }
-        $jaminan = Jaminan::all();
+        $jaminan = Jaminan::orderBy('updated_at', 'desc')->paginate(10);;
         $no = 1;
         return view('jaminan.index', compact('jaminan', 'no'));
     }
@@ -179,49 +179,58 @@ class JaminanController extends Controller
             return back();
         }
 
-        $setatus = Setatus::findOrFail(5);
-        $dokumen = Dokumen::findOrFail($id);
+        try{
+            DB::beginTransaction();
+            $setatus = Setatus::findOrFail(5);
+            $dokumen = Dokumen::findOrFail($id);
 
-        $perhitungan = DB::table('dokumen_detail')
-                    ->select(
-                        DB::raw('SUM(harga_barang) as harga'), 
-                        DB::raw('SUM(freight) as freight'), 
-                        DB::raw('SUM(asuransi) as asuransi'), 
-                        DB::raw('SUM(cif) as cif'), 
-                        DB::raw('SUM(nilai_pabean) as nilai_pabean'), 
-                        DB::raw('SUM(bayar_bm) as bm'), 
-                        DB::raw('SUM(bayar_ppn) as ppn'),
-                        DB::raw('SUM(bayar_ppnbm) as ppnbm'),
-                        DB::raw('SUM(bayar_pph) as pph'),
-                        DB::raw('SUM(bayar_total) as total')
-                    )
-                    ->where('dokumen_id', $id)
-                    ->get();
-                    // dd($perhitungan);
+            $perhitungan = DB::table('dokumen_detail')
+            ->select(
+                DB::raw('SUM(harga_barang) as harga'), 
+                DB::raw('SUM(freight) as freight'), 
+                DB::raw('SUM(asuransi) as asuransi'), 
+                DB::raw('SUM(cif) as cif'), 
+                DB::raw('SUM(nilai_pabean) as nilai_pabean'), 
+                DB::raw('SUM(bayar_bm) as bm'), 
+                DB::raw('SUM(bayar_ppn) as ppn'),
+                DB::raw('SUM(bayar_ppnbm) as ppnbm'),
+                DB::raw('SUM(bayar_pph) as pph'),
+                DB::raw('SUM(bayar_total) as total')
+            )
+            ->where('dokumen_id', $id)
+            ->get();
 
+            if(!$dokumen->perhitunganJaminan){
+                $perhitunganJaminan = new PerhitunganJaminan;
+                $perhitunganJaminan->dokumen_id = $dokumen->id;
+                $perhitunganJaminan->total = $perhitungan[0]->total;
+                $perhitunganJaminan->seksi_id = auth()->user()->id;
+                $perhitunganJaminan->seksi_nama = auth()->user()->name;
+                $perhitunganJaminan->seksi_nip = auth()->user()->nip;
+                $perhitunganJaminan->save();
+            }elseif($dokumen->perhitunganJaminan->total != $perhitungan->first()->total){
+                $data = PerhitunganJaminan::where('dokumen_id', $dokumen->id)->get();
 
-        if(!$dokumen->perhitunganJaminan){
-            $perhitunganJaminan = new PerhitunganJaminan;
-            $perhitunganJaminan->dokumen_id = $dokumen->id;
-            $perhitunganJaminan->total = $perhitungan[0]->total;
-            $perhitunganJaminan->seksi_id = auth()->user()->id;
-            $perhitunganJaminan->seksi_nama = auth()->user()->name;
-            $perhitunganJaminan->seksi_nip = auth()->user()->nip;
-            $perhitunganJaminan->save();
-        }elseif($dokumen->perhitunganJaminan->total != $perhitungan->first()->total){
-            $data = PerhitunganJaminan::where('dokumen_id', $dokumen->id)->get();
+                $perhitunganJaminan = PerhitunganJaminan::findOrFail($data->first()->id);
+                $perhitunganJaminan->total = $perhitungan->first()->total;
+                $perhitunganJaminan->save();
+            }
 
-            $perhitunganJaminan = PerhitunganJaminan::findOrFail($data->first()->id);
-            $perhitunganJaminan->total = $perhitungan->first()->total;
-            $perhitunganJaminan->save();
+            $dokumen->status_id = $setatus->id;
+            $dokumen->status_label = $setatus->label;
+            $dokumen->save();
+            
+            DB::commit();
+            Alert::success('Berhasil Disimpan');
+            return back();
+            
+
+         } catch(\Exception $e){
+            DB::rollback();
+
+            Alert::error($e->getMessage());
+            return back();
         }
-
-        $dokumen->status_id = $setatus->id;
-        $dokumen->status_label = $setatus->label;
-        $dokumen->save();
-
-        Alert::success('Berhasil Disimpan');
-        return back();
     }
 
     public function tambahDokumen(Request $request, $id)

@@ -43,6 +43,7 @@ Jaminan
                 @endforeach
             </tbody>
         </table>
+        <div class="pull-right">{{ $jaminan->links() }}</div>
     </div>
 </div> {{-- end-panel --}}
 @endsection

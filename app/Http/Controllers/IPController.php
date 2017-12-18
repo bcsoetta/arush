@@ -8,6 +8,7 @@ use App\Ip;
 use App\User;
 use App\Role;
 use App\Setatus;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 use Illuminate\Http\Request;
@@ -72,35 +73,45 @@ class IPController extends Controller
             'pemeriksa' => 'required',
             'tingkat_periksa' => 'required',
         ]);
+        try{
+            DB::beginTransaction();
+            $pemeriksa = User::findOrFail($request->pemeriksa);
+            $setatus = Setatus::findOrFail(3);
 
-        $pemeriksa = User::findOrFail($request->pemeriksa);
-        $setatus = Setatus::findOrFail(3);
+            $dokumen = Dokumen::findOrFail($id);
 
-        $dokumen = Dokumen::findOrFail($id);
+            $ip = new Ip;
+            $ip->dokumen_id = $dokumen->id;
+            $ip->pemeriksa_id = $pemeriksa->id;
+            $ip->pemeriksa_nip = $pemeriksa->nip;
+            $ip->pemeriksa_nama = $pemeriksa->name;
+            $ip->tingkat_periksa = $request->tingkat_periksa;
+            $ip->jumlah_kemasan_diperiksa = $request->jumlah_kemasan_diperiksa;
+            $ip->nomor_kontainer_diperiksa = $request->nomor_kontainer_diperiksa;
+            $ip->nomor_kemasan_diperiksa = $request->nomor_kontainer_diperiksa;
+            $ip->aju_contoh = $request->aju_contoh;
+            $ip->aju_foto = $request->aju_foto;
+            $ip->seksi_id = auth()->user()->id;
+            $ip->seksi_nip = auth()->user()->nip;
+            $ip->seksi_nama = auth()->user()->name;
+            $ip->save();
 
-        $ip = new Ip;
-        $ip->dokumen_id = $dokumen->id;
-        $ip->pemeriksa_id = $pemeriksa->id;
-        $ip->pemeriksa_nip = $pemeriksa->nip;
-        $ip->pemeriksa_nama = $pemeriksa->name;
-        $ip->tingkat_periksa = $request->tingkat_periksa;
-        $ip->jumlah_kemasan_diperiksa = $request->jumlah_kemasan_diperiksa;
-        $ip->nomor_kontainer_diperiksa = $request->nomor_kontainer_diperiksa;
-        $ip->nomor_kemasan_diperiksa = $request->nomor_kontainer_diperiksa;
-        $ip->aju_contoh = $request->aju_contoh;
-        $ip->aju_foto = $request->aju_foto;
-        $ip->seksi_id = auth()->user()->id;
-        $ip->seksi_nip = auth()->user()->nip;
-        $ip->seksi_nama = auth()->user()->name;
-        $ip->save();
+            $dokumen->status_id = $setatus->id;
+            $dokumen->status_label = $setatus->label;
+            $dokumen->save();
 
-        $dokumen->status_id = $setatus->id;
-        $dokumen->status_label = $setatus->label;
-        $dokumen->save();
+            DB::commit();
+            Alert::success('Berhasil disimpan');
+            return redirect()->route('dokumen.show', $dokumen->id);
+            
 
-        Alert::success('Berhasil disimpan');
+         } catch(\Exception $e){
+            DB::rollback();
 
-        return redirect()->route('dokumen.show', $dokumen->id);
+            Alert::error($e->getMessage());
+            return back();
+        }
+
     }
 
     /**

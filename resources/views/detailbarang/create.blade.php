@@ -58,7 +58,7 @@ $(document).ready(function(){
         var nilaiKurslabel = $("#pilihkurs option:selected").text();
         var inputKurs = $('#kurs_nilai').val(nilaiKurs);
         var kurs_label = $('#kurs_label').val(nilaiKurslabel);
-        console.log(inputKurs);
+        // console.log(inputKurs);
     });
 
     $(".pilihhs").select2({
@@ -198,9 +198,6 @@ $(document).ready(function(){
 
     $(document).on('change', function(e){
 
-
-
-
         var harga = convertToAngka($('#harga').val());
         var freight = convertToAngka($('#freight').val());
         var asuransi = convertToAngka($('#asuransi').val());
@@ -244,7 +241,7 @@ $(document).ready(function(){
 
         bayar_bm = bayar_bm - ditanggung_pmrnth_bm;
         bayar_bm = bayar_bm - ditangguhkan_bm;
-        bayar_bm = bayar_bm - dibebaskan_bm
+        bayar_bm = bayar_bm - dibebaskan_bm;
 
         var bayar_ppn = Math.round((trf_ppn / 100)* nilaiHitungPajak);
         bayar_ppn = bayar_ppn - ditanggung_pmrnth_ppn;
@@ -278,11 +275,43 @@ $(document).ready(function(){
         $('#dibebaskan_total').val(formatRupiah(dibebaskan_total.toFixed(2).replace('.', ',')));
 
         $('#bayar_bm').val(formatRupiah(bayar_bm.toFixed(2).replace('.', ',')));
+        if(bayar_bm < 0){
+            $('#bayar_bm').val(bayar_bm);
+        }
+
         $('#bayar_ppn').val(formatRupiah(bayar_ppn.toFixed(2).replace('.', ',')));
+        if(bayar_ppn < 0){
+            $('#bayar_ppn').val(bayar_ppn);
+        }
+
         $('#bayar_ppnbm').val(formatRupiah(bayar_ppnbm.toFixed(2).replace('.', ',')));
+        if(bayar_ppnbm < 0){
+            $('#bayar_ppnbm').val(bayar_ppnbm);
+        }
+
         $('#bayar_pph').val(formatRupiah(bayar_pph.toFixed(2).replace('.', ',')));
+        if(bayar_pph < 0){
+            $('#bayar_pph').val(bayar_pph);
+        }
+
         $('#bayar_pph').val(formatRupiah(bayar_pph.toFixed(2).replace('.', ',')));
+        if(bayar_pph < 0){
+            $('#bayar_pph').val(bayar_pph);
+        }
+
         $('#bayar_total').val(formatRupiah(bayar_total.toFixed(2).replace('.', ',')));
+        if(bayar_total < 0){
+            $('#bayar_total').val(bayar_total);
+        }
+
+        console.log(bayar_bm);
+        console.log(bayar_ppn);
+        console.log(bayar_ppnbm);
+        console.log(bayar_total);
+        console.log(ditanggung_pmrnth_total);
+        console.log(ditangguhkan_total);
+        console.log(dibebaskan_total);
+        console.log(bayar_total);
 
     });
 });

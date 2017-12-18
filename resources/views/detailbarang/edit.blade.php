@@ -196,14 +196,9 @@ $(document).ready(function(){
 
     $(document).on('change', function(e){
 
-
-
-
         var harga = convertToAngka($('#harga').val());
         var freight = convertToAngka($('#freight').val());
         var asuransi = convertToAngka($('#asuransi').val());
-
-
 
         var cif = harga + freight + asuransi;
         $('#cif').val(formatRupiah(cif.toFixed(2).replace('.', ',')));
@@ -278,16 +273,33 @@ $(document).ready(function(){
         $('#dibebaskan_total').val(formatRupiah(dibebaskan_total.toFixed(2).replace('.', ',')));
 
         $('#bayar_bm').val(formatRupiah(bayar_bm.toFixed(2).replace('.', ',')));
+        if(bayar_bm < 0){
+            $('#bayar_bm').val(bayar_bm);
+        }
         $('#bayar_ppn').val(formatRupiah(bayar_ppn.toFixed(2).replace('.', ',')));
-        $('#bayar_ppnbm').val(formatRupiah(bayar_ppnbm.toFixed(2).replace('.', ',')));
-        $('#bayar_pph').val(formatRupiah(bayar_pph.toFixed(2).replace('.', ',')));
-        $('#bayar_pph').val(formatRupiah(bayar_pph.toFixed(2).replace('.', ',')));
-        $('#bayar_total').val(formatRupiah(bayar_total.toFixed(2).replace('.', ',')));
+        if(bayar_ppn < 0){
+            $('#bayar_ppn').val(bayar_ppn);
+        }
 
-        console.log(ditanggung_pmrnth_bm);
-        console.log(ditanggung_pmrnth_ppn);
-        console.log(ditanggung_pmrnth_ppnbm);
-        console.log(ditanggung_pmrnth_pph);
+        $('#bayar_ppnbm').val(formatRupiah(bayar_ppnbm.toFixed(2).replace('.', ',')));
+        if(bayar_ppnbm < 0){
+            $('#bayar_ppnbm').val(bayar_ppnbm);
+        }
+
+        $('#bayar_pph').val(formatRupiah(bayar_pph.toFixed(2).replace('.', ',')));
+        if(bayar_pph < 0){
+            $('#bayar_pph').val(bayar_pph);
+        }
+
+        $('#bayar_pph').val(formatRupiah(bayar_pph.toFixed(2).replace('.', ',')));
+        if(bayar_pph < 0){
+            $('#bayar_pph').val(bayar_pph);
+        }
+
+        $('#bayar_total').val(formatRupiah(bayar_total.toFixed(2).replace('.', ',')));
+        if(bayar_total < 0){
+            $('#bayar_total').val(bayar_total);
+        }
 
     });
 });

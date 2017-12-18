@@ -18,6 +18,24 @@
                                         <textarea class="form-control {{ $errors->has('uraian_barang') ? 'salah' : '' }}" name="uraian_barang" rows="2">{{$dokumenDetail->uraian_barang}}</textarea>
                                     </td>                    
                                 </tr>
+                                <tr >
+                                    <th style="width:200px">JUMLAH</th>
+                                    <td colspan="3">
+                                        <input type="text" class="form-control {{ $errors->has('kemasan_jumlah') ? 'salah' : '' }}" name="kemasan_jumlah" value="{{$dokumenDetail->kemasan_jumlah}}">
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <th style="width:200px">JENIS KEMASAN</th>
+                                    <td colspan="3">
+                                        <input type="text" class="form-control {{ $errors->has('kemasan_jenis') ? 'salah' : '' }}" name="kemasan_jenis" value="{{$dokumenDetail->kemasan_jenis}}">
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <th style="width:200px">NEGARA ASAL</th>
+                                    <td colspan="3">
+                                        <input type="text" class="form-control {{ $errors->has('negara_asal') ? 'salah' : '' }}" name="negara_asal" value="{{$dokumenDetail->negara_asal}}">
+                                    </td>
+                                </tr>
                                 <tr>
                                     <th style="width:200px">HS</th>
                                     <td style="width: 120px">

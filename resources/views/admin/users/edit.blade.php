@@ -78,6 +78,24 @@ Dokumen
                         </div>
 
                         <div class="form-group{{ $errors->has('lokasi') ? ' has-error' : '' }}">
+                            <label for="lokasi" class="col-md-4 control-label">Aktive</label>
+
+                            <div class="col-md-8">
+                                <select class="form-control" name="active" id="pilih">
+                                <option value="1" {{$user->active == 1 ? 'selected' : '' }}>ACTIVE</option>
+                                <option value="0" {{$user->active == 0 ? 'selected' : '' }}>TIDAK</option>
+                                </select>
+                                <span>lokasi gudang, untuk pegawai staff dan seksi lokasi Kantor</span>
+
+                                @if ($errors->has('lokasi'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('lokasi') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('lokasi') ? ' has-error' : '' }}">
                             <label for="lokasi" class="col-md-4 control-label">lokasi</label>
 
                             <div class="col-md-8">

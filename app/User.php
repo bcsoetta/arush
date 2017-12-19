@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'nip','user_name','lokasi_id'
+        'name', 'email', 'password', 'nip','user_name','lokasi_id','active'
     ];
 
     /**
@@ -30,6 +30,11 @@ class User extends Authenticatable
     public function profile()
     {
         return $this->hasOne('App\UserProfiles');
+    }
+
+    public function lokasi()
+    {
+        return $this->hasOne('App\Lokasi');
     }
 
 }

@@ -18,9 +18,8 @@ Users
                     <th>Nama</th>
                     <th>NIP</th>
                     <th>Username</th>
-                    <th>Lokasi</th>
                     <th>Role</th>
-                    <th>User is</th>
+                    <th>Status</th>
                     <th></th>
                 </tr>
             </thead>
@@ -31,28 +30,28 @@ Users
                     <td>{{$user->name}}</td>
                     <td>{{$user->nip}}</td>
                     <td>{{$user->user_name}}</td>
-                    <td>{{$user->lokasi}}</td>
                     <td>
                         @foreach($user->roles as $role)
                             <span class="btn btn-xs btn-primary">{{$role->name}}</span>,
                         @endforeach
                     </td>
-                    <td>{{$user->user_is}}</td>
+                    <td>{{$user->active == 1 ? 'ACTIVE' : 'TIDAK'}}</td>
 
                     <td style="text-align: center;">
                         <a class="btn btn-xs btn-primary" href="{{route('users.edit', $user->id)}}">Edit</a>
-                        <a class="btn btn-xs btn-danger" href="#" 
+                        {{-- <a class="btn btn-xs btn-danger" href="#" 
                             onclick="event.preventDefault();
                             document.getElementById('delete-form').submit();">Hapus</a>
                             <form id="delete-form" action="{{route('users.destroy', $user->id)}}" method="POST" style="display: none;">
                                 {{ csrf_field() }}
                                 {{ method_field('DELETE') }}
-                            </form>
+                            </form> --}}
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
+        <div class="pull-right">{{ $users->links() }}</div>
     </div>
 </div> {{-- end-panel --}}
 @endsection

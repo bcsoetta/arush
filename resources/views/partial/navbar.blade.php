@@ -21,10 +21,10 @@
     @can('SEARCH')
     <li><a href="{{ route('search.index')}}">Pencarian</a></li>
     @endcan
-    @can('SETTING')
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Setting <span class="caret"></span></a>
         <ul class="dropdown-menu">
+            <li><a href="{{ route('change-password')}}">Change Password</a></li>
             @can('USERS')
             <li><a href="{{route('users.index')}}">Users</a></li>
             @endcan
@@ -40,27 +40,21 @@
             @can('LOKASI')
             <li><a href="{{route('lokasi.index')}}">Lokasi</a></li>
             @endcan
+            @can('PENGANGKUT')
             <li><a href="{{route('pengangkut.index')}}">Pengangkut</a></li>
+            @endcan
             @can('ROLE')
             <li><a href="{{route('roles.index')}}">Role</a></li>
             @endcan
             @can('PERMISSION')
             <li><a href="{{route('permissions.index')}}">Permissions</a></li>
             @endcan
+            @can('RESET-PASSWORD')
+            <li><a href="{{route('reset-password')}}">Reset Password</a></li>
+            @endcan
         </ul>
     </li>
-    @endcan
 </ul>
-{{-- <div class="col-sm-4 col-md-4">
-    <form class="navbar-form" role="search">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search" name="q">
-            <div class="input-group-btn">
-                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-            </div>
-        </div>
-    </form>
-</div> --}}
 @endif
 
 <!-- Right Side Of Navbar -->
@@ -76,6 +70,7 @@
         </a>
 
         <ul class="dropdown-menu" role="menu">
+            {{-- <li><a href="{{ route('profile', Auth::user()->id) }}">Profile</a></li> --}}
             <li>
                 <a href="{{ route('logout') }}"
                 onclick="event.preventDefault();

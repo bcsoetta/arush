@@ -24,7 +24,7 @@ class UsersController extends Controller
         //     return back();
         // }
 
-        $users = User::all();
+        $users = User::orderBy('active', 'desc')->orderBy('name')->paginate(10);
         $no=1;
         return view('admin.users.index', compact('users', 'no'));
     }
@@ -91,11 +91,10 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show(User $user)
     {
-        $user = User::findOrFail(auth()->user()->id);
-
-        dd($user->profile);
+        return 'profile';
+        return view('users.profile', compact('user'));
     }
 
     /**
@@ -146,6 +145,7 @@ class UsersController extends Controller
             'nip' => $request->nip,
             'user_name' => $request->user_name,
             'email' => $request->email,
+            'active' => $request->active,
             'lokasi_id' => $request->lokasi,
             // 'password' => bcrypt($request->password),
         ]);

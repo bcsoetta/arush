@@ -101,3 +101,12 @@ Route::get('search', 'SearchController@index')->name('search.index');
 Route::get('search/data', 'SearchController@search')->name('search.data');
 Route::get('autocomplete/importir', 'SearchController@importir')->name('auto.importir');
 Route::get('autocomplete/ppjk', 'SearchController@ppjk')->name('auto.ppjk');
+
+//USER
+//ganti password
+Route::get('/profile/{user}', 'UsersController@show')->name('profile');
+Route::post('/profile-update/{user}', 'UsersController@update');
+Route::get('/change-password', 'Auth\UpdatePasswordController@show')->name('change-password');
+Route::post('/change-password', 'Auth\UpdatePasswordController@update')->name('change-password.store');
+Route::get('/reset-password', 'Auth\UpdatePasswordController@reset')->name('reset-password');
+Route::post('/reset-password-store', 'Auth\UpdatePasswordController@storeReset')->name('reset-password.store');

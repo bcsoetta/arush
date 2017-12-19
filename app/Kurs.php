@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Kurs extends Model
 {
     protected $table = 'kurs';
+    protected $fillable = ['nilai', 'tgl_awal', 'tgl_akhir'];
 
     public function setTglAwalAttribute($value)
     {

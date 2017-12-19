@@ -9,6 +9,7 @@ Route::get('/home','HomeController@index')->name('home');
 Route::resource('/admin/roles','RolesController');
 Route::resource('/admin/permissions','PermissionsController');
 Route::resource('/admin/users','UsersController');
+Route::resource('/pengangkut','PengangkutController');
 Route::resource('/user/profiles','UserProfilesController');
 
 //DOKUMEN

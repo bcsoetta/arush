@@ -13,7 +13,7 @@ Kurs
         <div class="table-responsive">
             <a href="javascript:location.reload(true)"><button class="btn btn-success pull-right" style="margin: 10px">Refresh</button></a>
             <a href="{{route('kurs.create')}}"><button class="btn btn-primary pull-right" style="margin: 10px">Tambah Kurs</button></a>
-            <a target="_blank" href="{{route('kurs.update.all')}}"><button class="btn btn-danger pull-right" style="margin: 10px">Update All</button></a>
+            <a href="{{route('kurs.update.all')}}"><button class="btn btn-danger pull-right" style="margin: 10px">Update All</button></a>
             <table id="" class="table table-condensed table-hover table-bordered table-striped">
                 <thead>
                     <tr>

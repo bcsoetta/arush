@@ -18,7 +18,7 @@ Dokumen Lengkap
             <div class="col-md-12">
                 {{-- parsial --}}
                 @include('partial.header-dokumen')
-                <h3>Dokumen :
+                <h3>Dokumen : {{-- {{$dokumen->definitif() ? $dokumen->definitif->jenis." ".$dokumen->definitif->nomor." TGL:".$dokumen->definitif->tanggal : " "   }} --}} 
                 @can('EDIT-DOKUMEN')
                 @if($dokumen->status_id <= 4)
                 <a href="{{ route('dokumen.edit', $dokumen->id)}}"><button class="btn btn-danger pull-right" style="margin: 10px">Edit</button></a>
@@ -27,7 +27,7 @@ Dokumen Lengkap
                 </h3>
                 <table class="table table-hover table-striped table-condensed table-borderless">
                     <tr>
-                        <th>Nomor</th>
+                        <th>Nomor RH</th>
                         <td>:</td>
                         <th style="background-color: yellow">{{$dokumen->daftar_no}}</th>
                         <th colspan="3">Tanggal : {{$dokumen->daftar_tgl}}</th>

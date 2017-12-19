@@ -21,6 +21,7 @@
     @can('SEARCH')
     <li><a href="{{ route('search.index')}}">Pencarian</a></li>
     @endcan
+    @can('SETTING')
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Setting <span class="caret"></span></a>
         <ul class="dropdown-menu">
@@ -39,14 +40,16 @@
             @can('LOKASI')
             <li><a href="{{route('lokasi.index')}}">Lokasi</a></li>
             @endcan
-            {{-- @can('ROLE') --}}
-            {{-- <li><a href="{{route('roles.index')}}">Role</a></li> --}}
-            {{-- @endcan --}}
-            {{-- @can('PERMISSION') --}}
-            {{-- <li><a href="{{route('permissions.index')}}">Permissions</a></li> --}}
-            {{-- @endcan --}}
+            <li><a href="{{route('pengangkut.index')}}">Pengangkut</a></li>
+            @can('ROLE')
+            <li><a href="{{route('roles.index')}}">Role</a></li>
+            @endcan
+            @can('PERMISSION')
+            <li><a href="{{route('permissions.index')}}">Permissions</a></li>
+            @endcan
         </ul>
     </li>
+    @endcan
 </ul>
 {{-- <div class="col-sm-4 col-md-4">
     <form class="navbar-form" role="search">

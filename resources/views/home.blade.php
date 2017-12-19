@@ -15,8 +15,10 @@ Home
             {{ session('status') }}
         </div>
         @endif
-
-        You are logged in!
+        <h2>Selamat Datang</h2>
+        @if(auth()->user()->active == 0)
+            <h1><span>Akun tidak active hubungi Admin atau Duktek</span></h1>
+        @endif
     </div>
 </div>
 

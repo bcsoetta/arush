@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Alert;
 use App\Kurs;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class KursController extends Controller
@@ -123,70 +124,97 @@ class KursController extends Controller
         //
     }
 
-    public function updateAll()
-    {
-        $url = 'http://192.168.146.226/utiliti/updatekursrh.php';
-        Alert::success('Update');
-        return redirect()->away($url);        
-
-    }
-
     // public function updateAll()
     // {
-    //     $queries=array();
-    //     $validity=array();
+    //     $url = 'http://192.168.146.226/utiliti/updatekursrh.php';
+    //     Alert::success('Update');
+    //     return redirect()->away($url);        
 
-    //     //untuk konverter
-    //     $months=array(
-    //         'January', 'Januari', 'February', 'Pebruari', 'Februari', 'March', 'Maret', 'April', 'May', 'Mei', 'June', 'Juni',
-    //         'July', 'Juli', 'August', 'Agustus', 'September', 'October', 'Oktober', 'November', 'Nopember', 'December', 'Desember'
-    //     );
-    //     $month_ids=array(
-    //         '01', '01', '02', '02', '02', '03', '03', '04', '05', '05', '06', '06', '07', '07', '08', '08', '09', '10', '10',
-    //         '11', '11', '12', '12'
-    //     );
-
-    //     $doc = new \DOMDocument;
-
-    //     if(@$doc->loadHTMLFile('http://www.fiskal.kemenkeu.go.id/dw-kurs-db.asp'))
-    //     {
-    //         // dd($doc);
-    //         $tds=$doc->getElementsByTagName('td');
-
-    //         $valuta;
-    //         foreach ($tds as $td) {
-    //             $value=$td->nodeValue;
-    //             // var_dump($value);
-    //             $matches;
-    //             if(preg_match('/\(([^\)]*)\)/', $value, $matches)){
-    //                 //echo $matches[1]."<br>";
-    //                 $valuta=$matches[1];
-    //                 continue;
-    //             }
-
-    //             if(isset($valuta)){
-    //                 // var_dump($valuta);
-    //                 $value = $this->grab_number($td->nodeValue);
-    //                 if(strlen($valuta)===3){
-    //                     $data = Kurs::where('code', $valuta)->first();
-
-    //                     $kurs = Kurs::findOrFail($data->id);
-    //                     dd($kurs);
-    //                     $kurs->nilai = $value;
-    //                     $kurs->save();
-    //                 }
-
-
-    //                 // var_dump($value);
-    //             }
-    //         }
-
-
-    //     } else {
-    //         echo 'none';
-    //     }
-        
     // }
+
+    public function updateAll()
+    {
+        $queries=array();
+        $validity=array();
+
+        $months=array(
+            'January', 'Januari', 'February', 'Pebruari', 'Februari', 'March', 'Maret', 'April', 'May', 'Mei', 'June', 'Juni',
+            'July', 'Juli', 'August', 'Agustus', 'September', 'October', 'Oktober', 'November', 'Nopember', 'December', 'Desember'
+        );
+        $month_ids=array(
+            '01', '01', '02', '02', '02', '03', '03', '04', '05', '05', '06', '06', '07', '07', '08', '08', '09', '10', '10',
+            '11', '11', '12', '12'
+        );
+
+        $doc = new \DOMDocument;
+
+        if(@$doc->loadHTMLFile('http://www.fiskal.kemenkeu.go.id/dw-kurs-db.asp'))
+            {
+                $tds=$doc->getElementsByTagName('td');
+
+                $valuta;
+                foreach ($tds as $td) {
+                    $value=$td->nodeValue;
+                    $matches;
+                    if(preg_match('/\(([^\)]*)\)/', $value, $matches)){
+                        $valuta=$matches[1];
+                        continue;
+                    }
+
+                    if(isset($valuta)){
+                        $value = (float)$this->grab_number($td->nodeValue)*1.0;
+                        if(strlen($valuta)===3){
+                            if($valuta == "JPY"){$value*=0.01;};
+                            // $data = Kurs::where('code', $valuta)->first();
+                            // $data->nilai = $value;
+                            // $data->save();
+                            DB::table('kurs')
+                                    ->where('code', $valuta)
+                                    ->update(['nilai' => $value]);
+                            $valuta='';
+                        }
+                    }
+                }
+
+                $cnt=0;
+                $started=0;
+                $ps=$doc->getElementsByTagName('p');
+                foreach($ps as $p){
+                    if($started>0){
+                        $cnt++;
+                        if($cnt==3){
+                            $colon = strpos($p->nodeValue, ":");
+                            if($colon === false)
+                                break;
+                            $dates = substr($p->nodeValue, $colon+1);
+                            $dates = explode('-', $dates);
+                            foreach($dates as $d){
+                                $d = str_replace($months, $month_ids, $d);
+                                $validity[]=trim($d);
+                            }
+                        }
+                    }else{
+                        if($p->getAttribute('class')=='jud-kaji')$started++;
+                    }
+                }
+                $cnt=0;
+                foreach($validity as $v){
+                    if($cnt++==0){
+                        $tgl = date_create_from_format("d m Y",$v);
+                        $tgl_awal = DB::table('kurs')->update(['tgl_awal' => $tgl]);
+                    }else{
+                        $tgl = date_create_from_format("d m Y",$v);
+                        $tgl_akhir = DB::table('kurs')->update(['tgl_akhir' => $tgl]);
+                    }
+                }
+
+            }else{
+                echo "Failed to load the kurs :(<br>Keknya masalah di DNSnya, coba clear dlu cachenya trus coba lagi";
+            }
+            Alert::success('Update kurs');
+            return back();
+
+    }
 
     public function grab_number($kmk)
     {

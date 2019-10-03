@@ -1,6 +1,4 @@
-<html>
-
-<head>
+<html><head>
 <meta http-equiv=Content-Type content="text/html; charset=windows-1252">
 <meta name=Generator content="Microsoft Word 15 (filtered)">
 <title>laporan Hasil Pemeriksaan</title>
@@ -34,10 +32,7 @@ div.WordSection1
   {page:WordSection1;}
 -->
 </style>
-
-</head>
-
-<body lang=EN-US>
+</head><body lang=EN-US>
 
 <div class=WordSection1>
 
@@ -95,7 +90,7 @@ normal'><span lang=IN style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
   </td>
   <td width=190 valign=top style='width:142.6pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
-  150%'><span lang=IN style='font-family:"Arial",sans-serif'>{{$dokumen->daftar_no}}</span></p>
+  150%'><span lang=IN style='font-family:"Arial",sans-serif'>{{$dokumen->lhp->no_lhp}}</span></p>
   </td>
   <td width=67 valign=top style='width:50.6pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
@@ -107,7 +102,7 @@ normal'><span lang=IN style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
   </td>
   <td width=251 valign=top style='width:188.35pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
-  150%'><span lang=IN style='font-family:"Arial",sans-serif'>{{$dokumen->daftar_tgl}}</span></p>
+  150%'><span lang=IN style='font-family:"Arial",sans-serif'>{{$dokumen->lhp->created_at}}</span></p>
   </td>
  </tr>
  <tr>
@@ -511,8 +506,4 @@ normal'><span lang=IN style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
 
 <p class=MsoNormal><span lang=IN>&nbsp;</span></p>
 
-</div>
-
-</body>
-
-</html>
+</div></body></html>

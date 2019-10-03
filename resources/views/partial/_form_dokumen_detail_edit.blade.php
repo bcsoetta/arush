@@ -61,7 +61,7 @@
                                 <tr >
                                     <th style="width:200px">HARGA</th>
                                     <td colspan="3">
-                                        <input type="text" class="form-control {{ $errors->has('harga_barang') ? 'salah' : '' }}" name="harga_barang" id="harga" value="{{$dokumenDetail->harga_barang}}">
+                                        <input type="text" class="form-control {{ $errors->has('harga_barang') ? 'salah' : '' }} bersihkan" name="harga_barang" id="harga" value="{{$dokumenDetail->harga_barang}}">
                                     </td>
                                 </tr>
                                 <tr>
@@ -94,7 +94,7 @@
                                         <select class="form-control pilihkurs {{ $errors->has('kurs_label') ? 'salah' : '' }}" id="pilihkurs" placeholder="Jenis kurs" style=" width: 100%">
                                             <option value="" selected></option>
                                             @foreach($kurs as $valuta)
-                                            <option value="{{$valuta->nilai}}">{{$valuta->code}} - {{$valuta->label}}</option>                                  
+                                            <option value="{{$valuta->nilai}}">{{$valuta->code}}</option>                                  
                                             @endforeach
                                         </select>
                                     </td>

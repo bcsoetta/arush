@@ -10,13 +10,20 @@ class Sppb extends Model
 
     public function getCreatedAtAttribute($value)
     {
-        $value = strlen($value)? Carbon::parse($value)->format('d-m-Y') : null;
+        $value = strlen($value)? Carbon::parse($value)->format('d-m-Y') : NULL;
         return $value;
     }
 
     public function getWaktuKeluarAttribute($value)
     {
-        $value = strlen($value)? Carbon::parse($value)->format('d-m-Y H:i:s') : null;
+        $value = strlen($value)? Carbon::parse($value)->format('d-m-Y H:i:s') : NULL;
+        return $value;
+    }
+
+    
+    public function getnoSppbAttribute($value)
+    {
+        $value = str_pad($value, 5, '0', STR_PAD_LEFT);
         return $value;
     }
 }

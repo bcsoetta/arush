@@ -96,28 +96,6 @@
 <h3>Manifest :</h3>
 <div class="row">
     <div class="col-md-3">
-        <div class="form-group {{ $errors->has('mawb_no') ? ' has-error' : '' }}">
-            <label for="importir_npwp">No. MAWB</label>
-            <input type="text" class="form-control" name="mawb_no" value="{{ old('mawb_no') }}" placeholder="nomor mawb">
-            @if ($errors->has('mawb_no'))
-            <span class="help-block">
-                {{ $errors->first('mawb_no') }}
-            </span>
-            @endif
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="form-group {{ $errors->has('mawb_tgl') ? ' has-error' : '' }}" id="tgl">
-            <label for="importir_npwp">Tgl. MAWB</label>
-            <input type="text" class="form-control" name="mawb_tgl" value="{{ old('mawb_tgl') }}" placeholder="tgl mawb">
-            @if ($errors->has('mawb_tgl'))
-            <span class="help-block">
-                {{ $errors->first('mawb_tgl') }}
-            </span>
-            @endif
-        </div>            
-    </div>
-    <div class="col-md-3">
         <div class="form-group {{ $errors->has('hawb_no') ? ' has-error' : '' }}">
             <label for="importir_npwp">No. HAWB</label>
             <input type="text" class="form-control" name="hawb_no" value="{{ old('hawb_no') }}" placeholder="nomor hawb">
@@ -126,7 +104,6 @@
                 {{ $errors->first('hawb_no') }}
             </span>
             @endif
-            <span>jika tidak ada HAWB isi dengan MAWB</span>
         </div>            
     </div>
     <div class="col-md-3">
@@ -139,52 +116,6 @@
             </span>
             @endif
         </div>            
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-3">
-        <div class="form-group {{ $errors->has('bc11_no') ? ' has-error' : '' }}">
-            <label for="importir_npwp">Nomor BC11</label>
-            <input type="text" class="form-control" name="bc11_no" value="{{ old('bc11_no') }}" placeholder="bc11 nomor">
-            @if ($errors->has('bc11_no'))
-            <span class="help-block">
-                {{ $errors->first('bc11_no') }}
-            </span>
-            @endif
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="form-group {{ $errors->has('bc11_pos') ? ' has-error' : '' }}">
-            <label for="importir_npwp">BC11 Pos</label>
-            <input type="text" class="form-control" name="bc11_pos" value="{{ old('bc11_pos') }}" placeholder="bc11 pos">
-            @if ($errors->has('bc11_pos'))
-            <span class="help-block">
-                {{ $errors->first('bc11_pos') }}
-            </span>
-            @endif
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="form-group {{ $errors->has('bc11_sub') ? ' has-error' : '' }}">
-            <label for="importir_npwp">BC11 Sub</label>
-            <input type="text" class="form-control" name="bc11_sub" value="{{ old('bc11_sub') }}" placeholder="bc11 sub" >
-            @if ($errors->has('bc11_sub'))
-            <span class="help-block">
-                {{ $errors->first('bc11_sub') }}
-            </span>
-            @endif
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="form-group {{ $errors->has('bc11_tgl') ? ' has-error' : '' }}" id="tgl">
-            <label for="importir_npwp">Tgl BC11</label>
-            <input type="text" class="form-control" name="bc11_tgl" value="{{ old('bc11_tgl') }}" placeholder="Tanggal BC11">
-            @if ($errors->has('bc11_tgl'))
-            <span class="help-block">
-                {{ $errors->first('bc11_tgl') }}
-            </span>
-            @endif
-        </div>
     </div>
 </div>
 <div class="row">
@@ -293,7 +224,7 @@
 <hr>
 <div class="form-group">
     <div>
-        <button type="submit" class="btn btn-primary main-color-bg pull-right">
+        <button type="submit" class="btn btn-primary main-color-bg pull-right" onclick="konfirm()">
             Simpan
         </button>
     </div>

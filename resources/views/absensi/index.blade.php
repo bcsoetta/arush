@@ -5,7 +5,7 @@ Absensi
 @endsection
 
 @section('content')
-<div class="panel panel-default">
+<div class="panel panel-primary">
     <div class="panel-heading">
         <h3 class="panel-title">Absensi</h3>
     </div>
@@ -17,7 +17,6 @@ Absensi
                         <th>No</th>
                         <th>Nama</th>
                         <th>NIP</th>
-                        <th>Lokasi</th>
                         <th>Role</th>
                         <th>Bertugas</th>
                         <th>ACt</th>
@@ -29,7 +28,6 @@ Absensi
                         <td>{{$no++}}</td>
                         <td>{{$user->name}}</td>
                         <td>{{$user->nip}}</td>
-                        <td>{{$user->lokasi}}</td>
                         <td>
                             @foreach($user->roles as $role)
                                 <span class="btn btn-xs btn-primary">{{$role->name}}</span>,

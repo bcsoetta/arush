@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Cache;
 
 class User extends Authenticatable
 {
@@ -32,9 +33,14 @@ class User extends Authenticatable
         return $this->hasOne('App\UserProfiles');
     }
 
-    public function lokasi()
+    public function getNameAttribute($value)
     {
-        return $this->hasOne('App\Lokasi');
+        $value = strtoupper($value);
+        return $value;
     }
 
+    public function isOnline()
+    {
+        return Cache::has('user-is-online-' . $this->id);
+    }
 }

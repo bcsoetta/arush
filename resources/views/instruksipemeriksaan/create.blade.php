@@ -9,7 +9,7 @@ Rekam IP
 @endsection
 
 @section('content')
-<div class="panel panel-default">
+<div class="panel panel-primary">
     <div class="panel-heading">
         <h2 class="panel-title"><strong>Dokumen Lengkap</strong></h2>
     </div>
@@ -19,7 +19,7 @@ Rekam IP
             <div class="col-md-12">
 
                 @include('partial.header-dokumen')
-                <h3>Rekam IP :</h3>
+                <h3>Rekam Instruksi Pemeriksaan (IP) :</h3>
                 
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2">
@@ -48,7 +48,7 @@ Rekam IP
                                 <label for="tingkat_periksa" class="col-md-4 control-label">Tingkat Pemeriksa</label>
 
                                 <div class="col-md-6">
-                                    <input id="tingkat_periksa" type="text" class="form-control" name="tingkat_periksa" value="{{ old('tingkat_periksa') }}">
+                                    <input id="tingkat_periksa" type="text" class="form-control" name="tingkat_periksa" value="{{ old('tingkat_periksa') ? old('tingkat_periksa') : '100%'  }}">
 
                                     @if ($errors->has('tingkat_periksa'))
                                     <span class="help-block">
@@ -58,7 +58,7 @@ Rekam IP
                                 </div>
                             </div>
 
-                            <div class="form-group{{ $errors->has('jumlah_kemasan_diperiksa') ? ' has-error' : '' }}">
+                            <!-- <div class="form-group{{ $errors->has('jumlah_kemasan_diperiksa') ? ' has-error' : '' }}">
                                 <label for="jumlah_kemasan_diperiksa" class="col-md-4 control-label">Jumlah kemasan yang harus diperiksa</label>
 
                                 <div class="col-md-6">
@@ -98,7 +98,7 @@ Rekam IP
                                     </span>
                                     @endif
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="form-group{{ $errors->has('aju_contoh') ? ' has-error' : '' }}">
                                 <label for="aju_foto" class="col-md-4 control-label">Ajukan contoh(ya/tidak)</label>
@@ -138,7 +138,7 @@ Rekam IP
 
                             <div class="form-group">
                                 <div class="col-md-4 col-md-offset-8">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary" onclick="konfirm()">
                                         Simpan
                                     </button>
 

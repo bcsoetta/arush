@@ -8,7 +8,7 @@ Cetak Dokumen
 @endsection
 
 @section('content')
-<div class="panel panel-default">
+<div class="panel panel-primary">
     <div class="panel-heading">
         <h2 class="panel-title"><strong>Dokumen Lengkap</strong></h2>
     </div>
@@ -31,33 +31,26 @@ Cetak Dokumen
                         <tr>
                             <td>1</td>
                             <td>Instruksi Pemeriksaaan (IP)</td>
-                            <td><a href="{{route('cetak.ip', $dokumen->id)}}">Cetak</a></td>
+                            <td><a href="{{route('cetak.ip', $dokumen->id)}}" target="_blank">Cetak</a></td>
                         </tr>
                         @endif
                         @if($dokumen->status_id > 3)
                         <tr>
                             <td>2</td>
                             <td>Laporan Hasil Pemeriksaan (LHP)</td>
-                            <td><a href="{{route('cetak.lhp', $dokumen->id)}}">Cetak</a></td>
+                            <td><a href="{{route('cetak.lhp', $dokumen->id)}}" target="_blank">Cetak</a></td>
                         </tr>
                         <tr>
                             <td>3</td>
                             <td>Berita Acara Pemeriksaan Barang (BAP)</td>
-                            <td><a href="{{route('cetak.ba', $dokumen->id)}}">Cetak</a></td>
+                            <td><a href="{{route('cetak.ba', $dokumen->id)}}" target="_blank">Cetak</a></td>
                         </tr>
                         @endif
                         @if($dokumen->status_id > 4)
                         <tr>
                             <td>4</td>
-                            <td>Penetapan Nilai Jaminan (PNJ)</td>
-                            <td><a href="{{route('cetak.pnj', $dokumen->id)}}">Cetak</a></td>
-                        </tr>
-                        @endif
-                        @if($dokumen->status_id > 6)
-                        <tr>
-                            <td>5</td>
                             <td>SPPB</td>
-                            <td><a href="{{route('cetak.sppb', $dokumen->id)}}">Cetak</a></td>
+                            <td><a href="{{route('cetak.sppb', $dokumen->id)}}" target="_blank">Cetak</a></td>
                         </tr>
                         @endif
                         

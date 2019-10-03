@@ -8,7 +8,7 @@ Detail Dokumen
 @endsection
 
 @section('content')
-<div class="panel panel-default">
+<div class="panel panel-primary">
     <div class="panel-heading">
         <h2 class="panel-title"><strong>Dokumen Lengkap</strong></h2>
     </div>
@@ -60,35 +60,35 @@ Detail Dokumen
                                 <tr >
                                     <th style="width:200px">HARGA</th>
                                     <td colspan="2">
-                                        <input type="text" class="form-control" name="harga_barang" id="harga" value="{{$dokumenDetail->harga_barang}}" readonly>
+                                        <input type="text" class="form-control" name="harga_barang" id="harga" value="{{number_format($dokumenDetail->harga_barang,2,',','.')}}" readonly>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th style="width:200px">FREIGHT</th>
                                     <td colspan="2">
-                                        <input type="text" class="form-control" name="freight" id="freight" value="{{$dokumenDetail->freight}}" readonly>
+                                        <input type="text" class="form-control" name="freight" id="freight" value="{{number_format($dokumenDetail->freight,2,',','.')}}" readonly>
                                     </td>                    
                                 </tr>
                                 <tr>
                                     <th style="width:200px">ASURANSI</th>
                                     <td colspan="2">
-                                        <input type="text" class="form-control" name="asuransi" id="asuransi" value="{{$dokumenDetail->asuransi}}" readonly>
+                                        <input type="text" class="form-control" name="asuransi" id="asuransi" value="{{number_format($dokumenDetail->asuransi,2,',','.')}}" readonly>
                                     </td>                    
                                 </tr>
                                 <tr >
                                     <th style="width:200px">CIF</th>
                                     <td colspan="2">
-                                        <input type="text" class="form-control" name="cif" id="cif" readonly value="{{$dokumenDetail->cif}}" readonly>
+                                        <input type="text" class="form-control" name="cif" id="cif" readonly value="{{number_format($dokumenDetail->cif,2,',','.')}}" readonly>
                                     </td>                    
                                 </tr>
                                 <tr>
                                     <th style="width:200px">KURS</th>
-                                    <td><input type="text" class="form-control" id="kurs_nilai" name="kurs_nilai" value="{{number_format($dokumenDetail->kurs_nilai,1,",",".")}} {{$dokumenDetail->kurs_label}}" readonly></td>
+                                    <td><input type="text" class="form-control" id="kurs_nilai" name="kurs_nilai" value="{{number_format($dokumenDetail->kurs_nilai,2,",",".")}} {{$dokumenDetail->kurs_label}}" readonly></td>
                                 </tr>
                                 <tr>
                                     <th style="width:200px">NILAI PABEAN</th>
                                     <td colspan="2">
-                                        <input type="text" class="form-control" name="nilai_pabean" id="nilai_pabean" value="{{$dokumenDetail->nilai_pabean}}" readonly>
+                                        <input type="text" class="form-control" name="nilai_pabean" id="nilai_pabean" value="{{number_format($dokumenDetail->nilai_pabean,2,',','.')}}" readonly>
                                     </td>                    
                                 </tr>
                             </tbody>
@@ -109,89 +109,89 @@ Detail Dokumen
                                 <tr>
                                     <th>BM</th>
                                     <td>
-                                        <input type="text" class="form-control" style="width:55px" name="trf_bm" id="trf_bm" value="{{$dokumenDetail->trf_bm}}">
+                                        <input type="text" class="form-control" style="width:55px" name="trf_bm" id="trf_bm" value="{{$dokumenDetail->trf_bm}}" readonly>
+                                    </td>
+                                    <td >
+                                        <input type="text" class="form-control text-right" name="bayar_bm" value="{{number_format($dokumenDetail->bayar_bm,0,',','.')}}" id="bayar_bm" readonly>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="bayar_bm" value="{{$dokumenDetail->bayar_bm}}" id="bayar_bm">
+                                        <input type="text" class="form-control text-right" name="ditanggung_pmrnth_bm" value="{{number_format($dokumenDetail->ditanggung_pmrnth_bm,0,',','.')}}" id="ditanggung_pmrnth_bm" readonly>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="ditanggung_pmrnth_bm" value="{{$dokumenDetail->ditanggung_pmrnth_bm}}" id="ditanggung_pmrnth_bm">
+                                        <input type="text" class="form-control text-right" name="ditangguhkan_bm" value="{{number_format($dokumenDetail->ditangguhkan_bm,0,',','.')}}" id="ditangguhkan_bm" readonly>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="ditangguhkan_bm" value="{{$dokumenDetail->ditangguhkan_bm}}" id="ditangguhkan_bm">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" name="dibebaskan_bm" value="{{$dokumenDetail->dibebaskan_bm}}" id="dibebaskan_bm">
+                                        <input type="text" class="form-control text-right" name="dibebaskan_bm" value="{{number_format($dokumenDetail->dibebaskan_bm,0,',','.')}}" id="dibebaskan_bm" readonly>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>PPN</th>
                                     <td>
-                                        <input type="text" class="form-control" style="width:55px" name="trf_ppn" value="{{$dokumenDetail->trf_ppn}}" id="trf_ppn">
+                                        <input type="text" class="form-control" style="width:55px" name="trf_ppn" value="{{$dokumenDetail->trf_ppn}}" id="trf_ppn" readonly>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="bayar_ppn" value="{{$dokumenDetail->bayar_ppn}}" id="bayar_ppn">
+                                        <input type="text" class="form-control text-right" name="bayar_ppn" value="{{number_format($dokumenDetail->bayar_ppn,0,',','.')}}" id="bayar_ppn" readonly>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="ditanggung_pmrnth_ppn" value="{{$dokumenDetail->ditanggung_pmrnth_ppn}}" id="ditanggung_pmrnth_ppn">
+                                        <input type="text" class="form-control text-right" name="ditanggung_pmrnth_ppn" value="{{number_format($dokumenDetail->ditanggung_pmrnth_ppn,0,',','.')}}" id="ditanggung_pmrnth_ppn" readonly>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="ditangguhkan_ppn" value="{{$dokumenDetail->ditangguhkan_ppn}}" id="ditangguhkan_ppn">
+                                        <input type="text" class="form-control text-right" name="ditangguhkan_ppn" value="{{number_format($dokumenDetail->ditangguhkan_ppn,0,',','.')}}" id="ditangguhkan_ppn" readonly>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="dibebaskan_ppn" value="{{$dokumenDetail->dibebaskan_ppn}}" id="dibebaskan_ppn">
+                                        <input type="text" class="form-control text-right" name="dibebaskan_ppn" value="{{number_format($dokumenDetail->dibebaskan_ppn,0,',','.')}}" id="dibebaskan_ppn" readonly>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>PPNBM</th>
                                     <td>
-                                        <input type="text" class="form-control" style="width:55px" name="trf_ppnbm" value="{{$dokumenDetail->trf_ppnbm}}" id="trf_ppnbm">
+                                        <input type="text" class="form-control" style="width:55px" name="trf_ppnbm" value="{{$dokumenDetail->trf_ppnbm}}" id="trf_ppnbm" readonly>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="bayar_ppnbm" value="{{$dokumenDetail->bayar_ppnbm}}" id="bayar_ppnbm">
+                                        <input type="text" class="form-control text-right" name="bayar_ppnbm" value="{{number_format($dokumenDetail->bayar_ppnbm,0,',','.')}}" id="bayar_ppnbm" readonly>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="ditanggung_pmrnth_ppnbm" value="{{$dokumenDetail->ditanggung_pmrnth_ppnbm}}" id="ditanggung_pmrnth_ppnbm">
+                                        <input type="text" class="form-control text-right" name="ditanggung_pmrnth_ppnbm" value="{{number_format($dokumenDetail->ditanggung_pmrnth_ppnbm,0,',','.')}}" id="ditanggung_pmrnth_ppnbm" readonly>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="ditangguhkan_ppnbm" value="{{$dokumenDetail->ditangguhkan_ppnbm}}" id="ditangguhkan_ppnbm">
+                                        <input type="text" class="form-control text-right" name="ditangguhkan_ppnbm" value="{{number_format($dokumenDetail->ditangguhkan_ppnbm,0,',','.')}}" id="ditangguhkan_ppnbm" readonly>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="dibebaskan_ppnbm" value="{{$dokumenDetail->dibebaskan_ppnbm}}" id="dibebaskan_ppnbm">
+                                        <input type="text" class="form-control text-right" name="dibebaskan_ppnbm" value="{{number_format($dokumenDetail->dibebaskan_ppnbm,0,',','.')}}" id="dibebaskan_ppnbm" readonly>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>PPH</th>
                                     <td>
-                                        <input type="text" class="form-control" style="width:55px" name="trf_pph" value="{{$dokumenDetail->trf_pph}}" id="trf_pph">
+                                        <input type="text" class="form-control" style="width:55px" name="trf_pph" value="{{$dokumenDetail->trf_pph}}" id="trf_pph" readonly>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="bayar_pph" value="{{$dokumenDetail->bayar_pph}}" id="bayar_pph">
+                                        <input type="text" class="form-control text-right" name="bayar_pph" value="{{number_format($dokumenDetail->bayar_pph,0,',','.')}}" id="bayar_pph" readonly>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="ditanggung_pmrnth_pph" value="{{$dokumenDetail->ditanggung_pmrnth_pph}}" id="ditanggung_pmrnth_pph">
+                                        <input type="text" class="form-control text-right" name="ditanggung_pmrnth_pph" value="{{number_format($dokumenDetail->ditanggung_pmrnth_pph,0,',','.')}}" id="ditanggung_pmrnth_pph" readonly>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="ditangguhkan_pph" value="{{$dokumenDetail->ditangguhkan_pph}}" id="ditangguhkan_pph">
+                                        <input type="text" class="form-control text-right" name="ditangguhkan_pph" value="{{number_format($dokumenDetail->ditangguhkan_pph,0,',','.')}}" id="ditangguhkan_pph" readonly>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="dibebaskan_pph" value="{{$dokumenDetail->dibebaskan_pph}}" id="dibebaskan_pph">
+                                        <input type="text" class="form-control text-right" name="dibebaskan_pph" value="{{number_format($dokumenDetail->dibebaskan_pph,0,',','.')}}" id="dibebaskan_pph" readonly>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>TOTAL</th>
                                     <td></td>
                                     <td>
-                                        <input type="text" class="form-control" value="{{$dokumenDetail->bayar_total}}" name="bayar_total" id="bayar_total">
+                                        <input type="text" class="form-control text-right" value="{{number_format($dokumenDetail->bayar_total,0,',','.')}}" name="bayar_total" id="bayar_total" readonly>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" value="{{$dokumenDetail->ditanggung_pmrnth_total}}" name="ditanggung_pmrnth_total" id="ditanggung_pmrnth_total">
+                                        <input type="text" class="form-control text-right" value="{{number_format($dokumenDetail->ditanggung_pmrnth_total,0,',','.')}}" name="ditanggung_pmrnth_total" id="ditanggung_pmrnth_total" readonly>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" value="{{$dokumenDetail->ditangguhkan_total}}" name="ditangguhkan_total" id="ditangguhkan_total">
+                                        <input type="text" class="form-control text-right" value="{{number_format($dokumenDetail->ditangguhkan_total,0,',','.')}}" name="ditangguhkan_total" id="ditangguhkan_total" readonly>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" value="{{$dokumenDetail->dibebaskan_total}}" name="dibebaskan_total" id="dibebaskan_total">
+                                        <input type="text" class="form-control text-right" value="{{number_format($dokumenDetail->dibebaskan_total,0,',','.')}}" name="dibebaskan_total" id="dibebaskan_total" readonly>
                                     </td>
                                 </tr>
                             </tbody>

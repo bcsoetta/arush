@@ -12,7 +12,7 @@ Dokumen
 
 <div class="row">
     <div class="col-md-12">
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading">Perekaman Pengeluaran Barang</div>
             <div class="panel-body">
                 <form class="form-horizontal" method="GET" action="{{ route('pendok.search')}}">
@@ -43,7 +43,7 @@ Dokumen
 @if(count($dokumen) > 0)
 <div class="row">
     <div class="col-md-12">
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading">Dokumen</div>
             <div class="panel-body">
                 <table id="table" class="table table-condensed table-hover table-bordered table-striped">
@@ -54,13 +54,12 @@ Dokumen
                             <th>PPJK</th>
                             <th>MAWB</th>
                             <th>HAWB</th>
-                            <th>SETATUS</th>
+                            <th>Status</th>
                             <th>ACT</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($dokumen as $data)
-                        @if($data->status_id == 8)
                         <tr>
                             <td>{{$data->daftar_no}}</td>
                             <td>{{$data->importir_nm}}</td>
@@ -68,11 +67,12 @@ Dokumen
                             <td>{{$data->mawb_no}}</td>
                             <td>{{$data->hawb_no}}</td>
                             <td>{{$data->status_label}}</td>
+                            @if($data->status_id == 6)
                             <td style="text-align: center">
                                 <a class="btn btn-danger btn-xs" href="{{ route('pendok.create', $data->id)}}">Rekam PIB/PIBK</a>
                             </td>
+                            @endif
                         </tr>
-                        @endif
                         @endforeach
                     </tbody>
                 </table>
@@ -83,7 +83,7 @@ Dokumen
 @else
 <div class="row">
     <div class="col-md-12">
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading">Dokumen</div>
             <div class="panel-body">
                 <p>Dokumen tidak ditemukan</p>

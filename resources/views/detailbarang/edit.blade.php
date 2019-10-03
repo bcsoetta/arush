@@ -17,7 +17,7 @@
 @section('content')
 
 {{-- over view --}}
-<div class="panel panel-default">
+<div class="panel panel-primary">
     <div class="panel-heading main-color-bg">
         <h3 class="panel-title">Edit Detail Barang</h3>
     </div>
@@ -109,26 +109,26 @@ $(document).ready(function(){
     });
 
     /* Fungsi */
-    function formatRupiah(angka, prefix)
-    {
-        if (angka < 0) {
-            alert('negatif');
-        }
+    // function formatRupiah(angka, prefix)
+    // {
+    //     if (angka < 0) {
+    //         alert('negatif');
+    //     }
         
-        var number_string = angka.replace(/[^,\d]/g, '').toString(),
-        split   = number_string.split(','),
-        sisa    = split[0].length % 3,
-        rupiah  = split[0].substr(0, sisa),
-        ribuan  = split[0].substr(sisa).match(/\d{3}/gi);
+    //     var number_string = angka.replace(/[^,\d]/g, '').toString(),
+    //     split   = number_string.split(','),
+    //     sisa    = split[0].length % 3,
+    //     rupiah  = split[0].substr(0, sisa),
+    //     ribuan  = split[0].substr(sisa).match(/\d{3}/gi);
 
-        if (ribuan) {
-            separator = sisa ? '.' : '';
-            rupiah += separator + ribuan.join('.');
-        }
+    //     if (ribuan) {
+    //         separator = sisa ? '.' : '';
+    //         rupiah += separator + ribuan.join('.');
+    //     }
 
-        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-        return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
-    }
+    //     rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+    //     return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    // }
 
     function convertToAngka(value)
     {
@@ -139,120 +139,79 @@ $(document).ready(function(){
         return nilai;
     }
 
-    // 
     $('#harga').keyup(function(){
-        $('#harga').val(formatRupiah($('#harga').val()));
+        $('#harga').val($('#harga').val().replace(/[^.\d]/g, ''));
     });
+
     $('#freight').keyup(function(){
-        $('#freight').val(formatRupiah($('#freight').val()));
+        $('#freight').val($('#freight').val().replace(/[^.\d]/g, ''));
     });
+
     $('#asuransi').keyup(function(){
-        $('#asuransi').val(formatRupiah($('#asuransi').val()));
+        $('#asuransi').val($('#asuransi').val().replace(/[^.\d]/g, ''));
     });
-
-    $('#ditanggung_pmrnth_bm').keyup(function(){
-        $('#ditanggung_pmrnth_bm').val(formatRupiah($('#ditanggung_pmrnth_bm').val()));
-    });
-
-    $('#ditanggung_pmrnth_ppn').keyup(function(){
-        $('#ditanggung_pmrnth_ppn').val(formatRupiah($('#ditanggung_pmrnth_ppn').val()));
-    });
-
-    $('#ditanggung_pmrnth_ppnbm').keyup(function(){
-        $('#ditanggung_pmrnth_ppnbm').val(formatRupiah($('#ditanggung_pmrnth_ppnbm').val()));
-    });
-
-    $('#ditanggung_pmrnth_pph').keyup(function(){
-        $('#ditanggung_pmrnth_pph').val(formatRupiah($('#ditanggung_pmrnth_pph').val()));
-    });
-
-    $('#ditangguhkan_bm').keyup(function(){
-        $('#ditangguhkan_bm').val(formatRupiah($('#ditangguhkan_bm').val()));
-    });
-    $('#ditangguhkan_ppn').keyup(function(){
-        $('#ditangguhkan_ppn').val(formatRupiah($('#ditangguhkan_ppn').val()));
-    });
-    $('#ditangguhkan_ppnbm').keyup(function(){
-        $('#ditangguhkan_ppnbm').val(formatRupiah($('#ditangguhkan_ppnbm').val()));
-    });
-    $('#ditangguhkan_pph').keyup(function(){
-        $('#ditangguhkan_pph').val(formatRupiah($('#ditangguhkan_pph').val()));
-    });
-
-    $('#dibebaskan_bm').keyup(function(){
-        $('#dibebaskan_bm').val(formatRupiah($('#dibebaskan_bm').val()));
-    });
-    $('#dibebaskan_ppn').keyup(function(){
-        $('#dibebaskan_ppn').val(formatRupiah($('#dibebaskan_ppn').val()));
-    });
-    $('#dibebaskan_ppnbm').keyup(function(){
-        $('#dibebaskan_ppnbm').val(formatRupiah($('#dibebaskan_ppnbm').val()));
-    });
-    $('#dibebaskan_pph').keyup(function(){
-        $('#dibebaskan_pph').val(formatRupiah($('#dibebaskan_pph').val()));
-    });
-
-
 
     $(document).on('change', function(e){
 
-        var harga = convertToAngka($('#harga').val());
-        var freight = convertToAngka($('#freight').val());
-        var asuransi = convertToAngka($('#asuransi').val());
+        var harga = parseFloat($('#harga').val());
+        var freight = parseFloat($('#freight').val());
+        var asuransi = parseFloat($('#asuransi').val());
 
         var cif = harga + freight + asuransi;
-        $('#cif').val(formatRupiah(cif.toFixed(2).replace('.', ',')));
+        $('#cif').val(cif.toFixed(4));
 
         var kurs = parseFloat($('#kurs_nilai').val());
-        // $('#kurs_nilai').val(formatRupiah(kurs.toFixed(4).replace('.', ',')));
 
-        var nilai_pabean = Math.round(cif * kurs);
-        $('#nilai_pabean').val(formatRupiah(nilai_pabean.toFixed(2).replace('.', ',')));
+        var nilai_pabean = cif * kurs;
+        $('#nilai_pabean').val(nilai_pabean.toFixed(4));
 
-        var trf_bm = convertToAngka($('#trf_bm').val());
-        var trf_ppn = convertToAngka($('#trf_ppn').val());
-        var trf_ppnbm = convertToAngka($('#trf_ppnbm').val());
-        var trf_pph = convertToAngka($('#trf_pph').val());
+        var trf_bm = parseFloat($('#trf_bm').val());
+        var trf_ppn = parseFloat($('#trf_ppn').val());
+        var trf_ppnbm = parseFloat($('#trf_ppnbm').val());
+        var trf_pph = parseFloat($('#trf_pph').val());
 
-        var ditanggung_pmrnth_bm = convertToAngka($('#ditanggung_pmrnth_bm').val());
-        var ditanggung_pmrnth_ppn = convertToAngka($('#ditanggung_pmrnth_ppn').val());
-        var ditanggung_pmrnth_ppnbm = convertToAngka($('#ditanggung_pmrnth_ppnbm').val());
-        var ditanggung_pmrnth_pph = convertToAngka($('#ditanggung_pmrnth_pph').val());
+        var ditanggung_pmrnth_bm = parseFloat($('#ditanggung_pmrnth_bm').val());
+        var ditanggung_pmrnth_ppn = parseFloat($('#ditanggung_pmrnth_ppn').val());
+        var ditanggung_pmrnth_ppnbm = parseFloat($('#ditanggung_pmrnth_ppnbm').val());
+        var ditanggung_pmrnth_pph = parseFloat($('#ditanggung_pmrnth_pph').val());
 
-        var ditangguhkan_bm = convertToAngka($('#ditangguhkan_bm').val());
-        var ditangguhkan_ppn = convertToAngka($('#ditangguhkan_ppn').val());
-        var ditangguhkan_ppnbm = convertToAngka($('#ditangguhkan_ppnbm').val());
-        var ditangguhkan_pph = convertToAngka($('#ditangguhkan_pph').val());
+        var ditangguhkan_bm = parseFloat($('#ditangguhkan_bm').val());
+        var ditangguhkan_ppn = parseFloat($('#ditangguhkan_ppn').val());
+        var ditangguhkan_ppnbm = parseFloat($('#ditangguhkan_ppnbm').val());
+        var ditangguhkan_pph = parseFloat($('#ditangguhkan_pph').val());
 
-        var dibebaskan_bm = convertToAngka($('#dibebaskan_bm').val());
-        var dibebaskan_ppn = convertToAngka($('#dibebaskan_ppn').val());
-        var dibebaskan_ppnbm = convertToAngka($('#dibebaskan_ppnbm').val());
-        var dibebaskan_pph = convertToAngka($('#dibebaskan_pph').val());
+        var dibebaskan_bm = parseFloat($('#dibebaskan_bm').val());
+        var dibebaskan_ppn = parseFloat($('#dibebaskan_ppn').val());
+        var dibebaskan_ppnbm = parseFloat($('#dibebaskan_ppnbm').val());
+        var dibebaskan_pph = parseFloat($('#dibebaskan_pph').val());
 
 
         //hitung BM
-        var bayar_bm = Math.round((trf_bm /100) * nilai_pabean);
+        var dbm = (trf_bm /100) * nilai_pabean;
+        var bayar_bm = (Math.ceil(dbm/1000)) * 1000;
         var nilaiBm = bayar_bm;
 
         //BM + nilai pabean
-        nilaiHitungPajak =  Math.round(nilai_pabean + nilaiBm);
+        nilaiImpor =  nilai_pabean + nilaiBm;
 
         bayar_bm = bayar_bm - ditanggung_pmrnth_bm;
         bayar_bm = bayar_bm - ditangguhkan_bm;
-        bayar_bm = bayar_bm - dibebaskan_bm
+        bayar_bm = bayar_bm - dibebaskan_bm;
 
-        var bayar_ppn = Math.round((trf_ppn / 100)* nilaiHitungPajak);
+        var dppn = (trf_ppn / 100) * nilaiImpor
+        var bayar_ppn = Math.ceil(dppn/1000)*1000;
         bayar_ppn = bayar_ppn - ditanggung_pmrnth_ppn;
         bayar_ppn = bayar_ppn - ditangguhkan_ppn;
         bayar_ppn = bayar_ppn - dibebaskan_ppn;
 
-        var bayar_ppnbm = Math.round((trf_ppnbm / 100) * nilaiHitungPajak);
+        var dppnbm = (trf_ppnbm / 100) * nilaiImpor
+        var bayar_ppnbm = Math.ceil(dppnbm/1000)*1000;
         bayar_ppnbm = bayar_ppnbm - ditanggung_pmrnth_ppnbm;
         bayar_ppnbm = bayar_ppnbm - ditangguhkan_ppnbm;
         bayar_ppnbm = bayar_ppnbm - dibebaskan_ppnbm;
 
-
-        var bayar_pph = Math.round((trf_pph / 100) * nilaiHitungPajak);
+        var dpph = (trf_pph / 100) * nilaiImpor
+        var bayar_pph = Math.ceil(dpph/1000)*1000;
         bayar_pph = bayar_pph - ditanggung_pmrnth_pph;
         bayar_pph = bayar_pph - ditangguhkan_pph;
         bayar_pph = bayar_pph - dibebaskan_pph;
@@ -262,41 +221,42 @@ $(document).ready(function(){
         var dibebaskan_total = dibebaskan_bm + dibebaskan_ppn + dibebaskan_ppnbm + dibebaskan_pph;
         var bayar_total = bayar_bm + bayar_ppn + bayar_ppnbm + bayar_pph;
 
+
         //add to input
-        $('#trf_bm').val(formatRupiah(trf_bm.toFixed(1).replace('.', ',')));
-        $('#trf_ppn').val(formatRupiah(trf_ppn.toFixed(1).replace('.', ',')));
-        $('#trf_ppnbm').val(formatRupiah(trf_ppnbm.toFixed(1).replace('.', ',')));
-        $('#trf_pph').val(formatRupiah(trf_pph.toFixed(1).replace('.', ',')));
+        // $('#trf_bm').val(formatRupiah(trf_bm.toFixed(1).replace('.', ',')));
+        // $('#trf_ppn').val(formatRupiah(trf_ppn.toFixed(1).replace('.', ',')));
+        // $('#trf_ppnbm').val(formatRupiah(trf_ppnbm.toFixed(1).replace('.', ',')));
+        // $('#trf_pph').val(formatRupiah(trf_pph.toFixed(1).replace('.', ',')));
 
-        $('#ditanggung_pmrnth_total').val(formatRupiah(ditanggung_pmrnth_total.toFixed(2).replace('.', ',')));
-        $('#ditangguhkan_total').val(formatRupiah(ditangguhkan_total.toFixed(2).replace('.', ',')));
-        $('#dibebaskan_total').val(formatRupiah(dibebaskan_total.toFixed(2).replace('.', ',')));
+        $('#ditanggung_pmrnth_total').val(ditanggung_pmrnth_total.toFixed(0));
+        $('#ditangguhkan_total').val(ditangguhkan_total.toFixed(0));
+        $('#dibebaskan_total').val(dibebaskan_total.toFixed(0));
 
-        $('#bayar_bm').val(formatRupiah(bayar_bm.toFixed(2).replace('.', ',')));
+        $('#bayar_bm').val(bayar_bm.toFixed(0));
         if(bayar_bm < 0){
             $('#bayar_bm').val(bayar_bm);
         }
-        $('#bayar_ppn').val(formatRupiah(bayar_ppn.toFixed(2).replace('.', ',')));
+        $('#bayar_ppn').val(bayar_ppn.toFixed(0));
         if(bayar_ppn < 0){
             $('#bayar_ppn').val(bayar_ppn);
         }
 
-        $('#bayar_ppnbm').val(formatRupiah(bayar_ppnbm.toFixed(2).replace('.', ',')));
+        $('#bayar_ppnbm').val(bayar_ppnbm.toFixed(0));
         if(bayar_ppnbm < 0){
             $('#bayar_ppnbm').val(bayar_ppnbm);
         }
 
-        $('#bayar_pph').val(formatRupiah(bayar_pph.toFixed(2).replace('.', ',')));
+        $('#bayar_pph').val(bayar_pph.toFixed(0));
         if(bayar_pph < 0){
             $('#bayar_pph').val(bayar_pph);
         }
 
-        $('#bayar_pph').val(formatRupiah(bayar_pph.toFixed(2).replace('.', ',')));
+        $('#bayar_pph').val(bayar_pph.toFixed(0));
         if(bayar_pph < 0){
             $('#bayar_pph').val(bayar_pph);
         }
 
-        $('#bayar_total').val(formatRupiah(bayar_total.toFixed(2).replace('.', ',')));
+        $('#bayar_total').val(bayar_total.toFixed(0));
         if(bayar_total < 0){
             $('#bayar_total').val(bayar_total);
         }

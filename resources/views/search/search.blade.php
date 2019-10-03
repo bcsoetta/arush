@@ -11,7 +11,7 @@ Dokumen
 
 <div class="row">
     <div class="col-md-12">
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading">Pencarian</div>
             <div class="panel-body">
                 <form class="form-horizontal" method="GET" action="{{ route('search.index')}}">
@@ -33,7 +33,7 @@ Dokumen
 
 <div class="row">
     <div class="col-md-12">
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading">Dokumen</div>
             <div class="panel-body">
                 <table id="table" class="table table-condensed table-hover table-bordered table-striped">
@@ -43,7 +43,7 @@ Dokumen
                             <th>Importir</th>
                             <th>PPJK</th>
                             <th>HAWB</th>
-                            <th>SETATUS</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>

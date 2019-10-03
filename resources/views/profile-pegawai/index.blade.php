@@ -6,7 +6,7 @@ Profile Pegawai
 
 @section('content')
 
-<div class="panel panel-default">
+<div class="panel panel-primary">
     <div class="panel-heading main-color-bg">
     <h3 class="panel-title">Profile</h3>
     </div>

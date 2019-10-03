@@ -14,6 +14,17 @@ class DokumenDefinitif extends Model
         $this->attributes['tanggal'] = strlen($value)? Carbon::createFromFormat('d-m-Y', $value) : null;
     }
 
+    public function setTglNtpnAttribute($value)
+    {
+        $this->attributes['tgl_ntpn'] = strlen($value)? Carbon::createFromFormat('d-m-Y', $value) : null;
+    }
+
+    public function getTglNtpnAttribute($value)
+    {
+        $value = strlen($value)? Carbon::parse($value)->format('d-m-Y') : null;
+        return $value;
+    }
+
     public function getTanggalAttribute($value)
     {
         $value = strlen($value)? Carbon::parse($value)->format('d-m-Y') : null;

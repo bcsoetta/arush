@@ -11,10 +11,10 @@ Dokumen
 
 @section('content')
 
-@if(count($dokumen) > 0)
+
 <div class="row">
     <div class="col-md-12">
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading">Dokumen</div>
             <div class="panel-body">
                 <h3>Dokumen :</h3>
@@ -26,7 +26,7 @@ Dokumen
                             <th>PPJK</th>
                             <th>MAWB</th>
                             <th>HAWB</th>
-                            <th>Setatus</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -106,9 +106,53 @@ Dokumen
                             @endif
                         </div>
                     </div>
+                    <div class="form-group{{ $errors->has('billing') ? ' has-error' : '' }}" id="billing">
+                        <label for="user" class="col-md-3 control-label">No. Billing</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="billing" placeholder="No billing">
+                            @if ($errors->has('billing'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('billing') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="form-group{{ $errors->has('ntpn') ? ' has-error' : '' }}" id="ntpn">
+                        <label for="ntpn" class="col-md-3 control-label">No. NTPN</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="ntpn" placeholder="No. NTPN" >
+                            @if ($errors->has('ntpn'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('ntpn') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="form-group{{ $errors->has('tgl_ntpn') ? ' has-error' : '' }}" id="tgl">
+                        <label for="tgl_ntpn" class="col-md-3 control-label">Tgl. NTPN</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="tgl_ntpn" placeholder="Tanggal NTPN">
+                            @if ($errors->has('tgl_ntpn'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('tgl_ntpn') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="form-group{{ $errors->has('billing') ? ' has-error' : '' }}" id="total_bayar">
+                        <label for="total_bayar" class="col-md-3 control-label">Total Bayar</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="total_bayar" placeholder="Total bayar">
+                            @if ($errors->has('billing'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('billing') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                    </div>
                     <div class="form-group">
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-danger center-block">
+                            <button type="submit" class="btn btn-danger center-block" onclick="konfirm()">
                                 Terima Dokumen
                             </button>
                         </div>
@@ -118,18 +162,7 @@ Dokumen
         </div>
     </div>
 </div>
-@else
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">Dokumen</div>
-            <div class="panel-body">
-                <p>Tidak ketemu</p>
-            </div>
-        </div>
-    </div>
-</div>
-@endif
+
 
 @endsection
 

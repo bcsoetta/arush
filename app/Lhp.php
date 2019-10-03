@@ -42,4 +42,11 @@ class Lhp extends Model
         return $value;
     }
 
+    
+    public function getNoLhpAttribute($value)
+    {
+        $value = str_pad($value, 5, '0', STR_PAD_LEFT);
+        return $value;
+    }
+
 }

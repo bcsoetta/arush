@@ -1,6 +1,4 @@
-<html>
-
-<head>
+<html><head>
 <meta http-equiv=Content-Type content="text/html; charset=windows-1252">
 <meta name=Generator content="Microsoft Word 15 (filtered)">
 <title>Berita Acara Pemeriksaan</title>
@@ -74,9 +72,7 @@ ul
 -->
 </style>
 
-</head>
-
-<body lang=EN-US>
+</head><body lang=EN-US>
 
 <div class=WordSection1>
 
@@ -108,8 +104,8 @@ style='font-family:"Arial",sans-serif'>BERITA ACARA PEMERIKSAAN FISIK BARANG
 IMPOR</span></u></b></p>
 
 <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
-text-align:center'><span lang=IN style='font-family:"Arial",sans-serif'>NOMOR : {{$dokumen->daftar_no}}
-                                TANGGAL :{{$dokumen->daftar_tgl}}</span></p>
+text-align:center'><span lang=IN style='font-family:"Arial",sans-serif'>NOMOR : {{$dokumen->lhp->no_lhp}}
+                                TANGGAL :{{$dokumen->lhp->created_at}}</span></p>
 
 <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt'><span
 lang=IN style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
@@ -121,7 +117,7 @@ barang dengan data sebagai berikut :</span></p>
 <p class=MsoListParagraphCxSpFirst style='margin-bottom:0in;margin-bottom:.0001pt;
 text-indent:-.25in;line-height:normal'><span lang=IN style='font-family:"Arial",sans-serif'>1.<span
 style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span><span
-lang=IN style='font-family:"Arial",sans-serif'>No Pendaftaran/Tgl : {{$dokumen->daftar_no}} / {{$dokumen->daftar_tgl}}</span></p>
+lang=IN style='font-family:"Arial",sans-serif'>No Pendaftaran/Tgl : </span></p>
 
 <p class=MsoListParagraphCxSpMiddle style='margin-bottom:0in;margin-bottom:
 .0001pt;text-indent:-.25in;line-height:normal'><span lang=IN style='font-family:
@@ -345,7 +341,4 @@ text-indent:-.25in;line-height:normal'><span lang=IN>2.<span style='font:7.0pt "
 Pemeriksa Barang</span></p>
 
 </div>
-
-</body>
-
-</html>
+</body></html>

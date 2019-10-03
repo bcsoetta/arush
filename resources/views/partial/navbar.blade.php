@@ -1,5 +1,8 @@
 @if(auth()->user())
 <ul class="nav navbar-nav">
+    @can('VIEW-DASHBOARD')
+    <li><a href="{{route('dashboard.index')}}">Dashboard</a></li>
+    @endcan
     @can('VIEW-DOKUMEN')
     <li><a href="{{route('dokumen.index')}}">Dokumen</a></li>
     @endcan
@@ -16,10 +19,21 @@
     <li><a href="{{ route('gateout.index')}}">Gate Out</a></li>
     @endcan
     @can('PENDOK')
-    <li><a href="{{ route('pendox.index')}}">Pendok</a></li>
+    <li><a href="{{ route('pendox.index')}}">Rekam Dok Definitif</a></li>
     @endcan
-    @can('SEARCH')
-    <li><a href="{{ route('search.index')}}">Pencarian</a></li>
+
+    @can('LAPORAN-JAMINAN')
+     <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Laporan <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="{{route('cetak.formCetakJaminanHarian')}}">Cetak Jaminan Hariaan</a></li>
+            <li><a href="{{route('laporan.belumDefinitif')}}">Dokumen Belum Definitif</a></li>
+            <li><a href="{{route('laporan.belumGateOut')}}">Dokumen Sudah SPPB, Belum Keluar</a></li>
+            <li><a href="{{route('laporan.harian')}}">Jaminan Harian</a></li>
+            <li><a href="{{route('laporan.formDownload')}}">Download Dokumen</a></li>
+            <li><a href="{{route('laporan.dokumenJaminan')}}">Dokumen Jaminan</a></li>
+        </ul>
+    </li>
     @endcan
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Setting <span class="caret"></span></a>
@@ -28,14 +42,12 @@
             @can('USERS')
             <li><a href="{{route('users.index')}}">Users</a></li>
             @endcan
-            @can('ABSENSI')
-            <li><a href="{{route('absensi.index')}}">Absensi (pemeriksa)</a></li>
-            @endcan
             @can('PROFILE')
             <li><a href="{{route('profiles.index')}}">Profile</a></li>
             @endcan
             @can('KURS')
             <li><a href="{{route('kurs.index')}}">Kurs</a></li>
+            <li><a href="{{route('libur-nasional.index')}}">Libur Nasional</a></li>
             @endcan
             @can('LOKASI')
             <li><a href="{{route('lokasi.index')}}">Lokasi</a></li>
@@ -54,6 +66,9 @@
             @endcan
         </ul>
     </li>
+    @can('SEARCH')
+    <li><a href="{{ route('search.index')}}">Pencarian <span class="glyphicon glyphicon-search" aria-hidden="true"></span></a></li>
+    @endcan
 </ul>
 @endif
 
@@ -62,7 +77,7 @@
     <!-- Authentication Links -->
     @guest
     <li><a href="{{ route('login') }}">Login</a></li>
-    <li><a href="{{ route('register') }}">Register</a></li>
+    {{-- <li><a href="{{ route('register') }}">Register</a></li> --}}
     @else
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">

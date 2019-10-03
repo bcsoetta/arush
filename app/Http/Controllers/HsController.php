@@ -11,6 +11,6 @@ class HsController extends Controller
     {
         $term = trim($request->q, '.');
         //$term = '02101990';
-        return Hs::where('id_hs_code', 'LIKE', $term."%")->paginate(10);
+        return Hs::where('id_hs_code', 'LIKE', $term."%")->orWhere('uraian', 'LIKE', $term."%")->paginate(10);
     }
 }

@@ -104,8 +104,8 @@ class KursController extends Controller
         $kurs->code = $request->code;
         $kurs->label = $request->label;
         $kurs->nilai = $request->nilai;
-        $kurs->tgl_awal = $request->berlaku;
-        $kurs->tgl_akhir = $request->sampai;
+        $kurs->tgl_awal = date_create_from_format('d-m-Y',$request->berlaku);
+        $kurs->tgl_akhir = date_create_from_format('d-m-Y',$request->sampai);
         $kurs->save();
 
         Alert::success('Berhasil Update');
@@ -148,21 +148,27 @@ class KursController extends Controller
 
         $doc = new \DOMDocument;
 
-        if(@$doc->loadHTMLFile('http://www.fiskal.kemenkeu.go.id/dw-kurs-db.asp'))
+        if(@$doc->loadHTMLFile('https://fiskal.kemenkeu.go.id/dw-kurs-db.asp'))
             {
                 $tds=$doc->getElementsByTagName('td');
 
                 $valuta;
+
+                $ccc= array() ;
+
                 foreach ($tds as $td) {
                     $value=$td->nodeValue;
+                    
                     $matches;
                     if(preg_match('/\(([^\)]*)\)/', $value, $matches)){
                         $valuta=$matches[1];
+                        
                         continue;
                     }
 
                     if(isset($valuta)){
                         $value = (float)$this->grab_number($td->nodeValue)*1.0;
+                        
                         if(strlen($valuta)===3){
                             if($valuta == "JPY"){$value*=0.01;};
                             // $data = Kurs::where('code', $valuta)->first();
@@ -176,49 +182,43 @@ class KursController extends Controller
                     }
                 }
 
+
+
+
                 $cnt=0;
                 $started=0;
-                $ps=$doc->getElementsByTagName('p');
-                foreach($ps as $p){
-                    if($started>0){
-                        $cnt++;
-                        if($cnt==3){
-                            $colon = strpos($p->nodeValue, ":");
-                            if($colon === false)
-                                break;
-                            $dates = substr($p->nodeValue, $colon+1);
-                            $dates = explode('-', $dates);
-                            foreach($dates as $d){
-                                $d = str_replace($months, $month_ids, $d);
-                                $validity[]=trim($d);
-                            }
-                        }
-                    }else{
-                        if($p->getAttribute('class')=='jud-kaji')$started++;
-                    }
-                }
-                $cnt=0;
-                foreach($validity as $v){
-                    if($cnt++==0){
-                        $tgl = date_create_from_format("d m Y",$v);
-                        $tgl_awal = DB::table('kurs')->update(['tgl_awal' => $tgl]);
-                    }else{
-                        $tgl = date_create_from_format("d m Y",$v);
-                        $tgl_akhir = DB::table('kurs')->update(['tgl_akhir' => $tgl]);
-                    }
-                }
+                $ps=$doc->getElementsByTagName('em')->item(0);
+
+                $textTanggal = trim($ps->nodeValue);
+
+                $textTanggal = explode(':', $textTanggal);
+
+                $tgl = explode('-',$textTanggal[1]);
+
+                $tgl_awal = trim($tgl[0]);
+                $tgl_akhir = trim($tgl[1]);
+
+                $tgl_awal = str_replace($months, $month_ids, $tgl_awal);
+                $tgl_akhir = str_replace($months, $month_ids, $tgl_akhir);
+
+                $tgl_awal = date_create_from_format("d m Y",$tgl_awal);
+                $tgl_akhir = date_create_from_format("d m Y",$tgl_akhir);
+                DB::table('kurs')->update(['tgl_awal' => $tgl_awal]);
+                DB::table('kurs')->update(['tgl_akhir' => $tgl_akhir]);
 
             }else{
                 echo "Failed to load the kurs :(<br>Keknya masalah di DNSnya, coba clear dlu cachenya trus coba lagi";
             }
+
             Alert::success('Update kurs');
-            return back();
+
+            return redirect()->back();
 
     }
 
     public function grab_number($kmk)
     {
-        $data = str_replace(',', '', $kmk);
-        return str_replace(',', '.', $data);
+        return str_replace(',', '', $kmk);
+        // return str_replace(',', '.', $data);
     }
 }

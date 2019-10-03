@@ -8,7 +8,7 @@ IP
 @endsection
 
 @section('content')
-<div class="panel panel-default">
+<div class="panel panel-primary">
     <div class="panel-heading">
         <h2 class="panel-title"><strong>Dokumen Lengkap</strong></h2>
     </div>
@@ -18,7 +18,11 @@ IP
 
             <div class="col-md-12">
                 @include('partial.header-dokumen')
-                <h3>Instruksi Pemeriksaan :</h3>
+                <h3>Instruksi Pemeriksaan :
+                @if($dokumen->status_id <= 4)
+                <a href="{{ route('instruksi-pemeriksaan.edit', $dokumen->id)}}"><button class="btn btn-danger" style="margin: 10px">Edit</button></a>
+                @endif
+                </h3>
                 <hr>
                 <div class="row">
                     <form class="form-horizontal">
@@ -39,7 +43,7 @@ IP
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="jumlah_kemasan_diperiksa" class="col-md-4 control-label">Jumlah kemasan yang harus diperiksa</label>
 
                             <div class="col-md-6">
@@ -61,7 +65,7 @@ IP
                             <div class="col-md-6">
                                 <input id="nomor_kemasan_diperiksa" type="text" class="form-control" name="nomor_kemasan_diperiksa" value="{{ $ip->nomor_kemasan_diperiksa }}">
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group">
                             <label for="aju_foto" class="col-md-4 control-label">Ajukan contoh(ya/tidak)</label>

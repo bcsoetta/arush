@@ -14,7 +14,7 @@ Rekam Dokumen
 
 {{-- over view --}}
 
-<div class="panel panel-default">
+<div class="panel panel-primary">
     <div class="panel-heading">
         <h3 class="panel-title">Rekam Dokumen</h3>
     </div>
@@ -26,6 +26,40 @@ Rekam Dokumen
         </form>
     </div>
 </div> {{-- end-panel --}}
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document" style="width: 85%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Dokumen Yang belum diserahkan</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered" id="mytable1">
+            <thead>
+                <tr>
+                    <th>No Daftar</th>
+                    <th>Tgl</th>
+                    <th>Importir</th>
+                    <th>NPWP</th>
+                    <th>HAWB</th>
+                    <th>Tgl</th>
+                    <th>SPPB</th>
+                    <th>Tgl</th>
+                    <th>Lewat hari</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 
 @section('scripts')
@@ -81,5 +115,39 @@ Rekam Dokumen
             }
         });
     });
+
+    $(document).on('change', function(){
+        var npwp = $('#importir_npwp').val();
+
+        if(npwp !== null && npwp !== ''  && npwp!==undefined){
+            $.ajax({
+                url: "{{url('cek-dokumen-npwp')}}"+ '/' + npwp,
+                type: "GET",
+                dataType: 'json',
+                success: function (data) {
+                    $('#myModal').modal('show');
+                    $.each(data,function(k, v){
+                        $("#mytable1 > tbody").append("<tr>"+
+                            "<td>" + v.daftar_no +"</td>"+
+                            "<td>" + v.daftar_tgl +"</td>"+
+                            "<td>" + v.importir_nm +"</td>"+
+                            "<td>" + v.importir_npwp +"</td>"+
+                            "<td>" + v.hawb_no +"</td>"+
+                            "<td>" + v.hawb_tgl +"</td>"+
+                            "<td>" + v.sppb.no_sppb +"</td>"+
+                            "<td>" + v.sppb.created_at +"</td>"+
+                            "<td>" + v.selisih_hari +"</td>"+
+                        "</tr>");
+                    })
+                    
+                }
+            });
+        } else {
+            console.log('empty');
+        }
+
+    });
+
+
 </script>
 @endsection

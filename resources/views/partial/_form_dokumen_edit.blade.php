@@ -4,7 +4,7 @@
         <h3>Importir :</h3>
         <div class="form-group {{ $errors->has('importir_nm') ? ' has-error' : '' }}">
             <label for="importir_npwp">Nama</label>
-            <input type="text" class="form-control" name="importir_nm" value="{{ $dokumen->importir_nm }}" placeholder="nama" autofocus>
+            <input type="text" class="form-control" value="{{ $dokumen->importir_nm }}" placeholder="nama" readonly>
             @if ($errors->has('importir_nm'))
             <span class="help-block">
                 {{ $errors->first('importir_nm') }}
@@ -13,7 +13,7 @@
         </div>
         <div class="form-group {{ $errors->has('importir_npwp') ? ' has-error' : '' }}">
             <label for="importir_npwp">NPWP</label>
-            <input type="text" class="form-control" name="importir_npwp" value="{{ $dokumen->importir_npwp }}" placeholder="npwp">
+            <input type="text" class="form-control" value="{{ $dokumen->importir_npwp }}" placeholder="npwp" readonly>
             @if ($errors->has('importir_npwp'))
             <span class="help-block">
                 {{ $errors->first('importir_npwp') }}
@@ -22,7 +22,7 @@
         </div>
         <div class="form-group {{ $errors->has('importir_alamat') ? ' has-error' : '' }}">
             <label for="importir_alamat">Alamat</label>
-            <textarea class="form-control" rows="2" name="importir_alamat" placeholder="alamat">{{ $dokumen->importir_alamat }}</textarea>
+            <textarea class="form-control" rows="2" placeholder="alamat" readonly>{{ $dokumen->importir_alamat }}</textarea>
             @if ($errors->has('importir_alamat'))
             <span class="help-block">
                 {{ $errors->first('importir_alamat') }}
@@ -94,28 +94,7 @@
 
 <h3>Manifest :</h3>
 <div class="row">
-    <div class="col-md-3">
-        <div class="form-group {{ $errors->has('mawb_no') ? ' has-error' : '' }}">
-            <label for="importir_npwp">No. MAWB</label>
-            <input type="text" class="form-control" name="mawb_no" value="{{ $dokumen->mawb_no }}" placeholder="nomor mawb">
-            @if ($errors->has('mawb_no'))
-            <span class="help-block">
-                {{ $errors->first('mawb_no') }}
-            </span>
-            @endif
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="form-group {{ $errors->has('mawb_tgl') ? ' has-error' : '' }}" id="tgl">
-            <label for="importir_npwp">Tgl. MAWB</label>
-            <input type="text" class="form-control" name="mawb_tgl" value="{{ $dokumen->mawb_tgl }}" placeholder="tgl mawb">
-            @if ($errors->has('mawb_tgl'))
-            <span class="help-block">
-                {{ $errors->first('mawb_tgl') }}
-            </span>
-            @endif
-        </div>            
-    </div>
+
     <div class="col-md-3">
         <div class="form-group {{ $errors->has('hawb_no') ? ' has-error' : '' }}">
             <label for="importir_npwp">No. HAWB</label>
@@ -138,52 +117,6 @@
             </span>
             @endif
         </div>            
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-3">
-        <div class="form-group {{ $errors->has('bc11_no') ? ' has-error' : '' }}">
-            <label for="importir_npwp">Nomor BC11</label>
-            <input type="text" class="form-control" name="bc11_no" value="{{ $dokumen->bc11_no }}" placeholder="bc11 nomor">
-            @if ($errors->has('bc11_no'))
-            <span class="help-block">
-                {{ $errors->first('bc11_no') }}
-            </span>
-            @endif
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="form-group {{ $errors->has('bc11_pos') ? ' has-error' : '' }}">
-            <label for="importir_npwp">BC11 Pos</label>
-            <input type="text" class="form-control" name="bc11_pos" value="{{ $dokumen->bc11_pos }}" placeholder="bc11 pos">
-            @if ($errors->has('bc11_pos'))
-            <span class="help-block">
-                {{ $errors->first('bc11_pos') }}
-            </span>
-            @endif
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="form-group {{ $errors->has('bc11_sub') ? ' has-error' : '' }}">
-            <label for="importir_npwp">BC11 Sub</label>
-            <input type="text" class="form-control" name="bc11_sub" value="{{ $dokumen->bc11_sub }}" placeholder="bc11 sub" >
-            @if ($errors->has('bc11_sub'))
-            <span class="help-block">
-                {{ $errors->first('bc11_sub') }}
-            </span>
-            @endif
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="form-group {{ $errors->has('bc11_tgl') ? ' has-error' : '' }}" id="tgl">
-            <label for="importir_npwp">Tgl BC11</label>
-            <input type="text" class="form-control" name="bc11_tgl" value="{{ $dokumen->bc11_tgl }}" placeholder="Tanggal BC11">
-            @if ($errors->has('bc11_tgl'))
-            <span class="help-block">
-                {{ $errors->first('bc11_tgl') }}
-            </span>
-            @endif
-        </div>
     </div>
 </div>
 <div class="row">

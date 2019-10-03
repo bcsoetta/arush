@@ -10,15 +10,15 @@ class Kurs extends Model
     protected $table = 'kurs';
     protected $fillable = ['nilai', 'tgl_awal', 'tgl_akhir'];
 
-    public function setTglAwalAttribute($value)
-    {
-        $this->attributes['tgl_awal'] = strlen($value)? Carbon::createFromFormat('d-m-Y', $value) : null;
-    }
+    // public function setTglAwalAttribute($value)
+    // {
+    //     $this->attributes['tgl_awal'] = strlen($value)? Carbon::createFromFormat('d-m-Y', $value) : null;
+    // }
 
-    public function setTglAkhirAttribute($value)
-    {
-        $this->attributes['tgl_akhir'] = strlen($value)? Carbon::createFromFormat('d-m-Y', $value) : null;
-    }
+    // public function setTglAkhirAttribute($value)
+    // {
+    //     $this->attributes['tgl_akhir'] = strlen($value)? Carbon::createFromFormat('d-m-Y', $value) : null;
+    // }
 
     public function getTglAwalAttribute($value)
     {

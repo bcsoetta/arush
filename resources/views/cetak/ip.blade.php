@@ -1,6 +1,4 @@
-<html>
-
-<head>
+<html><head>
 <meta http-equiv=Content-Type content="text/html; charset=windows-1252">
 <meta name=Generator content="Microsoft Word 15 (filtered)">
 <title>Instruksi pemeriksaan</title>
@@ -48,9 +46,7 @@ div.WordSection1
 -->
 </style>
 
-</head>
-
-<body lang=IN>
+</head><body lang=IN>
 
 <div class=WordSection1>
 
@@ -95,7 +91,7 @@ style='border-collapse:collapse;border:none'>
 <td width=189 valign=top style='width:141.5pt;padding:0cm 5.4pt 0cm 5.4pt'>
 <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><span
 style='font-size:12.0pt;line-height:115%;font-family:"Arial",sans-serif'>Nomor
-Pendaftaran PIB</span></p>
+Pendaftaran RH</span></p>
 </td>
 <td width=19 valign=top style='width:14.2pt;padding:0cm 5.4pt 0cm 5.4pt'>
 <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><span
@@ -491,5 +487,4 @@ none'><span style='font-size:12.0pt;line-height:115%;font-family:"Arial",sans-se
 style='font-size:12.0pt;line-height:115%;font-family:"Arial",sans-serif'>&nbsp;</span></p>
 
 </div>
-</body>
-</html>
+</body></html>

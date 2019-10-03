@@ -8,7 +8,7 @@ Jaminan
 @endsection
 
 @section('content')
-<div class="panel panel-default">
+<div class="panel panel-primary">
     <div class="panel-heading">
         <h2 class="panel-title"><strong>Dokumen Lengkap</strong></h2>
     </div>
@@ -22,6 +22,7 @@ Jaminan
                 <h3>Detail Jaminan :</h3>
 
                 <table class="table table-condensed table-borderless" style="width: 400px; ">
+                    @foreach($jamin as $jaminan)
                     <tr>
                         <th>No BPJ</th>
                         <th>:</th>
@@ -45,7 +46,7 @@ Jaminan
                     <tr>
                         <th>Jumlah</th>
                         <th>:</th>
-                        <td>{{number_format($jaminan->jumlah,2,",",".")}}</td>
+                        <td>{{number_format($jaminan->jumlah,0,",",".")}}</td>
                     </tr>
                     <tr>
                         <th>Jenis</th>
@@ -57,6 +58,12 @@ Jaminan
                         <th>:</th>
                         <td>{{$jaminan->tanggal_jatuh_tempo}}</td>
                     </tr>
+                    <tr>
+                        <td>----</td>
+                        <td>----</td>
+                        <td>----</td>
+                    </tr>
+                    @endforeach
                 </table>                
             </div>
         </div>

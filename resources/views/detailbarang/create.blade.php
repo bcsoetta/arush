@@ -11,13 +11,16 @@
     .tarif table input {
         text-align: right;
     }
+    .salah{
+        border-color: #e74c3c;
+    }
 </style>
 @endsection
 
 @section('content')
 
 {{-- over view --}}
-<div class="panel panel-default">
+<div class="panel panel-primary">
     <div class="panel-heading">
         <h3 class="panel-title">Rekam Detail Barang</h3>
     </div>
@@ -58,7 +61,6 @@ $(document).ready(function(){
         var nilaiKurslabel = $("#pilihkurs option:selected").text();
         var inputKurs = $('#kurs_nilai').val(nilaiKurs);
         var kurs_label = $('#kurs_label').val(nilaiKurslabel);
-        // console.log(inputKurs);
     });
 
     $(".pilihhs").select2({
@@ -116,7 +118,7 @@ $(document).ready(function(){
             alert('negatif');
         }
         
-        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+        var number_string = angka.toString().replace(/[^,\d]/g, ''),
         split   = number_string.split(','),
         sisa    = split[0].length % 3,
         rupiah  = split[0].substr(0, sisa),
@@ -141,7 +143,7 @@ $(document).ready(function(){
         return nilai;
     }
 
-    // 
+    // Mengubah semua input menjadi format koma dan titik
     $('#harga').keyup(function(){
         $('#harga').val(formatRupiah($('#harga').val()));
     });
@@ -203,13 +205,17 @@ $(document).ready(function(){
         var asuransi = convertToAngka($('#asuransi').val());
 
         var cif = harga + freight + asuransi;
-        $('#cif').val(formatRupiah(cif.toFixed(2).replace('.', ',')));
+        $('#cif').val(formatRupiah(cif.toFixed(4).replace('.', ',')));
 
         var kurs = parseFloat($('#kurs_nilai').val());
         // $('#kurs_nilai').val(formatRupiah(kurs.toFixed(4).replace('.', ',')));
 
-        var nilai_pabean = Math.round(cif * kurs);
-        $('#nilai_pabean').val(formatRupiah(nilai_pabean.toFixed(0).replace('.', ',')));
+        // var kurs = convertToAngka($('#kurs_nilai').val());
+
+        var nilai_pabean = cif * kurs;
+        
+        $('#nilai_pabean').val(formatRupiah(nilai_pabean.toFixed(4).replace('.', ',')));
+
 
         var trf_bm = convertToAngka($('#trf_bm').val());
         var trf_ppn = convertToAngka($('#trf_ppn').val());
@@ -232,29 +238,32 @@ $(document).ready(function(){
         var dibebaskan_pph = convertToAngka($('#dibebaskan_pph').val());
 
 
-        //hitung BM
-        var bayar_bm = Math.round((trf_bm /100) * nilai_pabean);
+        //Hitung BM
+        var dbm = (trf_bm /100) * nilai_pabean;
+        var bayar_bm = (Math.ceil(dbm/1000)) * 1000;
         var nilaiBm = bayar_bm;
 
         //BM + nilai pabean
-        nilaiHitungPajak =  Math.round(nilai_pabean + nilaiBm);
+        nilaiImpor =  nilai_pabean + nilaiBm;
 
         bayar_bm = bayar_bm - ditanggung_pmrnth_bm;
         bayar_bm = bayar_bm - ditangguhkan_bm;
         bayar_bm = bayar_bm - dibebaskan_bm;
 
-        var bayar_ppn = Math.round((trf_ppn / 100)* nilaiHitungPajak);
+        var dppn = (trf_ppn / 100) * nilaiImpor
+        var bayar_ppn = Math.ceil(dppn/1000)*1000;
         bayar_ppn = bayar_ppn - ditanggung_pmrnth_ppn;
         bayar_ppn = bayar_ppn - ditangguhkan_ppn;
         bayar_ppn = bayar_ppn - dibebaskan_ppn;
 
-        var bayar_ppnbm = Math.round((trf_ppnbm / 100) * nilaiHitungPajak);
+        var dppnbm = (trf_ppnbm / 100) * nilaiImpor
+        var bayar_ppnbm = Math.ceil(dppnbm/1000)*1000;
         bayar_ppnbm = bayar_ppnbm - ditanggung_pmrnth_ppnbm;
         bayar_ppnbm = bayar_ppnbm - ditangguhkan_ppnbm;
         bayar_ppnbm = bayar_ppnbm - dibebaskan_ppnbm;
 
-
-        var bayar_pph = Math.round((trf_pph / 100) * nilaiHitungPajak);
+        var dpph = (trf_pph / 100) * nilaiImpor
+        var bayar_pph = Math.ceil(dpph/1000)*1000;
         bayar_pph = bayar_pph - ditanggung_pmrnth_pph;
         bayar_pph = bayar_pph - ditangguhkan_pph;
         bayar_pph = bayar_pph - dibebaskan_pph;
@@ -264,54 +273,60 @@ $(document).ready(function(){
         var dibebaskan_total = dibebaskan_bm + dibebaskan_ppn + dibebaskan_ppnbm + dibebaskan_pph;
         var bayar_total = bayar_bm + bayar_ppn + bayar_ppnbm + bayar_pph;
 
+        bayar_total = Math.ceil(bayar_total/1000)*1000;
+
         //add to input
         $('#trf_bm').val(formatRupiah(trf_bm.toFixed(1).replace('.', ',')));
         $('#trf_ppn').val(formatRupiah(trf_ppn.toFixed(1).replace('.', ',')));
         $('#trf_ppnbm').val(formatRupiah(trf_ppnbm.toFixed(1).replace('.', ',')));
         $('#trf_pph').val(formatRupiah(trf_pph.toFixed(1).replace('.', ',')));
 
-        $('#ditanggung_pmrnth_total').val(formatRupiah(ditanggung_pmrnth_total.toFixed(2).replace('.', ',')));
-        $('#ditangguhkan_total').val(formatRupiah(ditangguhkan_total.toFixed(2).replace('.', ',')));
-        $('#dibebaskan_total').val(formatRupiah(dibebaskan_total.toFixed(2).replace('.', ',')));
+        $('#ditanggung_pmrnth_total').val(formatRupiah(ditanggung_pmrnth_total.toFixed(0).replace('.', ',')));
+        $('#ditangguhkan_total').val(formatRupiah(ditangguhkan_total.toFixed(0).replace('.', ',')));
+        $('#dibebaskan_total').val(formatRupiah(dibebaskan_total.toFixed(0).replace('.', ',')));
 
-        $('#bayar_bm').val(formatRupiah(bayar_bm.toFixed(2).replace('.', ',')));
+        $('#bayar_bm').val(formatRupiah(bayar_bm.toFixed(0).replace('.', ',')));
         if(bayar_bm < 0){
             $('#bayar_bm').val(bayar_bm);
         }
 
-        $('#bayar_ppn').val(formatRupiah(bayar_ppn.toFixed(2).replace('.', ',')));
+        $('#bayar_ppn').val(formatRupiah(bayar_ppn.toFixed(0).replace('.', ',')));
         if(bayar_ppn < 0){
             $('#bayar_ppn').val(bayar_ppn);
         }
 
-        $('#bayar_ppnbm').val(formatRupiah(bayar_ppnbm.toFixed(2).replace('.', ',')));
+        $('#bayar_ppnbm').val(formatRupiah(bayar_ppnbm.toFixed(0).replace('.', ',')));
         if(bayar_ppnbm < 0){
             $('#bayar_ppnbm').val(bayar_ppnbm);
         }
 
-        $('#bayar_pph').val(formatRupiah(bayar_pph.toFixed(2).replace('.', ',')));
+        $('#bayar_pph').val(formatRupiah(bayar_pph.toFixed(0).replace('.', ',')));
         if(bayar_pph < 0){
             $('#bayar_pph').val(bayar_pph);
         }
 
-        $('#bayar_pph').val(formatRupiah(bayar_pph.toFixed(2).replace('.', ',')));
+        $('#bayar_pph').val(formatRupiah(bayar_pph.toFixed(0).replace('.', ',')));
         if(bayar_pph < 0){
             $('#bayar_pph').val(bayar_pph);
         }
 
-        $('#bayar_total').val(formatRupiah(bayar_total.toFixed(2).replace('.', ',')));
+        $('#bayar_total').val(formatRupiah(bayar_total.toFixed(0).replace('.', ',')));
         if(bayar_total < 0){
             $('#bayar_total').val(bayar_total);
         }
 
-        console.log(bayar_bm);
-        console.log(bayar_ppn);
-        console.log(bayar_ppnbm);
-        console.log(bayar_total);
-        console.log(ditanggung_pmrnth_total);
-        console.log(ditangguhkan_total);
-        console.log(dibebaskan_total);
-        console.log(bayar_total);
+        console.log("harga " + harga);
+        console.log("freight " + freight);
+        console.log("asuransi " + asuransi);
+        console.log("bayar bm " + bayar_bm);
+        console.log("bayar ppn " + bayar_ppn);
+        console.log("bayar ppnbm " + bayar_ppnbm);
+        console.log("bayar total " + bayar_total);
+        console.log("ditanggung pemerintah total" + ditanggung_pmrnth_total);
+        console.log("ditangguhkan total " + ditangguhkan_total);
+        console.log("dibebaskan total " + dibebaskan_total);
+        console.log("bayar total " + bayar_total);
+        console.log('asdasdasdasd');
 
     });
 });

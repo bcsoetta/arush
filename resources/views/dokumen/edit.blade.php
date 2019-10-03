@@ -12,7 +12,7 @@ Edit Dokumen
 @section('content')
 
 {{-- over view --}}
-<div class="panel panel-default">
+<div class="panel panel-primary">
     <div class="panel-heading">
         <h3 class="panel-title">Edit Dokumen</h3>
     </div>

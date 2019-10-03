@@ -41,52 +41,42 @@
                                     <td colspan="2">
                                         <select class="form-control pilihhs {{ $errors->has('hs_code') ? 'salah' : '' }}" style=" width: 100%" placeholder="cari">
                                         </select>
+                                        *pastikan HS sudah yang paling terbaru
                                     </td>
                                     <input type="text" id="hs" name="hs_code" hidden>
                                 </tr>
                                 <tr >
-                                    <th style="width:200px">JENIS HARGA</th>
-                                    <td colspan="2">
-                                        <select class="form-control jenisharga {{ $errors->has('harga_jenis') ? 'salah' : '' }}" style=" width: 100%" name="harga_jenis" placeholder="pilih">
-                                        <option value=""></option>
-                                        <option value="CIF">CIF</option>
-                                        <option value="FOB">FOB</option>
-                                        <option value="C&F">C&amp;F</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr >
                                     <th style="width:200px">HARGA</th>
                                     <td colspan="2">
-                                        <input type="text" class="form-control {{ $errors->has('harga_barang') ? 'salah' : '' }}" name="harga_barang" id="harga" value="0">
+                                        <input type="text" class="form-control {{ $errors->has('harga_barang') ? 'salah' : '' }}" name="harga_barang" id="harga" value="0" style="font-size: 2.1rem;">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th style="width:200px">FREIGHT</th>
                                     <td colspan="2">
-                                        <input type="text" class="form-control {{ $errors->has('freight') ? 'salah' : '' }}" name="freight" id="freight" value="0">
+                                        <input type="text" class="form-control {{ $errors->has('freight') ? 'salah' : '' }}" name="freight" id="freight" value="0" style="font-size: 2.1rem;">
                                     </td>                    
                                 </tr>
                                 <tr>
                                     <th style="width:200px">ASURANSI</th>
                                     <td colspan="2">
-                                        <input type="text" class="form-control {{ $errors->has('asuransi') ? 'salah' : '' }}" name="asuransi" id="asuransi" value="0">
+                                        <input type="text" class="form-control {{ $errors->has('asuransi') ? 'salah' : '' }}" name="asuransi" id="asuransi" value="0" style="font-size: 2.1rem;">
                                     </td>                    
                                 </tr>
                                 <tr >
                                     <th style="width:200px">CIF</th>
                                     <td colspan="2">
-                                        <input type="text" class="form-control {{ $errors->has('cif') ? 'salah' : '' }}" name="cif" id="cif" readonly value="0">
+                                        <input type="text" class="form-control {{ $errors->has('cif') ? 'salah' : '' }}" name="cif" id="cif" readonly value="0" style="font-size: 2.1rem;">
                                     </td>                    
                                 </tr>
                                 <tr>
                                     <th style="width:200px">KURS</th>
-                                    <td><input type="text" class="form-control {{ $errors->has('kurs_nilai') ? 'salah' : '' }}" id="kurs_nilai" name="kurs_nilai" value="0" readonly></td>
+                                    <td><input type="text" class="form-control {{ $errors->has('kurs_nilai') ? 'salah' : '' }}" id="kurs_nilai" name="kurs_nilai" value="0" readonly style="font-size: 2.1rem;"></td>
                                     <td>
                                         <select class="form-control pilihkurs {{ $errors->has('kurs_label') ? 'salah' : '' }}" id="pilihkurs" placeholder="Jenis kurs" style=" width: 100%">
                                             <option ></option>
                                             @foreach($kurs as $valuta)
-                                            <option value="{{$valuta->nilai}}">{{$valuta->code}} - {{$valuta->label}}</option>                                  
+                                            <option value="{{$valuta->nilai}}">{{$valuta->code}}</option>                                  
                                             @endforeach
                                         </select>
                                         <input type="hidden" class="form-control" id="kurs_label" name="kurs_label" readonly>
@@ -95,7 +85,7 @@
                                 <tr>
                                     <th style="width:200px">NILAI PABEAN</th>
                                     <td colspan="2">
-                                        <input type="text" class="form-control {{ $errors->has('nilai_pabean') ? 'salah' : '' }}" name="nilai_pabean" id="nilai_pabean" value="0" readonly>
+                                        <input type="text" class="form-control {{ $errors->has('nilai_pabean') ? 'salah' : '' }}" name="nilai_pabean" id="nilai_pabean" value="0" readonly style="font-size: 2.1rem;">
                                     </td>                    
                                 </tr>
                             </tbody>
@@ -189,24 +179,26 @@
                                     <th>TOTAL</th>
                                     <td></td>
                                     <td>
-                                        <input type="text" class="form-control {{ $errors->has('bayar_total') ? 'salah' : '' }}" value="0" name="bayar_total" id="bayar_total">
+                                        <input type="text" class="form-control {{ $errors->has('bayar_total') ? 'salah' : '' }}" value="0" name="bayar_total" id="bayar_total" style="font-size: 2.1rem;">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control {{ $errors->has('ditanggung_pmrnth_total') ? 'salah' : '' }}" value="0" name="ditanggung_pmrnth_total" id="ditanggung_pmrnth_total">
+                                        <input type="text" class="form-control {{ $errors->has('ditanggung_pmrnth_total') ? 'salah' : '' }}" value="0" name="ditanggung_pmrnth_total" id="ditanggung_pmrnth_total" style="font-size: 2.1rem;">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control {{ $errors->has('ditangguhkan_total') ? 'salah' : '' }}" value="0" name="ditangguhkan_total" id="ditangguhkan_total">
+                                        <input type="text" class="form-control {{ $errors->has('ditangguhkan_total') ? 'salah' : '' }}" value="0" name="ditangguhkan_total" id="ditangguhkan_total" style="font-size: 2.1rem;">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control {{ $errors->has('dibebaskan_total') ? 'salah' : '' }}" value="0" name="dibebaskan_total" id="dibebaskan_total">
+                                        <input type="text" class="form-control {{ $errors->has('dibebaskan_total') ? 'salah' : '' }}" value="0" name="dibebaskan_total" id="dibebaskan_total" style="font-size: 2.1rem;">
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
+                    <span>* Pernyataan:</span>
+                    <span>Dengan Merekam Tombol 'Simpan' Berarti User sudah memastikan bahwa Kurs dan tarif HS sudah sesuai HS terbaru dan terupdate</span>
                     <hr>
                     <div class="form-group">
                         <div class="col-sm-offset-9 pull-right">
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            <button type="submit" class="btn btn-primary" onclick="konfirm()">Simpan</button>
                         </div>
                     </div>

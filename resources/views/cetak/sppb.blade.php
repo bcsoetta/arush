@@ -1,6 +1,4 @@
-<html>
-
-<head>
+<html><head>
 <meta http-equiv=Content-Type content="text/html; charset=windows-1252">
 <meta name=Generator content="Microsoft Word 15 (filtered)">
 <title>Surat Persetujuan Pengeluaran Barang</title>
@@ -50,13 +48,8 @@ div.WordSection1
   {page:WordSection1;}
 -->
 </style>
-
-</head>
-
-<body lang=IN>
-
+</head><body lang=IN>
 <div class=WordSection1>
-
 <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-autospace:
 none'><span style='font-family:"Arial",sans-serif'>KEMENTERIAN KEUANGAN
 REPUBLIK INDONESIA</span></p>
@@ -96,7 +89,7 @@ PERSETUJUAN PENGELUARAN BARANG (SPPB)</span></u></b></p>
   </td>
   <td width=187 valign=top style='width:140.1pt;padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
-  normal'><span style='font-family:"Arial-BoldMT",sans-serif'>{{$dokumen->daftar_no}}</span></p>
+  normal'><span style='font-family:"Arial-BoldMT",sans-serif'>{{$dokumen->sppb->no_sppb}}</span></p>
   </td>
   <td width=86 valign=top style='width:50.4pt;padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=MsoNormal align=right style='margin-bottom:0cm;margin-bottom:.0001pt;
@@ -108,7 +101,7 @@ PERSETUJUAN PENGELUARAN BARANG (SPPB)</span></u></b></p>
   </td>
   <td width=20 valign=top style='width:130.1pt;padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
-  normal'><span style='font-family:"Arial-BoldMT",sans-serif'>{{$dokumen->daftar_tgl}}</span></p>
+  normal'><span style='font-family:"Arial-BoldMT",sans-serif'>{{$dokumen->sppb->created_at}}</span></p>
   </td>
  </tr>
 </table>
@@ -637,7 +630,4 @@ style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
  </tr>
 </table>
 </div>
-
-</body>
-
-</html>
+</body></html>

@@ -24,9 +24,9 @@ class UsersController extends Controller
         //     return back();
         // }
 
-        $users = User::orderBy('active', 'desc')->orderBy('name')->paginate(10);
-        $no=1;
-        return view('admin.users.index', compact('users', 'no'));
+        $users = User::all();
+
+        return view('admin.users.index', compact('users'));
     }
 
     /**

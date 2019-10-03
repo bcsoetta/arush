@@ -13,7 +13,7 @@ Pemeriksa
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading">Perhitungan Nilai Jaminan</div>
                 <div class="panel-body" style="text-align: center">
                     <h3>Perhitungan Nilai Jaminan</h3>

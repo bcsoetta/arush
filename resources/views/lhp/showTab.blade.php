@@ -9,7 +9,7 @@ LHP
 @endsection
 
 @section('content')
-<div class="panel panel-default">
+<div class="panel panel-primary">
     <div class="panel-heading">
         <h2 class="panel-title"><strong>Dokumen Lengkap</strong></h2>
     </div>
@@ -23,6 +23,14 @@ LHP
                 <hr>
                 {{-- <div class="row"> --}}
                     <form class="form-horizontal">
+
+                        <div class="form-group{{ $errors->has('tgl_periksa') ? ' has-error' : '' }}" id="tgl">
+                            <label for="tgl_periksa" class="col-md-2 control-label">Nomor LHP</label>
+
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" name="no_lhp" value="{{$lhp->no_lhp}}">
+                            </div>
+                        </div>
 
                         <div class="form-group{{ $errors->has('tgl_periksa') ? ' has-error' : '' }}" id="tgl">
                             <label for="tgl_periksa" class="col-md-2 control-label">Tanggal Periksa</label>
@@ -135,7 +143,7 @@ LHP
                         <div class="form-group{{ $errors->has('hasil_pemeriksaan') ? ' has-error' : '' }}">
                             <label for="hasil_pemeriksaan" class="col-md-2 control-label">Hasil Pemeriksaaan :</label>
                         </div>
-                        <div class="panel panel-default">
+                        <div class="panel panel-primary">
                             <div class="panel-body">
                                 <div  class="table-responsive">
                                     <table class="table table-hover" id="hasil_periksa">
@@ -199,11 +207,13 @@ LHP
                                 <div class="row justify-content-center">
                                     <div class="col-md-12">
                                         <div class="row">
-                                            @foreach($photos as $photo)
-                                            <a href="{{asset("storage/lhp_photos/$photo->filename")}}" data-toggle="lightbox" data-gallery="foto_lhp" class="col-sm-4">
-                                                <img src="{{asset("storage/lhp_photos/$photo->filename")}}" class="img-responsive">
-                                            </a>
-                                            @endforeach
+                                            <div class="col-md-12">
+                                                @foreach($photos as $photo)
+                                                <a href="{{asset("storage/lhp_photos/$photo->filename")}}" data-toggle="lightbox" data-gallery="foto_lhp" class="col-sm-4">
+                                                    <img src="{{asset("storage/lhp_photos/$photo->filename")}}" class="img-responsive">
+                                                </a>
+                                                @endforeach
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -5,7 +5,7 @@ Lokasi
 @endsection
 
 @section('content')
-<div class="panel panel-default">
+<div class="panel panel-primary">
     <div class="panel-heading">
         <h3 class="panel-title">Lokasi</h3>
     </div>

@@ -43,7 +43,7 @@ class RolesController extends Controller
     {
         $this->validate($request,[
             'name' => 'required|min:4|unique:roles',
-            'label' => 'required|min:4'
+            'label' => 'required|min:2'
         ]);
 
         $role = Role::create($request->except('permission'));

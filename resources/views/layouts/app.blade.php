@@ -8,6 +8,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Arush - @yield('pageName')</title>
     <!-- Styles -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" type="/imagesddd.png" href="#"/>
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/sweetalert2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <style>
@@ -19,8 +22,8 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
+        <nav class="navbar navbar-inverse navbar-static-top">
+            <div class="container-fluid">
                 <div class="navbar-header">
 
                     <!-- Collapsed Hamburger -->
@@ -32,7 +35,7 @@
                     </button>
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        Arush
+                        <b>Arush</b>
                     </a>
                 </div>
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
@@ -48,16 +51,35 @@
 <li class="active">Data</li>
 </ol> --}}
 </div>
-<div class="container">
+<div class="container-fluid">
     @yield('content')
 </div>
 </div>
 <!-- Scripts -->
 {{-- <script src="{{ asset('js/app.js') }}"></script> --}}
-<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
 @include('sweet::alert')
 @yield('scripts')
+<script>
+    function konfirm() {
+        event.preventDefault(); // prevent form submit
+        var form = event.target.form; // storing the form
+        swal({
+            title: 'Yakin !',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya',
+            cancelButtonText: "Tidak",
+            }).then((isConfirm) => {
+            if (isConfirm) {
+                form.submit();  // submitting the form when user press yes
+            }
+        });
+    }
+</script>
 </body>
 </html>

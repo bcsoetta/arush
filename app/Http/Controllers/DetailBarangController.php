@@ -80,10 +80,9 @@ class DetailBarangController extends Controller
             'kemasan_jenis' =>   'required',
             'negara_asal' =>   'required',
             'hs_code' =>   'required',
-            'harga_jenis' =>   'required',
-            'harga_barang' =>   'required|numeric',
-            'freight' =>   'required|numeric',
-            'asuransi' =>   'required|numeric',
+            'harga_barang' =>   'required',
+            'freight' =>   'required',
+            'asuransi' =>   'required',
             'cif' =>   'required',
             'kurs_nilai' =>   'required',
             'kurs_label' =>   'required',
@@ -129,7 +128,6 @@ class DetailBarangController extends Controller
         $detail->kemasan_jenis = $request->kemasan_jenis;
         $detail->negara_asal = $request->negara_asal;
         $detail->hs_code = $request->hs_code;
-        $detail->harga_jenis = $request->harga_jenis;
         $detail->harga_barang = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->harga_barang));
         $detail->freight = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->freight));
         $detail->asuransi = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->asuransi));
@@ -199,6 +197,7 @@ class DetailBarangController extends Controller
             Alert::error('Sorry');
             return back();
         }
+
         $kurs = Kurs::all();
         return view('detailbarang.edit', compact('dokumenDetail', 'kurs'));
     }
@@ -274,37 +273,37 @@ class DetailBarangController extends Controller
         $dokumenDetail->negara_asal = $request->negara_asal;
         $dokumenDetail->hs_code = $request->hs_code;
         $dokumenDetail->harga_jenis = $request->harga_jenis;
-        $dokumenDetail->harga_barang = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->harga_barang));
-        $dokumenDetail->freight = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->freight));
-        $dokumenDetail->asuransi = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->asuransi));
-        $dokumenDetail->cif = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->cif));
+        $dokumenDetail->harga_barang = (double)$request->harga_barang;
+        $dokumenDetail->freight = (double)$request->freight;
+        $dokumenDetail->asuransi = (double)$request->asuransi;
+        $dokumenDetail->cif = (double)$request->cif;
         $dokumenDetail->kurs_nilai = $request->kurs_nilai;
         $dokumenDetail->kurs_label = $request->kurs_label;
-        $dokumenDetail->nilai_pabean = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->nilai_pabean));
-        $dokumenDetail->trf_bm = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->trf_bm));
-        $dokumenDetail->trf_ppn = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->trf_ppn));
-        $dokumenDetail->trf_ppnbm = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->trf_ppnbm));
-        $dokumenDetail->trf_pph = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->trf_pph));
-        $dokumenDetail->bayar_bm = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->bayar_bm));
-        $dokumenDetail->bayar_ppn = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->bayar_ppn));
-        $dokumenDetail->bayar_ppnbm = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->bayar_ppnbm));
-        $dokumenDetail->bayar_pph = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->bayar_pph));
-        $dokumenDetail->bayar_total = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->bayar_total));
-        $dokumenDetail->ditanggung_pmrnth_bm = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->ditanggung_pmrnth_bm));
-        $dokumenDetail->ditanggung_pmrnth_ppn = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->ditanggung_pmrnth_ppn));
-        $dokumenDetail->ditanggung_pmrnth_ppnbm = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->ditanggung_pmrnth_ppnbm));
-        $dokumenDetail->ditanggung_pmrnth_pph = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->ditanggung_pmrnth_pph));
-        $dokumenDetail->ditanggung_pmrnth_total = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->ditanggung_pmrnth_total));
-        $dokumenDetail->ditangguhkan_bm = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->ditangguhkan_bm));
-        $dokumenDetail->ditangguhkan_ppn = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->ditangguhkan_ppn));
-        $dokumenDetail->ditangguhkan_ppnbm = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->ditangguhkan_ppnbm));
-        $dokumenDetail->ditangguhkan_pph = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->ditangguhkan_pph));
-        $dokumenDetail->ditangguhkan_total = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->ditangguhkan_total));
-        $dokumenDetail->dibebaskan_bm = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->dibebaskan_bm));
-        $dokumenDetail->dibebaskan_ppn = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->dibebaskan_ppn));
-        $dokumenDetail->dibebaskan_ppnbm = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->dibebaskan_ppnbm));
-        $dokumenDetail->dibebaskan_pph = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->dibebaskan_pph));
-        $dokumenDetail->dibebaskan_total = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->dibebaskan_total));
+        $dokumenDetail->nilai_pabean = (double)$request->nilai_pabean;
+        $dokumenDetail->trf_bm = (double)$request->trf_bm;
+        $dokumenDetail->trf_ppn = (double)$request->trf_ppn;
+        $dokumenDetail->trf_ppnbm = (double)$request->trf_ppnbm;
+        $dokumenDetail->trf_pph = (double)$request->trf_pph;
+        $dokumenDetail->bayar_bm = (double)$request->bayar_bm;
+        $dokumenDetail->bayar_ppn = (double)$request->bayar_ppn;
+        $dokumenDetail->bayar_ppnbm = (double)$request->bayar_ppnbm;
+        $dokumenDetail->bayar_pph = (double)$request->bayar_pph;
+        $dokumenDetail->bayar_total = (double)$request->bayar_total;
+        $dokumenDetail->ditanggung_pmrnth_bm = (double)$request->ditanggung_pmrnth_bm;
+        $dokumenDetail->ditanggung_pmrnth_ppn = (double)$request->ditanggung_pmrnth_ppn;
+        $dokumenDetail->ditanggung_pmrnth_ppnbm = (double)$request->ditanggung_pmrnth_ppnbm;
+        $dokumenDetail->ditanggung_pmrnth_pph = (double)$request->ditanggung_pmrnth_pph;
+        $dokumenDetail->ditanggung_pmrnth_total = (double)$request->ditanggung_pmrnth_total;
+        $dokumenDetail->ditangguhkan_bm = (double)$request->ditangguhkan_bm;
+        $dokumenDetail->ditangguhkan_ppn = (double)$request->ditangguhkan_ppn;
+        $dokumenDetail->ditangguhkan_ppnbm = (double)$request->ditangguhkan_ppnbm;
+        $dokumenDetail->ditangguhkan_pph = (double)$request->ditangguhkan_pph;
+        $dokumenDetail->ditangguhkan_total = (double)$request->ditangguhkan_total;
+        $dokumenDetail->dibebaskan_bm = (double)$request->dibebaskan_bm;
+        $dokumenDetail->dibebaskan_ppn = (double)$request->dibebaskan_ppn;
+        $dokumenDetail->dibebaskan_ppnbm = (double)$request->dibebaskan_ppnbm;
+        $dokumenDetail->dibebaskan_pph = (double)$request->dibebaskan_pph;
+        $dokumenDetail->dibebaskan_total = (double)$request->dibebaskan_total;
 
         $dokumenDetail->save();
 

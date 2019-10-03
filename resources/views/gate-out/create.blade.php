@@ -10,10 +10,10 @@ Dokumen
 
 @section('content')
 
-@if(count($dokumen) > 0)
+
 <div class="row">
     <div class="col-md-12">
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading">Dokumen</div>
             <div class="panel-body">
                 <h3>Dokumen :</h3>
@@ -25,7 +25,7 @@ Dokumen
                             <th>PPJK</th>
                             <th>MAWB</th>
                             <th>HAWB</th>
-                            <th>Setatus</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -82,7 +82,7 @@ Dokumen
                     </div>
                     <div class="form-group">
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-danger center-block">
+                            <button type="submit" class="btn btn-danger center-block" onclick="konfirm()">
                                 Rekam Pengeluaran Barang
                             </button>
                         </div>
@@ -92,18 +92,18 @@ Dokumen
         </div>
     </div>
 </div>
-@else
-<div class="row">
+
+<!-- <div class="row">
     <div class="col-md-12">
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading">Dokumen</div>
             <div class="panel-body">
                 <p>Tidak ketemu</p>
             </div>
         </div>
     </div>
-</div>
-@endif
+</div> -->
+
 
 @endsection
 

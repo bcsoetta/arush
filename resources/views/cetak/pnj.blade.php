@@ -1,6 +1,4 @@
-<html>
-
-<head>
+<html><head>
 <meta http-equiv=Content-Type content="text/html; charset=windows-1252">
 <meta name=Generator content="Microsoft Word 15 (filtered)">
 <title>Perhitungan Nilai Jaminan</title>
@@ -72,11 +70,7 @@ div.WordSection1
 ul
   {margin-bottom:0in;}
 -->
-</style>
-
-</head>
-
-<body lang=EN-US>
+</style></head><body lang=EN-US>
 
 <div class=WordSection1>
 
@@ -487,8 +481,4 @@ margin-left:337.5pt;margin-bottom:.0001pt'><span lang=IN style='font-family:
 <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt'><span
 style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
 
-</div>
-
-</body>
-
-</html>
+</div></body></html>

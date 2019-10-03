@@ -16,9 +16,19 @@ class Dokumen extends Model
         return $this->hasMany('App\DokumenDetail');
     }
 
+    public function dokumenPelengkap()
+    {
+        return $this->hasMany('App\DokumenPelengkap');
+    }
+
+    public function logStatus()
+    {
+        return $this->hasMany('App\LogStatus')->oldest();
+    }
+
     public function ip()
     {
-        return $this->hasOne('App\Ip')->latest();
+        return $this->hasOne('App\Ip', 'dokumen_id');
     }
 
     public function lhp()
@@ -38,18 +48,38 @@ class Dokumen extends Model
 
     public function definitif()
     {
-        return $this->hasOne('App\DokumenDefinitif');
+        return $this->hasOne('App\DokumenDefinitif', 'dokumen_id');
+    }
+
+    public function jaminan()
+    {
+        return $this->belongsToMany('App\Jaminan', 'dokumen_jaminan', 'dokumen_id', 'jaminan_id');
     }
 
     public function penomoran($codeNomor)
     {
         $tahun = date('Y');
+
+        if (!$codeNomor) {
+            dd('tidak ada code nomor');
+            die;
+        }
+        //CEK NOMOR
         $adaNomor = Penomoran::where('tahun', $tahun)->where('kode', $codeNomor)->first();
+
+        //#code nomor
+        //NOMOR_RH
+        //NOMOR_IP
+        //NOMOR_LHP
+        //NOMOR_BA
+        //NOMOR_SPPB
+        //NOMOR_JAMINAN
         
+        //JIKA TIDAK ADA
         if ($adaNomor == null){
             $nomorBaru = new Penomoran;
             $nomorBaru->nomor = 1;
-            $nomorBaru->kode = 'PENDAFTARAN RH';
+            $nomorBaru->kode = $codeNomor;
             $nomorBaru->tahun = $tahun;
             $nomorBaru->save();
             $nomor = $nomorBaru->nomor;
@@ -85,12 +115,12 @@ class Dokumen extends Model
 
     public function setImportirNpwpAttribute($value)
     {
-        $this->attributes['importir_npwp'] = preg_replace('/[^0-9]/', '', $value);
+        $this->attributes['importir_npwp'] = preg_replace('/[^0-9a-zA-Z]/', '', $value);
     }
 
     public function setPpjkNpwpAttribute($value)
     {
-        $this->attributes['ppjk_npwp'] = preg_replace('/[^0-9]/', '', $value);
+        $this->attributes['ppjk_npwp'] = preg_replace('/[^0-9a-zA-Z]/', '', $value);
     }
 
     public function setTibaTglAttribute($value)
@@ -177,7 +207,7 @@ class Dokumen extends Model
         if (!$value) {
             return $value = '';
         }
-        $value = str_pad($value, 5, '0', STR_PAD_LEFT);
+        $value = str_pad($value, 4, '0', STR_PAD_LEFT);
         return $value;
     }
 
@@ -186,7 +216,7 @@ class Dokumen extends Model
         if (!$value) {
             return $value = '';
         }
-        $value = str_pad($value, 5, '0', STR_PAD_LEFT);
+        $value = str_pad($value, 4, '0', STR_PAD_LEFT);
         return $value;
     }
 
@@ -195,7 +225,7 @@ class Dokumen extends Model
         if (!$value) {
             return $value = '';
         }
-        $value = str_pad($value, 5, '0', STR_PAD_LEFT);
+        $value = str_pad($value, 4, '0', STR_PAD_LEFT);
         return $value;
     }
 }

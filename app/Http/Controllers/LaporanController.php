@@ -235,6 +235,11 @@ class LaporanController extends Controller
                      'BRUTTO',
                      'NETTO',
                      'LOKASI',
+                     'PHT_BAYAR_BM',
+                     'PHT_BAYAR_PPN',
+                     'PHT_BAYAR_PPNBM',
+                     'PHT_BAYAR_PPH',
+                     'PHT_BAYAR_TOTAL',
                      'NO FASILITAS',
                      'TGL FASILITAS',
                      'KET FASILITAS',
@@ -274,6 +279,7 @@ class LaporanController extends Controller
                 ]);
                  $no = 1;
                  foreach ($dokumen as $val) {
+                    //  dd($val->detail->sum('bayar_bm'));
                      $sheet->row(++$row, [
                          $no++, 
                          $val->daftar_no, 
@@ -294,6 +300,11 @@ class LaporanController extends Controller
                          $val->brutto, 
                          $val->netto, 
                          $val->lokasi_label, 
+                         $val->detail->sum('bayar_bm'), 
+                         $val->detail->sum('bayar_ppn'), 
+                         $val->detail->sum('bayar_ppnbm'), 
+                         $val->detail->sum('bayar_pph'), 
+                         $val->detail->sum('bayar_total'), 
                          $val->no_fasilitas, 
                          $val->tgl_fasilitas, 
                          $val->ket_fasilitas, 

@@ -51,9 +51,9 @@
                                     <td>{{$dok->hawb_tgl}}</td>
                                     <td>{{$dok->lokasi_label}}</td>
                                     <td>{{$dok->status_label}}</td>
-                                    <td>{{$dok->sppb->no_sppb}}</td>
-                                    <td>{{$dok->sppb->created_at}}</td>
-                                    <td>{{$dok->sppb->waktu_keluar}}</td>
+                                    <td>{{$dok->sppb['no_sppb']}}</td>
+                                    <td>{{$dok->sppb['created_at']}}</td>
+                                    <td>{{$dok->sppb['waktu_keluar']}}</td>
                                     <td style="text-align:center">{{$dok->selisih_hari}}</td>
                                     <td><a class="btn btn-xs btn-primary" href="{{route('pendok.create', $dok->id)}}">Rekam PIB/PIBK</a></td>
                                 </tr>

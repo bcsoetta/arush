@@ -31,7 +31,6 @@
             <li><a href="{{route('laporan.belumGateOut')}}">Dokumen Sudah SPPB, Belum Keluar</a></li>
             <li><a href="{{route('laporan.harian')}}">Jaminan Harian</a></li>
             <li><a href="{{route('laporan.formDownload')}}">Download Dokumen</a></li>
-            <li><a href="{{route('laporan.dokumenJaminan')}}">Dokumen Jaminan</a></li>
         </ul>
     </li>
     @endcan

@@ -549,26 +549,27 @@ class DokumenController extends Controller
             Alert::error('Sorry');
             return back();
         }
-            $importirBelumPib = Dokumen::whereIn('status_id', [5,6])
+            $dokumen = Dokumen::whereIn('status_id', [5,6])
             ->where('importir_npwp', $request->importir_npwp)
             ->orWhere('ppjk_npwp', $request->ppjk_npwp)
             ->get();
 
             $blokir=[];
 
-            foreach ($importirBelumPib as $doc) {
-                $date1 = date_create(date('Y-m-d', strtotime($doc->sppb->created_at)));
-                $date2 = date_create(date('Y-m-d'));
-                $diff1 = date_diff($date1,$date2);
-                $diff2 = (int) $diff1->format("%a");
-                
-                if($diff2 > 3){
-                    $blokir[] = 1;
-                }
+            $dokumen->map(function($doc){
+                $tglAwal = $doc->sppb->created_at;
+                $tglAwal = implode("-", array_reverse(explode("-", $tglAwal)));
+                $today = date('Y-m-d');
 
-            }
-            
-        return view('dokumen/cek-dokumen', compact('importirBelumPib'));
+                $selisih = $this->hariKerja($tglAwal, $today);
+
+                $doc['selisih_hari'] = $selisih;
+
+                    return $doc;
+
+            });
+
+        return view('dokumen/cek-dokumen', compact('dokumen'));
     }
 
     public function cekNpwp($npwp){
@@ -661,7 +662,7 @@ class DokumenController extends Controller
             
         }
 
-        $jlhHariKerja = count($hariKerja) - count($liburNasional)-1;
+        $jlhHariKerja = count($hariKerja) - count($liburNasional)- 1;
         // $jumlah_sabtuminggu = count($sabtuminggu);
         // $abtotal = $jumlah_cuti + $jumlah_sabtuminggu;
 

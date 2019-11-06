@@ -91,6 +91,10 @@ DashBoard
                     </tbody>
                 </table>
             </div>
+             <!-- <div class="col-md-3">
+                <h2>Dokumen Belum Rekam PIB/PIBK :</h2>
+                <h1>123123</h1>
+            </div> -->
         </div>
         <div class="row">
             <div class="col-md-6">

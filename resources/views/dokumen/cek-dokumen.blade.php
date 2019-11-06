@@ -102,11 +102,11 @@ Rekam Dokumen
             </div>
         </div>
         <hr>
-        @if(isset($importirBelumPib) AND count($importirBelumPib) > 0)
+        @if(isset($dokumen) AND count($dokumen) > 0)
         <div class="row">
             <div class="col-md-12">
-            <h5>Importir: {{$importirBelumPib[0]['importir_nm']}}</h5>
-            <h5>NPWP: {{$importirBelumPib[0]['importir_npwp']}}</h5>
+            <h5>Importir: {{$dokumen[0]['importir_nm']}}</h5>
+            <h5>NPWP: {{$dokumen[0]['importir_npwp']}}</h5>
             <h5>Memiliki Dokumen RH yang belum definitif: </h5>
             <h5>* warna merah lebih dari 3 (tiga) hari, tidak dapat dilakukan perekaman dokumen RH</h5>
             <hr>
@@ -124,19 +124,13 @@ Rekam Dokumen
                             <th>SPPB</th>
                             <th>Tgl</th>
                             <th>Waktu keluar</th>
+                            <th>Hari Stlh SPPB</th>
                             <th>Ket</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($importirBelumPib as $doc)
-                        @php
-                            $date1 = date_create(date('Y-m-d', strtotime($doc->sppb->created_at)));
-                            $date2 = date_create(date('Y-m-d'));
-                            $diff1 = date_diff($date1,$date2);
-                            $diff2 = (int) $diff1->format("%a")
-
-                        @endphp
-                        <tr class="{{$diff2 > 3 ? 'danger': ''}}">
+                        @foreach($dokumen as $doc)
+                        <tr class="{{$doc->selisih_hari > 3 ? 'danger': ''}}">
                             <td style="text-align: center">{{$doc->daftar_no}}</td>
                             <td style="text-align: center">{{$doc->daftar_tgl}}</td>
                             <td>{{$doc->importir_nm}}</td>
@@ -146,6 +140,7 @@ Rekam Dokumen
                             <td style="text-align: center">{{$doc->sppb->no_sppb}}</td>
                             <td style="text-align: center">{{$doc->sppb->created_at}}</td>
                             <td>{{$doc->sppb->waktu_keluar}}</td>
+                            <td style="text-align: center">{{$doc->selisih_hari}}</td>
                             <td style="text-align: center">
                                 <a class='btn btn-primary btn-xs' href="{{route('dokumen.show', $doc->id)}}">Detail</a>
                                 <a class='btn btn-danger btn-xs' href="{{route('pendok.create', $doc->id)}}">Rekam PIB/PIBK</a>

@@ -10,8 +10,18 @@
         <h3 class="panel-title">Download Data</h3>
     </div>
     <div class="panel-body">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="row">
             <div class="col-md-12">
+            <h1>Dokumen</h1>
                 <form class="form-inline" method="get" action="{{ route('laporan.downloadDokumen') }}" style="margin-top: 20px">
                     <div class="form-group tgl">
                         <input type="text" class="form-control" id="" placeholder="Tgl Awal" name="tgl_awal">
@@ -20,6 +30,23 @@
                         <input type="text" class="form-control" id="" placeholder="Tgl akhir" name="tgl_akhir">
                     </div>
                     <button type="submit" class="btn btn-primary">Download</button>
+
+                </form>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+            <h1>Detail Dokumen</h1>
+                <form class="form-inline" method="get" action="{{ route('laporan.downloadDetail') }}" style="margin-top: 20px">
+                    <div class="form-group tgl">
+                        <input type="text" class="form-control" id="" placeholder="Tgl Awal" name="tgl_awal">
+                    </div>
+                    <div class="form-group tgl">
+                        <input type="text" class="form-control" id="" placeholder="Tgl akhir" name="tgl_akhir">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Download</button>
+
                 </form>
             </div>
 

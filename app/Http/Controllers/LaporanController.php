@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Alert;
 use App\Dokumen;
+use App\DokumenDetail;
 use App\Penomoran;
 use App\Pengangkut;
 use App\Lokasi;
@@ -189,10 +190,10 @@ class LaporanController extends Controller
 
     //download dokumen
     public function downloadDokumen(Request $request){
-        // $this->validate($request,[
-        //     'tgl_awal' => 'required',
-        //     'tgl_akhir' => 'required'
-        // ]);
+        $this->validate($request,[
+            'tgl_awal' => 'required',
+            'tgl_akhir' => 'required'
+        ]);
 
 
         $tgl_awal = \DateTime::createFromFormat('d-m-Y',$request->tgl_awal);
@@ -348,6 +349,135 @@ class LaporanController extends Controller
          })->export('xlsx');
     }
 
+    //download detail barang
+    public function downloadDetail(Request $request){
+
+        $this->validate($request,[
+            'tgl_awal' => 'required',
+            'tgl_akhir' => 'required'
+        ]);
+
+
+        $tgl_awal = \DateTime::createFromFormat('d-m-Y',$request->tgl_awal);
+        $tgl_akhir = \DateTime::createFromFormat('d-m-Y',$request->tgl_akhir);
+
+        //karena formatnya d-m-Y 00:00:00
+        //maka ditambah 1 hari supayan last 
+
+        $tgl_awal = $tgl_awal->format('Y-m-d');
+        $tgl_akhir = $tgl_akhir->format('Y-m-d 23:59:59');
+
+        // dd($tgl_akhir);
+
+
+        // $dokumen = DokumenDetail::find(100);
+        $detail = DokumenDetail::whereHas('dokumen', function($query) use ($tgl_awal,$tgl_akhir){
+            $query->whereBetween('daftar_tgl',[$tgl_awal,$tgl_akhir]);
+        })->get();
+
+
+         Excel::create('Dokumen RH', function ($excel) use($detail) {
+             // Set the properties
+             $excel->setTitle('Dokumen Rush Handling')->setCreator('Arush (Aplikasi Rush handling)');
+            
+             $excel->sheet('Dokumen RH', function ($sheet) use ($detail) {
+                 $row = 1;
+                 $sheet->row($row, [
+                     'NO',
+                     'NO RH',
+                     'TGL',
+                     'NAMA IMPORTIR',
+                     'NPWP IMPORTIR',
+                     'URAIAN BARANG',
+                     'JUMLAH KMS',
+                     'JENIS KMS',
+                     'NEGARA ASAL',
+                     'HS',
+                     'JENIS HARGA',
+                     'HARGA BARANG',
+                     'FREIGHT',
+                     'ASURANSI',
+                     'CIF',
+                     'NILAI KURS',
+                     'JENIS KURS',
+                     'NILAI PABEAN',
+                     'TRF BM %',
+                     'TRF PPN %',
+                     'TRF PPNBM %',
+                     'TRF PPH %',
+                     'BAYAR BM',
+                     'BAYAR PPN',
+                     'BAYAR PPNBM',
+                     'BAYAR PPH',
+                     'BAYAR TOTAL',
+                     'DITANGGUNG PMRNT BM',
+                     'DITANGGUNG PMRNT PPN',
+                     'DITANGGUNG PMRNT PPNBM',
+                     'DITANGGUNG PMRNT PPH',
+                     'DITANGGUNG PMRNT TOTAL',
+                     'DITANGGUHKAN BM',
+                     'DITANGGUHKAN PPN',
+                     'DITANGGUHKAN PPNBM',
+                     'DITANGGUHKAN PPH',
+                     'DITANGGUHKAN TOTAL',
+                     'DIBEBASKAN BM',
+                     'DIBEBASKAN PPN',
+                     'DIBEBASKAN PPNBM',
+                     'DIBEBASKAN PPH',
+                     'DIBEBASKAN TOTAL'
+                ]);
+                 $no = 1;
+                 foreach ($detail as $val) {
+                    //  dd($val->detail->sum('bayar_bm'));
+                     $sheet->row(++$row, [
+                         $no++, 
+                         $val->dokumen->daftar_no, 
+                         $val->dokumen->daftar_tgl,
+                         $val->dokumen->importir_nm,
+                         $val->dokumen->importir_npwp,
+                         $val->uraian_barang,
+                         $val->kemasan_jumlah,
+                         $val->kemasan_jenis,
+                         $val->negara_asal,
+                         $val->hs_code,
+                         $val->harga_jenis,
+                         $val->harga_barang,
+                         $val->freight,
+                         $val->asuransi,
+                         $val->cif,
+                         $val->kurs_nilai,
+                         $val->kurs_label,
+                         $val->nilai_pabean,
+                         $val->trf_bm,
+                         $val->trf_ppn,
+                         $val->trf_ppnbm,
+                         $val->trf_pph,
+                         $val->bayar_bm,
+                         $val->bayar_ppn,
+                         $val->bayar_ppnbm,
+                         $val->bayar_pph,
+                         $val->bayar_total,
+                         $val->ditanggung_pmrnth_bm,
+                         $val->ditanggung_pmrnth_ppn,
+                         $val->ditanggung_pmrnth_ppnbm,
+                         $val->ditanggung_pmrnth_pph,
+                         $val->ditanggung_pmrnth_total,
+                         $val->ditangguhkan_bm,
+                         $val->ditangguhkan_ppn,
+                         $val->ditangguhkan_ppnbm,
+                         $val->ditangguhkan_pph,
+                         $val->ditangguhkan_total,
+                         $val->dibebaskan_bm,
+                         $val->dibebaskan_ppn,
+                         $val->dibebaskan_ppnbm,
+                         $val->dibebaskan_pph,
+                         $val->dibebaskan_total
+                    ]);
+                 }
+             });
+
+         })->export('xlsx');
+    }
 
     //fungsi menerima tanggal string format Y-m-d
     //return integer

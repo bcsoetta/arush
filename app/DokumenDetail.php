@@ -10,7 +10,7 @@ class DokumenDetail extends Model
 
     public function dokumen()
     {
-        return $this->belongTo('App\Dokumen');
+        return $this->belongsTo('App\Dokumen');
     }
 
     // //SET TO DATABASE

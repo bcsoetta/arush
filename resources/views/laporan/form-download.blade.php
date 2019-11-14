@@ -35,7 +35,7 @@
             </div>
 
         </div>
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-md-12">
             <h1>Detail Dokumen</h1>
                 <form class="form-inline" method="get" action="{{ route('laporan.downloadDetail') }}" style="margin-top: 20px">
@@ -50,7 +50,7 @@
                 </form>
             </div>
 
-        </div>
+        </div> -->
     </div>
 </div> {{-- end-panel --}} 
 @endsection 

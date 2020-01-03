@@ -221,7 +221,15 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group {{ $errors->has('no_fasilitas') ? ' has-error' : '' }}">
+            <label><input type="checkbox" value="check" checked> Dengan mengklik tombol simpan, saya Menyatakan data yang saya isikan adalah benar</label>
+        </div>
+    </div>
+</div>
 <hr>
+
 <div class="form-group">
     <div>
         <button type="submit" class="btn btn-primary main-color-bg pull-right" onclick="konfirm()">

@@ -194,9 +194,13 @@
                             </tbody>
                         </table>
                     </div>
-                    <span>* Pernyataan:</span>
-                    <span>Dengan Merekam Tombol 'Simpan' Berarti User sudah memastikan bahwa Kurs dan tarif HS sudah sesuai HS terbaru dan terupdate</span>
-                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group {{ $errors->has('no_fasilitas') ? ' has-error' : '' }}">
+                                <label><input type="checkbox" value="check" checked> Dengan mengklik tombol simpan, saya Menyatakan data yang saya isikan adalah benar, dan memastikan bahwa Kurs dan tarif HS sudah sesuai HS berlaku saat data ini disimpan</label>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <div class="col-sm-offset-9 pull-right">
                             <button type="submit" class="btn btn-primary" onclick="konfirm()">Simpan</button>

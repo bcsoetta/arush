@@ -22,7 +22,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-inverse navbar-static-top">
+        <nav class="navbar navbar-default navbar-static-top">
             <div class="container-fluid">
                 <div class="navbar-header">
 
@@ -44,13 +44,7 @@
                 </div>
             </div>
         </nav>
-        <div class="container">
-{{--             <ol class="breadcrumb">
-<li><a href="#">Dasboarad</a></li>
-<li><a href="#">Library</a></li>
-<li class="active">Data</li>
-</ol> --}}
-</div>
+
 <div class="container-fluid">
     @yield('content')
 </div>

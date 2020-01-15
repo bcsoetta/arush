@@ -4,7 +4,7 @@
     <li><a href="{{route('dashboard.index')}}">Dashboard</a></li>
     @endcan
     @can('VIEW-DOKUMEN')
-    <li><a href="{{route('dokumen.index')}}">Dokumen</a></li>
+    <li><a href="{{route('dokumen.proses')}}">Dokumen</a></li>
     @endcan
     @can('VIEW-JAMINAN')
     <li><a href="{{ route('jaminan.index')}}">Jaminan</a></li>

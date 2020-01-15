@@ -20,6 +20,7 @@ Route::post('/dokumen/terima/{id}', 'DokumenController@penomoranDokumen')->name(
 Route::get('/jaminan/dokumen/{id}', 'DokumenController@jaminan')->name('dokumen.jaminan');
 Route::get('/importir', 'DokumenController@importir');
 Route::get('/dataDokumen', 'DokumenController@dataDokumen')->name('dokumen.data');
+Route::get('/dokumen-proses', 'DokumenController@prosesDokumen')->name('dokumen.proses');
 Route::get('/cek-dokumen', 'DokumenController@cekDokumen')->name('dokumen.cekDokumen');
 Route::post('/proses-cek-dokumen', 'DokumenController@prosesCekDokumen')->name('dokumen.prosesCekDokumen');
 Route::get('/cek-dokumen-npwp/{npwp}','DokumenController@cekNpwp')->name('dokumen.cekNpwp');
@@ -159,3 +160,4 @@ Route::get('/laporan-download-detail', 'LaporanController@downloadDetail')->name
 
 
 Route::get('/dashboard', 'DashBoardController@index')->name('dashboard.index');
+Route::get('/dashboard/test', 'DashBoardController@test')->name('dashboard.test');

@@ -180,31 +180,50 @@ class DashBoardController extends Controller
         }
 
         $waktu = DB::select("
-SELECT
-YEAR(b.created_at) AS tahun,
-DATE_FORMAT(b.created_at, '%M') AS bulan,
-avg(TIMESTAMPDIFF(SECOND,a.daftar_tgl,b.created_at)/3600) AS ratarata
-FROM dokumen AS a
-INNER JOIN dokumen_sppb AS b 
-ON a.id = b.dokumen_id
-GROUP BY MONTH(b.created_at)
-ORDER BY MONTH(b.created_at) ASC
-        ");
+                SELECT
+                YEAR(b.created_at) AS tahun,
+                DATE_FORMAT(b.created_at, '%M') AS bulan,
+                avg(TIMESTAMPDIFF(SECOND,a.daftar_tgl,b.created_at)/3600) AS ratarata
+                FROM dokumen AS a
+                INNER JOIN dokumen_sppb AS b 
+                ON a.id = b.dokumen_id
+                GROUP BY MONTH(b.created_at)
+                ORDER BY MONTH(b.created_at) ASC
+            ");
 
 
-        return view('dashboard.index', compact(
-            'users',
-            'dokumen',
-            'sumDokumen', 
-            'dokumenChart',
-            'lhp',
-            'lhpChart',
-            'sumLhp',
-            'importirTerbanyak',
-            'hsTerbanyak',
-            'status',
-            'sumStatus',
-            'waktu'
-        ));
+                    return view('dashboard.index', compact(
+                        'users',
+                        'dokumen',
+                        'sumDokumen', 
+                        'dokumenChart',
+                        'lhp',
+                        'lhpChart',
+                        'sumLhp',
+                        'importirTerbanyak',
+                        'hsTerbanyak',
+                        'status',
+                        'sumStatus',
+                        'waktu'
+                    ));
+    }
+
+    public function test(){
+        $waktu = DB::select("
+                SELECT
+                    YEAR(b.created_at) AS tahun,
+                    a.importir_npwp AS npwp_importir,
+                    a.importir_nm AS nama_importir,
+                    DATE_FORMAT(b.created_at, '%M') AS bulan,
+                    avg(TIMESTAMPDIFF(SECOND,a.daftar_tgl,b.created_at)/3600) AS ratarata
+                FROM dokumen AS a
+                INNER JOIN dokumen_sppb AS b 
+                ON a.id = b.dokumen_id
+                GROUP BY MONTH(b.created_at), npwp_importir, nama_importir
+                ORDER BY npwp_importir, MONTH(b.created_at) ASC
+            ");
+
+            return view('dashboard.importir', compact('waktu'));
+
     }
 }

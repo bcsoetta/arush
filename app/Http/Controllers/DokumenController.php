@@ -36,6 +36,50 @@ class DokumenController extends Controller
         return view('dokumen.index');
     }
 
+    public function prosesDokumen(){
+        if(Gate::denies('VIEW-DOKUMEN'))
+        {
+            Alert::error('Sorry');
+            return back();
+        }
+
+        if (request()->ajax())
+        {
+            $dokumen = DB::table('dokumen')
+                    ->select(
+                        'dokumen.id',
+                        'dokumen.daftar_no',
+                        'dokumen.daftar_tgl',
+                        'dokumen.importir_nm',
+                        'dokumen.hawb_no',
+                        'dokumen.hawb_tgl',
+                        'dokumen.status_label',
+                        'dokumen.status_id',
+                        'dokumen_sppb.no_sppb',
+                        'dokumen_sppb.created_at as tgl_sppb',
+                        'dokumen_sppb.created_at as tgl_sppb',
+                        'dokumen_sppb.waktu_keluar as waktu_keluar',
+                        'dokumen_definitif.nomor as no_pib',
+                        'dokumen_definitif.tanggal as tgl_pib',
+                        'dokumen_definitif.tgl_ntpn as tgl_ntpn'
+                    )
+                    ->leftJoin('dokumen_sppb','dokumen.id','=','dokumen_sppb.dokumen_id')
+                    ->leftJoin('dokumen_definitif','dokumen.id','=','dokumen_definitif.dokumen_id')
+                    ->where('status_id','<', 7)
+                    ->get();
+
+            return Datatables::of($dokumen)
+            
+            ->addColumn('action', function ($dokumen) {
+                $urlDokumen= url('dokumen/'.$dokumen->id);
+                return '<a href="'.$urlDokumen.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Detail</a>';
+            })
+            ->make(true);
+        }
+
+        return view('dokumen.proses');
+    }
+
 
     public function dataDokumen(){
         if(Gate::denies('VIEW-DOKUMEN'))
@@ -53,6 +97,7 @@ class DokumenController extends Controller
                         'dokumen.hawb_no',
                         'dokumen.hawb_tgl',
                         'dokumen.status_label',
+                        'dokumen.status_id',
                         'dokumen_sppb.no_sppb',
                         'dokumen_sppb.created_at as tgl_sppb',
                         'dokumen_sppb.created_at as tgl_sppb',
@@ -65,53 +110,53 @@ class DokumenController extends Controller
                     ->leftJoin('dokumen_definitif','dokumen.id','=','dokumen_definitif.dokumen_id')
                     ->get();
         
-        if (auth()->user()->hasRole('SEKSI')) {
-            $dokumen = DB::table('dokumen')
-                    ->select(
-                        'dokumen.id',
-                        'dokumen.daftar_no',
-                        'dokumen.daftar_tgl',
-                        'dokumen.importir_nm',
-                        'dokumen.hawb_no',
-                        'dokumen.hawb_tgl',
-                        'dokumen.status_label',
-                        'dokumen_sppb.no_sppb',
-                        'dokumen_sppb.created_at as tgl_sppb',
-                        'dokumen_sppb.created_at as tgl_sppb',
-                        'dokumen_sppb.waktu_keluar as waktu_keluar',
-                        'dokumen_definitif.nomor as no_pib',
-                        'dokumen_definitif.tanggal as tgl_pib',
-                        'dokumen_definitif.tgl_ntpn as tgl_ntpn'
-                    )
-                    ->leftJoin('dokumen_sppb','dokumen.id','=','dokumen_sppb.dokumen_id')
-                    ->leftJoin('dokumen_definitif','dokumen.id','=','dokumen_definitif.dokumen_id')
-                    ->where('status_id', 2)->orWhere('status_id', 4)
-                    ->get();
-        }
+        // if (auth()->user()->hasRole('SEKSI')) {
+        //     $dokumen = DB::table('dokumen')
+        //             ->select(
+        //                 'dokumen.id',
+        //                 'dokumen.daftar_no',
+        //                 'dokumen.daftar_tgl',
+        //                 'dokumen.importir_nm',
+        //                 'dokumen.hawb_no',
+        //                 'dokumen.hawb_tgl',
+        //                 'dokumen.status_label',
+        //                 'dokumen_sppb.no_sppb',
+        //                 'dokumen_sppb.created_at as tgl_sppb',
+        //                 'dokumen_sppb.created_at as tgl_sppb',
+        //                 'dokumen_sppb.waktu_keluar as waktu_keluar',
+        //                 'dokumen_definitif.nomor as no_pib',
+        //                 'dokumen_definitif.tanggal as tgl_pib',
+        //                 'dokumen_definitif.tgl_ntpn as tgl_ntpn'
+        //             )
+        //             ->leftJoin('dokumen_sppb','dokumen.id','=','dokumen_sppb.dokumen_id')
+        //             ->leftJoin('dokumen_definitif','dokumen.id','=','dokumen_definitif.dokumen_id')
+        //             ->where('status_id', 2)->orWhere('status_id', 4)
+        //             ->get();
+        // }
 
-        if (auth()->user()->hasRole('ADMIN')) {
-            // $dokumen = Dokumen::where('status_id', 2)->orWhere('status_id', 4);
-            $dokumen = DB::table('dokumen')
-                    ->select(
-                        'dokumen.id',
-                        'dokumen.daftar_no',
-                        'dokumen.daftar_tgl',
-                        'dokumen.importir_nm',
-                        'dokumen.hawb_no',
-                        'dokumen.hawb_tgl',
-                        'dokumen.status_label',
-                        'dokumen_sppb.no_sppb',
-                        'dokumen_sppb.created_at as tgl_sppb',
-                        'dokumen_sppb.created_at as tgl_sppb',
-                        'dokumen_sppb.waktu_keluar as waktu_keluar',
-                        'dokumen_definitif.nomor as no_pib',
-                        'dokumen_definitif.tanggal as tgl_pib',
-                        'dokumen_definitif.tgl_ntpn as tgl_ntpn'
-                    )
-                    ->leftJoin('dokumen_sppb','dokumen.id','=','dokumen_sppb.dokumen_id')
-                    ->leftJoin('dokumen_definitif','dokumen.id','=','dokumen_definitif.dokumen_id')
-                    ->get();
-        }
+        // if (auth()->user()->hasRole('ADMIN')) {
+        //     // $dokumen = Dokumen::where('status_id', 2)->orWhere('status_id', 4);
+        //     $dokumen = DB::table('dokumen')
+        //             ->select(
+        //                 'dokumen.id',
+        //                 'dokumen.daftar_no',
+        //                 'dokumen.daftar_tgl',
+        //                 'dokumen.importir_nm',
+        //                 'dokumen.hawb_no',
+        //                 'dokumen.hawb_tgl',
+        //                 'dokumen.status_label',
+        //                 'dokumen_sppb.no_sppb',
+        //                 'dokumen_sppb.created_at as tgl_sppb',
+        //                 'dokumen_sppb.created_at as tgl_sppb',
+        //                 'dokumen_sppb.waktu_keluar as waktu_keluar',
+        //                 'dokumen_definitif.nomor as no_pib',
+        //                 'dokumen_definitif.tanggal as tgl_pib',
+        //                 'dokumen_definitif.tgl_ntpn as tgl_ntpn'
+        //             )
+        //             ->leftJoin('dokumen_sppb','dokumen.id','=','dokumen_sppb.dokumen_id')
+        //             ->leftJoin('dokumen_definitif','dokumen.id','=','dokumen_definitif.dokumen_id')
+        //             ->get();
+        // }
 
         
 

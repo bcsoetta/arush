@@ -66,7 +66,7 @@ Dokumen
                         searchable : false
                     }
                 ],
-                ajax: '{!! route('dokumen.data') !!}',
+                ajax: '{!! route('dokumen.proses') !!}',
                 columns: [
                     { data: 'daftar_no', name: 'daftar_no', className: "text-center" },
                     { data: 'daftar_tgl', name: 'daftar_tgl', className: "text-center"},

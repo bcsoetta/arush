@@ -210,6 +210,8 @@ class LaporanController extends Controller
             $query->whereBetween('daftar_tgl',[$tgl_awal,$tgl_akhir]);
         });
 
+        // dd($dokumen->limit(5)->with('ip')->get());
+
         $fileName = 'Dokumen RH Tgl '. $request->tgl_awal . ' sd ' . $request->tgl_akhir;
 
         Excel::create($fileName, function ($excel) use($dokumen, $detail, $fileName) {
@@ -313,13 +315,13 @@ class LaporanController extends Controller
                             $val->status_label, 
                             $val->keterangan_pembatalan, 
                             $val->ip['no_ip'], 
-                            $val->ip['created_at'], 
+                            $val->ip->getAttributes()['created_at'], 
                             $val->ip['pemeriksa_nip'], 
                             $val->ip['pemeriksa_nama'], 
                             $val->ip['seksi_nip'], 
                             $val->ip['seksi_nama'], 
                             $val->lhp['no_lhp'], 
-                            $val->lhp['created_at'], 
+                            $val->lhp['tgl_ip_time'], 
                             $val->lhp['jam_periksa'], 
                             $val->lhp['jam_selesai'], 
                             $val->lhp['lokasi'], 

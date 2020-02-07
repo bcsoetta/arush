@@ -26,5 +26,4 @@ class Ip extends Model
         $value = str_pad($value, 5, '0', STR_PAD_LEFT);
         return $value;
     }
-    
 }

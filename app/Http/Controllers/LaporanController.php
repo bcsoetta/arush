@@ -287,7 +287,7 @@ class LaporanController extends Controller
                     foreach ($dokumenInstance as $val) {
                         $sheet->appendRow([
                             $val->daftar_no, 
-                            $val->getAttributes()[daftar_tgl], 
+                            $val->getAttributes()['daftar_tgl'], 
                             $val->importir_npwp, 
                             $val->importir_nm, 
                             $val->importir_alamat, 

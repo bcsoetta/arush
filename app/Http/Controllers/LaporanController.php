@@ -329,7 +329,7 @@ class LaporanController extends Controller
                             $val->lhp['pemeriksa_nama'], 
                             $val->lhp['kesimpulan'], 
                             $val->sppb['no_sppb'], 
-                            $val->sppb['created_at'], 
+                            $val->sppb->getAttributes()['created_at'], 
                             $val->sppb['seksi_nip'], 
                             $val->sppb['seksi_nama'], 
                             $val->sppb['gate_nip'], 

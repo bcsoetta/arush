@@ -31,7 +31,7 @@ Rekam Dokumen
   <div class="modal-dialog modal-lg" role="document" style="width: 85%;">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
         <h4 class="modal-title" id="myModalLabel">Dokumen Yang belum diserahkan</h4>
       </div>
       <div class="modal-body">
@@ -55,7 +55,7 @@ Rekam Dokumen
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
       </div>
     </div>
   </div>
@@ -125,9 +125,15 @@ Rekam Dokumen
                 type: "GET",
                 dataType: 'json',
                 success: function (data) {
-                    $('#myModal').modal('show');
+                    // $('#myModal').modal('show');
+                    $('#myModal').modal({
+                        backdrop: 'static'
+                    });
                     $.each(data,function(k, v){
-                        $("#mytable1 > tbody").append("<tr>"+
+                        var classD = v.selisih_hari > 3 ? 'danger': '';
+
+                        $("#mytable1 > tbody").append(
+                            "<tr class='"+ classD +"'>"+
                             "<td>" + v.daftar_no +"</td>"+
                             "<td>" + v.daftar_tgl +"</td>"+
                             "<td>" + v.importir_nm +"</td>"+

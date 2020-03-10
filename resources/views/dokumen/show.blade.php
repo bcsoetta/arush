@@ -47,7 +47,7 @@ Dokumen Lengkap
                         <th>Nomor RH</th>
                         <td>:</td>
                         <th style="background-color: #A8EB12">{{$dokumen->daftar_no}}</th>
-                        <th colspan="3">Tanggal : {{$dokumen->daftar_tgl}}</th>
+                        <th colspan="3">Tanggal : {{tgl_indo($dokumen->daftar_tgl)}}</th>
                     </tr>
                     <tr>
                         <th colspan="6"><h4>Importir</h4></th>
@@ -369,17 +369,17 @@ Dokumen Lengkap
                         <tr>
                             <td>Instruksi Pemeriksaan(IP)</td>
                             <td>{{$dokumen->ip['no_ip']}}</td>
-                            <td>{{$dokumen->ip['created_at']}}</td>
+                            <td>{{tgl_indo($dokumen->ip['created_at'])}}</td>
                         </tr>
                         <tr>
                             <td>LHP</td>
                             <td>{{$dokumen->lhp['no_lhp']}}</td>
-                            <td>{{$dokumen->lhp['created_at']}}</td>
+                            <td>{{tgl_indo($dokumen->lhp['created_at'])}}</td>
                         </tr>
                         <tr>
                             <td>SPPB</td>
                             <td>{{$dokumen->sppb['no_sppb']}}</td>
-                            <td>{{$dokumen->sppb['created_at']}}</td>
+                            <td>{{tgl_indo($dokumen->sppb['created_at'])}}</td>
                         </tr>
                     </table>
                 </div>
@@ -429,7 +429,7 @@ Dokumen Lengkap
                             <tr>
                                 <td style="text-align: center">{{$logStatus->status_label}}</td>
                                 <td style="text-align: center">{{$logStatus->user_name}}</td>
-                                <td style="text-align: center">{{$logStatus->created_at}}</td>
+                                <td style="text-align: center">{{tgl_indo_time($logStatus->created_at)}}</td>
                             </tr>
                         @endforeach
                         </tbody>

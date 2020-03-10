@@ -111,7 +111,7 @@ style='font-size:12.0pt;line-height:115%;font-family:"Arial",sans-serif'>:</span
 </td>
 <td width=164 valign=top style='width:123.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
 <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><span
-style='font-size:12.0pt;line-height:115%;font-family:"Arial",sans-serif'>{{$dokumen->daftar_tgl}}</span></p>
+style='font-size:12.0pt;line-height:115%;font-family:"Arial",sans-serif'>{{tgl_indo($dokumen->daftar_tgl)}}</span></p>
 </td>
 </tr>
 <tr>
@@ -401,7 +401,7 @@ style='border-collapse:collapse;border:none'>
 <tr>
 <td width=665 valign=top style='width:498.4pt;padding:0cm 5.4pt 0cm 5.4pt'>
 <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><span
-style='font-size:12.0pt;line-height:115%;font-family:"Arial",sans-serif'>Tangerang,{{$dokumen->ip->created_at}}</span></p>
+style='font-size:12.0pt;line-height:115%;font-family:"Arial",sans-serif'>Tangerang,{{tgl_indo($dokumen->ip->created_at)}}</span></p>
 </td>
 </tr>
 </table>

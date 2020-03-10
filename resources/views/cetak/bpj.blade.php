@@ -235,7 +235,7 @@ ul
   "Arial",sans-serif'>NOMOR RH: </span><b><span style='font-size:12.0pt;
   line-height:300%;font-family:"Arial",sans-serif'>{{$dokumen->daftar_no}}&nbsp;&nbsp;&nbsp;&nbsp; </span></b><span
   style='font-size:10.0pt;line-height:300%;font-family:"Arial",sans-serif'>TANGGAL:
-  </span><b><span style='font-size:12.0pt;line-height:300%;font-family:"Arial",sans-serif'>{{$dokumen->daftar_tgl}}</span></b></p>
+  </span><b><span style='font-size:12.0pt;line-height:300%;font-family:"Arial",sans-serif'>{{tgl_indo($dokumen->daftar_tgl)}}</span></b></p>
   </td>
  </tr>
  <tr>

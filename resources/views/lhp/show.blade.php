@@ -32,7 +32,7 @@ input, area {
                             <label for="tgl_periksa" class="col-md-2 control-label">Nomor Pendaftaran RH</label>
 
                             <div class="col-md-10">
-                                <p>{{$lhp->dokumen->daftar_no}} Tanggal {{$lhp->dokumen->daftar_tgl}}</p>
+                                <p>{{$lhp->dokumen->daftar_no}} Tanggal {{tgl_indo($lhp->dokumen->daftar_tgl)}}</p>
                             </div>
                         </div>
 
@@ -40,7 +40,7 @@ input, area {
                                 <label for="tgl_periksa" class="col-md-2 control-label">Nomor LHP</label>
 
                                 <div class="col-md-10">
-                                    <p>{{$lhp->no_lhp}} Tanggal {{$lhp->created_at}}</p>
+                                    <p>{{$lhp->no_lhp}} Tanggal {{tgl_indo($lhp->created_at)}}</p>
                                 </div>
                             </div>
 

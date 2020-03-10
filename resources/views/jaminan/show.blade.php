@@ -89,11 +89,11 @@ Jaminan
                         <tr>
                             <td class="text-center">{{$no++}}</td>
                             <td class="text-center">{{$data->daftar_no}}</td>
-                            <td class="text-center">{{$data->daftar_tgl}}</td>
+                            <td class="text-center">{{tgl_indo($data->daftar_tgl)}}</td>
                             <td>{{$data->importir_nm}}</td>
                             <td>{{$data->ppjk_nm}}</td>                            
                             <td class="text-center">{{$data->sppb['no_sppb']}}</td>
-                            <td class="text-center">{{$data->sppb['created_at']}}</td>
+                            <td class="text-center">{{tgl_indo($data->sppb['created_at'])}}</td>
                             <td class="text-right">{{number_format($data->detail->sum('bayar_total'),0,',','.')}}</td>
                             <td class="text-center">{{$data->definitif['billing']}}</td>
                             <td class="text-center">{{$data->definitif['ntpn']}}</td>

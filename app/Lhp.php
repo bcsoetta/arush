@@ -36,11 +36,11 @@ class Lhp extends Model
         return $value;
     }
     
-    public function getCreatedAtAttribute($value)
-    {
-        $value = strlen($value)? Carbon::parse($value)->format('d-m-Y') : null;
-        return $value;
-    }
+    // public function getCreatedAtAttribute($value)
+    // {
+    //     $value = strlen($value)? Carbon::parse($value)->format('d-m-Y') : null;
+    //     return $value;
+    // }
 
     
     public function getNoLhpAttribute($value)

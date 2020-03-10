@@ -181,11 +181,14 @@ class GateOutController extends Controller
         $dokumen = Dokumen::where('status_id', '5')->get();
 
         return Datatables::of($dokumen)
+        ->addColumn('daftar_tgl', function(Dokumen $dokumen){
+            return tgl_indo($dokumen->daftar_tgl);
+        })
         ->addColumn('sppb', function(Dokumen $dokumen){
             return $dokumen->sppb->no_sppb;
         })
         ->addColumn('tgl_sppb', function(Dokumen $dokumen){
-            return $dokumen->sppb->created_at;
+            return tgl_indo($dokumen->sppb->created_at);
         })
         ->addColumn('action', function ($dokumen) {
             return '<a href="'. route('gateout.create', $dokumen->id) .'" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-edit"></i> Proses pengeluaran</a>';

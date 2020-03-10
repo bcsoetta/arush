@@ -14,11 +14,11 @@ class Ip extends Model
         return $this->belongsTo('App\Dokumen', 'dokumen_id');
     }
 
-    public function getCreatedAtAttribute($value)
-    {
-        $value = strlen($value)? Carbon::parse($value)->format('d-m-Y') : null;
-        return $value;
-    }
+    // public function getCreatedAtAttribute($value)
+    // {
+    //     $value = strlen($value)? Carbon::parse($value)->format('d-m-Y') : null;
+    //     return $value;
+    // }
 
     
     public function getNoIpAttribute($value)

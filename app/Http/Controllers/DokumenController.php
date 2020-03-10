@@ -235,10 +235,10 @@ class DokumenController extends Controller
 
         $importirBelumPib->map(function($doc){
             $tglAwal = $doc->sppb->created_at;
-            $tglAwal = implode("-", array_reverse(explode("-", $tglAwal)));
+            $tglAwal = $tglAwal->toDateString();
             $today = date('Y-m-d');
 
-            $selisih = $this->hariKerja($tglAwal, $today);
+            $selisih = hari_kerja($tglAwal, $today);
 
             $doc['selisih_hari'] = $selisih;
             return $doc;
@@ -603,14 +603,14 @@ class DokumenController extends Controller
 
             $dokumen->map(function($doc){
                 $tglAwal = $doc->sppb->created_at;
-                $tglAwal = implode("-", array_reverse(explode("-", $tglAwal)));
+                $tglAwal = $tglAwal->toDateString();
                 $today = date('Y-m-d');
 
-                $selisih = $this->hariKerja($tglAwal, $today);
+                $selisih = hari_kerja($tglAwal, $today);
 
                 $doc['selisih_hari'] = $selisih;
 
-                    return $doc;
+                return $doc;
 
             });
 
@@ -631,19 +631,17 @@ class DokumenController extends Controller
 
             $dokumen->map(function($doc){
                 $tglAwal = $doc->sppb->created_at;
-                $tglAwal = implode("-", array_reverse(explode("-", $tglAwal)));
+                $tglAwal = $tglAwal->toDateString();
                 $today = date('Y-m-d');
 
-                $selisih = $this->hariKerja($tglAwal, $today);
+                $selisih = hari_kerja($tglAwal, $today);
 
                 $doc['selisih_hari'] = $selisih;
 
                     return $doc;
 
             });
-
-            // dd($dokumen);
-            
+                      
             $blokir=[];
 
             foreach ($dokumen as $doc) {
@@ -656,63 +654,6 @@ class DokumenController extends Controller
             if(count($blokir) > 0){
                 return json_encode($dokumen);
             }
-    }
-
-    //fungsi menerima tanggal string format Y-m-d
-    //return integer
-    function hariKerja($tglAwal, $tglAkhir){
-        // penanggalan Indonesia
-        setlocale(LC_TIME, 'id_ID.UTF8');
-        // tanggalnya diubah formatnya ke Y-m-d 
-        $tglAwal = date_create_from_format('Y-m-d', $tglAwal);
-        $tglAwal = date_format($tglAwal, 'Y-m-d');
-        $tglAwal = strtotime($tglAwal);
-        
-        $tglAkhir = date_create_from_format('Y-m-d', $tglAkhir);
-        $tglAkhir = date_format($tglAkhir, 'Y-m-d');
-        $tglAkhir = strtotime($tglAkhir);
-
-        $hariKerja = array();
-        $sabtuminggu = array();
-        
-        for ($i=$tglAwal; $i <= $tglAkhir; $i += (60 * 60 * 24)) {
-            if (date('w', $i) !== '0' && date('w', $i) !== '6') {
-                $hariKerja[] = $i;
-            } else {
-                $sabtuminggu[] = $i;
-            }
-        
-        }
-
-        //tgl libur Nasional string Y-m-d
-        $tglLiburNasional = LiburNasional::select('tgl')->get();
-
-
-        $liburNasional=array();
-        $liburNasionalSabtuMinggu=array();
-
-        foreach ($tglLiburNasional as $tglLibur) {
-            $tglLibur = date_create_from_format('Y-m-d', $tglLibur->tgl);
-            $tglLibur = date_format($tglLibur, 'Y-m-d');
-            $tglLibur = strtotime($tglLibur);
-            //Cek apakah tgl lebih kecil atau lebih besar dari tgl awal atau akhir
-            if($tglLibur <= $tglAkhir and $tglLibur >= $tglAwal ){
-                //CEK APAKAH HARI MINGGU ATAU TIDAK
-                if (date('w', $tglLibur) !== '0' && date('w', $tglLibur) !== '6') {
-                    $liburNasional[] = $tglLibur;
-                } else {
-                    $liburNasionalSabtuMinggu[] = $tglLibur;
-                }
-            }
-            
-        }
-
-        $jlhHariKerja = count($hariKerja) - count($liburNasional)- 1;
-        // $jumlah_sabtuminggu = count($sabtuminggu);
-        // $abtotal = $jumlah_cuti + $jumlah_sabtuminggu;
-
-        return $jlhHariKerja;
-
     }
 
     public function pembatalan(Request $request, $id){

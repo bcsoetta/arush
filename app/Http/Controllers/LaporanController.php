@@ -11,6 +11,7 @@ use App\Lokasi;
 use App\Jaminan;
 use App\Status;
 use App\LogStatus;
+use App\Sppb;
 use App\LiburNasional;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -152,20 +153,22 @@ class LaporanController extends Controller
         ->orderBy('daftar_tgl')
         ->get();
 
+        // maipulasi collection
         $dokumen->map(function($doc){
+            // tgl awal (tgl sppb, kenapa tgl sppb karena gate sudah otomatis)
+            // mungkin suatu hari bisa hitung waktu gate out ini di ganti
+            // dan rh seharusnya rush hanling jadi harusnya keluar cepat
+
             $tglAwal = $doc->sppb->created_at;
-            $tglAwal = implode("-", array_reverse(explode("-", $tglAwal)));
+            $tglAwal = $tglAwal->toDateString();
             $today = date('Y-m-d');
 
-            $selisih = $this->hariKerja($tglAwal, $today);
+            $selisih = hari_kerja($tglAwal, $today);
 
+            //add new property 'selisih hari'
             $doc['selisih_hari'] = $selisih;
             return $doc;
-
         });
-
-
-
 
         return view('laporan.belum-definitif', compact('dokumen'));
     }
@@ -206,11 +209,11 @@ class LaporanController extends Controller
         $tgl_akhir = $tgl_akhir->format('Y-m-d 23:59:59');
 
         $dokumen = Dokumen::whereBetween('daftar_tgl',[$tgl_awal,$tgl_akhir]);
+
+
         $detail = DokumenDetail::whereHas('dokumen', function($query) use ($tgl_awal,$tgl_akhir){
             $query->whereBetween('daftar_tgl',[$tgl_awal,$tgl_akhir]);
         });
-
-        // dd($dokumen->limit(5)->with('ip')->get());
 
         $fileName = 'Dokumen RH Tgl '. $request->tgl_awal . ' sd ' . $request->tgl_akhir;
 
@@ -285,9 +288,10 @@ class LaporanController extends Controller
                 $dokumen->chunk(500, function($dokumenInstance) use($sheet) {
 
                     foreach ($dokumenInstance as $val) {
+
                         $sheet->appendRow([
                             $val->daftar_no, 
-                            $val->getAttributes()['daftar_tgl'], 
+                            $val->daftar_tgl, 
                             $val->importir_npwp, 
                             $val->importir_nm, 
                             $val->importir_alamat, 
@@ -315,21 +319,21 @@ class LaporanController extends Controller
                             $val->status_label, 
                             $val->keterangan_pembatalan, 
                             $val->ip['no_ip'], 
-                            $val->ip->getAttributes()['created_at'], 
+                            $val->ip['created_at'], 
                             $val->ip['pemeriksa_nip'], 
                             $val->ip['pemeriksa_nama'], 
                             $val->ip['seksi_nip'], 
                             $val->ip['seksi_nama'], 
                             $val->lhp['no_lhp'], 
-                            $val->lhp['tgl_ip_time'], 
+                            $val->lhp['created_at'], 
                             $val->lhp['jam_periksa'], 
                             $val->lhp['jam_selesai'], 
                             $val->lhp['lokasi'], 
                             $val->lhp['pemeriksa_nip'], 
                             $val->lhp['pemeriksa_nama'], 
-                            $val->lhp['kesimpulan'], 
+                            $val->lhp['kesimpulan'],
                             $val->sppb['no_sppb'], 
-                            $val->sppb->getAttributes()['created_at'], 
+                            $val->sppb['created_at'], 
                             $val->sppb['seksi_nip'], 
                             $val->sppb['seksi_nama'], 
                             $val->sppb['gate_nip'], 
@@ -576,63 +580,6 @@ class LaporanController extends Controller
              });
 
          })->export('xlsx');
-    }
-
-    //fungsi menerima tanggal string format Y-m-d
-    //return integer
-    function hariKerja($tglAwal, $tglAkhir){
-        // penanggalan Indonesia
-        setlocale(LC_TIME, 'id_ID.UTF8');
-        // tanggalnya diubah formatnya ke Y-m-d 
-        $tglAwal = date_create_from_format('Y-m-d', $tglAwal);
-        $tglAwal = date_format($tglAwal, 'Y-m-d');
-        $tglAwal = strtotime($tglAwal);
-        
-        $tglAkhir = date_create_from_format('Y-m-d', $tglAkhir);
-        $tglAkhir = date_format($tglAkhir, 'Y-m-d');
-        $tglAkhir = strtotime($tglAkhir);
-
-        $hariKerja = array();
-        $sabtuminggu = array();
-        
-        for ($i=$tglAwal; $i <= $tglAkhir; $i += (60 * 60 * 24)) {
-            if (date('w', $i) !== '0' && date('w', $i) !== '6') {
-                $hariKerja[] = $i;
-            } else {
-                $sabtuminggu[] = $i;
-            }
-        
-        }
-
-        //tgl libur Nasional string Y-m-d
-        $tglLiburNasional = LiburNasional::select('tgl')->get();
-
-
-        $liburNasional=array();
-        $liburNasionalSabtuMinggu=array();
-
-        foreach ($tglLiburNasional as $tglLibur) {
-            $tglLibur = date_create_from_format('Y-m-d', $tglLibur->tgl);
-            $tglLibur = date_format($tglLibur, 'Y-m-d');
-            $tglLibur = strtotime($tglLibur);
-            //Cek apakah tgl lebih kecil atau lebih besar dari tgl awal atau akhir
-            if($tglLibur <= $tglAkhir and $tglLibur >= $tglAwal ){
-                //CEK APAKAH HARI MINGGU ATAU TIDAK
-                if (date('w', $tglLibur) !== '0' && date('w', $tglLibur) !== '6') {
-                    $liburNasional[] = $tglLibur;
-                } else {
-                    $liburNasionalSabtuMinggu[] = $tglLibur;
-                }
-            }
-            
-        }
-
-        $jlhHariKerja = count($hariKerja) - count($liburNasional)-1;
-        // $jumlah_sabtuminggu = count($sabtuminggu);
-        // $abtotal = $jumlah_cuti + $jumlah_sabtuminggu;
-
-        return $jlhHariKerja;
-
     }
 
     public function jaminanDokumen(){

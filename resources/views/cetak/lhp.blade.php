@@ -102,7 +102,7 @@ normal'><span lang=IN style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
   </td>
   <td width=251 valign=top style='width:188.35pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
-  150%'><span lang=IN style='font-family:"Arial",sans-serif'>{{$dokumen->lhp->created_at}}</span></p>
+  150%'><span lang=IN style='font-family:"Arial",sans-serif'>{{tgl_indo($dokumen->lhp->created_at)}}</span></p>
   </td>
  </tr>
  <tr>
@@ -146,7 +146,7 @@ normal'><span lang=IN style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
   </td>
   <td width=94 valign=top style='width:70.85pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt'><span
-  lang=IN style='font-family:"Arial",sans-serif'>{{$dokumen->lhp->created_at}}</span></p>
+  lang=IN style='font-family:"Arial",sans-serif'>{{tgl_indo($dokumen->lhp->created_at)}}</span></p>
   </td>
   <td width=142 valign=top style='width:106.3pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt'><span

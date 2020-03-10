@@ -101,7 +101,7 @@ PERSETUJUAN PENGELUARAN BARANG (SPPB)</span></u></b></p>
   </td>
   <td width=20 valign=top style='width:130.1pt;padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
-  normal'><span style='font-family:"Arial-BoldMT",sans-serif'>{{$dokumen->sppb->created_at}}</span></p>
+  normal'><span style='font-family:"Arial-BoldMT",sans-serif'>{{tgl_indo($dokumen->sppb->created_at)}}</span></p>
   </td>
  </tr>
 </table>
@@ -136,7 +136,7 @@ style='font-family:"Arial",sans-serif'>&nbsp;</span></b></p>
   </td>
   <td width=164 valign=top style='width:80.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
-  normal'><span style='font-family:"Arial",sans-serif'>{{$dokumen->daftar_tgl}}</span></p>
+  normal'><span style='font-family:"Arial",sans-serif'>{{tgl_indo($dokumen->daftar_tgl)}}</span></p>
   </td>
  </tr>
 </table>
@@ -472,11 +472,11 @@ none'><span style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
  <tr>
   <td width=321 valign=top style='width:240.75pt;padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-autospace:
-  none'><span style='font-family:"Arial",sans-serif'>Tangerang, {{$dokumen->sppb->created_at}}</span></p>
+  none'><span style='font-family:"Arial",sans-serif'>Tangerang, {{tgl_indo($dokumen->sppb->created_at)}}</span></p>
   </td>
   <td width=340 valign=top style='width:9.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-autospace:
-  none'><span style='font-family:"Arial",sans-serif'>Tangerang, {{$dokumen->sppb->waktu_keluar}}</span></p>
+  none'><span style='font-family:"Arial",sans-serif'>Tangerang, {{tgl_indo($dokumen->sppb->waktu_keluar)}}</span></p>
   </td>
  </tr>
  <tr>

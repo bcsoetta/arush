@@ -66,14 +66,6 @@ class Dokumen extends Model
         }
         //CEK NOMOR
         $adaNomor = Penomoran::where('tahun', $tahun)->where('kode', $codeNomor)->first();
-
-        //#code nomor
-        //NOMOR_RH
-        //NOMOR_IP
-        //NOMOR_LHP
-        //NOMOR_BA
-        //NOMOR_SPPB
-        //NOMOR_JAMINAN
         
         //JIKA TIDAK ADA
         if ($adaNomor == null){
@@ -154,11 +146,11 @@ class Dokumen extends Model
     }
 
      //GET FROM DATABASE
-    public function getDaftarTglAttribute($value)
-    {
-        $value = strlen($value)? Carbon::parse($value)->format('d-m-Y') : null;
-        return $value;
-    }
+    // public function getDaftarTglAttribute($value)
+    // {
+    //     $value = strlen($value)? Carbon::parse($value)->format('d-m-Y') : null;
+    //     return $value;
+    // }
 
     public function getTibaTglAttribute($value)
     {

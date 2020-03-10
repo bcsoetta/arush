@@ -105,7 +105,7 @@ IMPOR</span></u></b></p>
 
 <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
 text-align:center'><span lang=IN style='font-family:"Arial",sans-serif'>NOMOR : {{$dokumen->lhp->no_lhp}}
-                                TANGGAL :{{$dokumen->lhp->created_at}}</span></p>
+                                TANGGAL :{{tgl_indo($dokumen->lhp->created_at)}}</span></p>
 
 <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt'><span
 lang=IN style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
@@ -129,7 +129,7 @@ Pemeriksaan : {{$dokumen->lhp->lokasi}}</span></p>
 .0001pt;text-indent:-.25in;line-height:normal'><span lang=IN style='font-family:
 "Arial",sans-serif'>3.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
 </span></span><span lang=IN style='font-family:"Arial",sans-serif'>Tgl/waktu
-penunjukkan pemeriksa : {{$dokumen->ip->created_at}}</span></p>
+penunjukkan pemeriksa : {{tgl_indo($dokumen->ip->created_at)}}</span></p>
 
 <p class=MsoListParagraphCxSpMiddle style='margin-bottom:0in;margin-bottom:
 .0001pt;text-indent:-.25in;line-height:normal'><span lang=IN style='font-family:
@@ -296,8 +296,6 @@ lang=IN style='font-family:"Arial",sans-serif'>Lain-lain :</span></p>
   lang=IN style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
   <p class=MsoListParagraphCxSpMiddle style='margin-left:0in;line-height:normal'><span
   lang=IN style='font-family:"Arial",sans-serif'>Pengusaha TPS **</span></p>
-  <p class=MsoListParagraphCxSpMiddle style='margin-left:0in;line-height:normal'><span
-  lang=IN style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
   <p class=MsoListParagraphCxSpMiddle style='margin-left:0in;line-height:normal'><span
   lang=IN style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
   <p class=MsoListParagraphCxSpMiddle style='margin-left:0in;line-height:normal'><span

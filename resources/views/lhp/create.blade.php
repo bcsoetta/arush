@@ -25,7 +25,7 @@ input, textarea {
 
                 <div class="panel-body">
                     <div class="row">
-                        <a href="{{ route('dokumen.show', $dokumen->id)}}"><button class="btn btn-primary pull-right" style="margin: 10px">Kembali</button></a>                        
+                        <a href="{{ route('instruksi-pemeriksaan.index')}}"><button class="btn btn-primary pull-right" style="margin: 10px">Kembali</button></a>                        
                     </div>
                     @if (count($errors) > 0)
                     <ul>
@@ -41,7 +41,7 @@ input, textarea {
                             <label for="tgl_periksa" class="col-md-2 control-label">Nomor Pendaftaran RH</label>
 
                             <div class="col-md-10">
-                                <input type="text" class="form-control" name="tgl_periksa" value="{{$dokumen->daftar_no}} Tanggal {{$dokumen->daftar_tgl}}" readonly>
+                                <input type="text" class="form-control" name="tgl_periksa" value="{{$dokumen->daftar_no}} Tanggal {{tgl_indo($dokumen->daftar_tgl)}}" readonly>
                             </div>
                         </div>
 

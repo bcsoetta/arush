@@ -158,6 +158,10 @@ Route::get('/laporan-download-dokumen', 'LaporanController@downloadDokumen')->na
 Route::get('/laporan-download-detail', 'LaporanController@downloadDetail')->name('laporan.downloadDetail');
 // Route::get('/laporan-dokumen-jaminan', 'LaporanController@jaminanDokumen')->name('laporan.dokumenJaminan');
 
-
+//DASHBOARD
 Route::get('/dashboard', 'DashBoardController@index')->name('dashboard.index');
 Route::get('/dashboard/test', 'DashBoardController@test')->name('dashboard.test');
+
+//MY DOKUMEN
+Route::resource('/mydokumen','MyDokumenController')->middleware('auth');
+Route::get('/dataMyDokumen', 'MyDokumenController@dataDokumen')->name('mydokumen.data');

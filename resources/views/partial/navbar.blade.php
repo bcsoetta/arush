@@ -3,6 +3,7 @@
     @can('VIEW-DASHBOARD')
     <li><a href="{{route('dashboard.index')}}">Dashboard</a></li>
     @endcan
+    <li><a href="{{route('mydokumen.index')}}">My Dokumen</a></li>
     @can('VIEW-DOKUMEN')
     <li><a href="{{route('dokumen.proses')}}">Dokumen</a></li>
     @endcan

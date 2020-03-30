@@ -22,9 +22,11 @@ if (! function_exists('hari_kerja')) {
     //return integer
     function hari_kerja($tglAwal, $tglAkhir){
 
-        // $tglAwal = '2020-03-05';
-        // $tglAkhir = '2020-03-10';
+        // $tglAwal = '2020-03-03';
+        // $tglAkhir = '2020-03-06';
+        //hasil 4
 
+        dd(date('Y-m-d H:i:s'));
         $tglAwal = strtotime($tglAwal);
         $tglAkhir = strtotime($tglAkhir);
         

@@ -374,12 +374,7 @@ class DokumenController extends Controller
         $dokumen = Dokumen::findOrFail($id);
 
         $this->validate($request,[
-            // 'importir_nm' =>   'required|min:3',
-            // 'importir_npwp' => 'required',
-            // 'importir_alamat' => 'required|min:6',
-            // 'ppjk_nm' => 'required',
-            // 'ppjk_npwp' => 'required',
-            // 'ppjk_alamat' => 'required',
+
             'pengangkut' => 'required',
             'tiba_tgl' => 'required|date',
             'hawb_no' => [
@@ -408,9 +403,7 @@ class DokumenController extends Controller
                 Alert::error('Sorry');
                 return back();
             }
-            // $dokumen->importir_nm = $request->importir_nm;
-            // $dokumen->importir_npwp = $request->importir_npwp;
-            // $dokumen->importir_alamat = $request->importir_alamat;
+
             $dokumen->ppjk_npwp = $request->ppjk_npwp;
             $dokumen->ppjk_nm = $request->ppjk_nm;
             $dokumen->ppjk_alamat = $request->ppjk_alamat;

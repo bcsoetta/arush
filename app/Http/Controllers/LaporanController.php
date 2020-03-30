@@ -145,6 +145,7 @@ class LaporanController extends Controller
     }
 
     public function belumDefinitif(Request $request){
+
         //cek statusnya SPPb dan Keluar
         $dokumen= Dokumen::where('status_id', 5)
         ->orWhere('status_id', 6)

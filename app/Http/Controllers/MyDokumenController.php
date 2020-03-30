@@ -36,11 +36,7 @@ class MyDokumenController extends Controller
      */
     public function create()
     {
-        // if(Gate::denies('CREATE-DOKUMEN'))
-        // {
-        //     Alert::error('Sorry');
-        //     return back();
-        // }
+
 
         $dokumen = new Dokumen;
         $lokasi = Lokasi::all();
@@ -56,33 +52,29 @@ class MyDokumenController extends Controller
      */
     public function store(Request $request)
     {       
-        // if(Gate::denies('CREATE-DOKUMEN'))
-        // {
-        //     Alert::error('Sorry');
-        //     return back();
-        // }
 
-        // $this->validate($request,[
-        //     'importir_nm' =>   'required|min:3',
-        //     'importir_npwp' => 'required',
-        //     'importir_alamat' => 'required|min:6',
-        //     // 'ppjk_nm' => 'required',
-        //     // 'ppjk_npwp' => 'required',
-        //     // 'ppjk_alamat' => 'required',
-        //     'pengangkut' => 'required',
-        //     'tiba_tgl' => 'required|date',
-        //     'hawb_no' => 'required|unique:dokumen|min:2',
-        //     'hawb_tgl' => 'required|date',
-        //     // 'bc11_no' => 'required|numeric',
-        //     // 'bc11_pos' => 'required|numeric',
-        //     // 'bc11_sub' => 'required|numeric',
-        //     // 'bc11_tgl' => 'required|date',
-        //     'kmsn_jmlh' => 'required|numeric|min:1',
-        //     'kmsn_jenis' => 'required|min:2',
-        //     'brutto' => 'required|numeric',
-        //     'netto' => 'required|numeric',
-        //     'lokasi' => 'required'
-        // ]);
+
+        $this->validate($request,[
+            'importir_nm' =>   'required|min:3',
+            'importir_npwp' => 'required',
+            'importir_alamat' => 'required|min:6',
+            // 'ppjk_nm' => 'required',
+            // 'ppjk_npwp' => 'required',
+            // 'ppjk_alamat' => 'required',
+            'pengangkut' => 'required',
+            'tiba_tgl' => 'required|date',
+            'hawb_no' => 'required|unique:dokumen|min:2',
+            'hawb_tgl' => 'required|date',
+            // 'bc11_no' => 'required|numeric',
+            // 'bc11_pos' => 'required|numeric',
+            // 'bc11_sub' => 'required|numeric',
+            // 'bc11_tgl' => 'required|date',
+            'kmsn_jmlh' => 'required|numeric|min:1',
+            'kmsn_jenis' => 'required|min:2',
+            'brutto' => 'required|numeric',
+            'netto' => 'required|numeric',
+            'lokasi' => 'required'
+        ]);
 
         // Cek jika belum definitif untuk importir ini
 
@@ -192,19 +184,6 @@ class MyDokumenController extends Controller
      */
     public function show($id)
     {
-        // if(Gate::denies('SHOW-DOKUMEN'))
-        // {
-        //     Alert::error('Sorry');
-        //     return back();
-        // }
-
-        
-        //cek user pengguna jasa
-        // if (auth()->user()->hasRole('PENGGUNA-JASA') AND $dokumen->user_id != auth()->user()->id) {           
-        //     Alert::error('Sorry');
-        //     return back();
-        // }
-
         $dokumen = Dokumen::findOrFail($id);
 
         $jaminan = Jaminan::where('jenis_id', 2)->where('status', 'AKTIF')->get();
@@ -229,11 +208,11 @@ class MyDokumenController extends Controller
                 $kurang_jaminan = $total_jaminan - $bayar_total;
                 
                 // Alert::error('Kekurangan Jaminan ' . $kurang_jaminan);
-                return view('dokumen.show', compact('dokumen', 'jaminan','importirBelumPib'));
+                return view('my-dokumen.show', compact('dokumen', 'jaminan','importirBelumPib'));
             } else {
                 $kurang_jaminan = 0;
                 
-                return view('dokumen.show', compact('dokumen', 'jaminan','importirBelumPib'));
+                return view('my-dokumen.show', compact('dokumen', 'jaminan','importirBelumPib'));
             }
         }
         
@@ -248,7 +227,22 @@ class MyDokumenController extends Controller
      */
     public function edit($id)
     {
-        //
+        $dokumen = Dokumen::findOrFail($id);
+
+        //cek user pengguna jasa
+        if ($dokumen->created_by != auth()->user()->id) {           
+            Alert::error('Sorry');
+            return back();
+        }
+
+        if ($dokumen->status_id > 2) {           
+            Alert::error('Sorry');
+            return back();
+        }
+
+        $lokasi = Lokasi::all();
+        $pengangkut = Pengangkut::all();
+        return view('my-dokumen.edit', compact('dokumen', 'lokasi', 'pengangkut'));
     }
 
     /**
@@ -260,7 +254,70 @@ class MyDokumenController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $dokumen = Dokumen::findOrFail($id);
+
+        $this->validate($request,[
+            'pengangkut' => 'required',
+            'tiba_tgl' => 'required|date',
+            'hawb_no' => [
+                'required',
+                'min:2,',
+                Rule::unique('dokumen')->ignore($dokumen->id)
+
+            ],
+            'hawb_tgl' => 'required|date',
+            'kmsn_jmlh' => 'required|numeric|min:1',
+            'kmsn_jenis' => 'required|min:2',
+            'brutto' => 'required|numeric',
+            'netto' => 'required|numeric',
+            'lokasi' => 'required'
+        ]);
+
+        try{
+            DB::beginTransaction();
+
+            $lokasi = Lokasi::findOrFail($request->lokasi);
+            $pengangkut = Pengangkut::findOrFail($request->pengangkut);
+
+            $dokumen = Dokumen::findOrFail($id);
+            //cek user pengguna jasa
+            if ($dokumen->created_by != auth()->user()->id) {           
+                Alert::error('Sorry');
+                return back();
+            }
+
+            $dokumen->ppjk_npwp = $request->ppjk_npwp;
+            $dokumen->ppjk_nm = $request->ppjk_nm;
+            $dokumen->ppjk_alamat = $request->ppjk_alamat;
+            $dokumen->pengangkut_id = $pengangkut->id;
+            $dokumen->pengangkut_kode = $pengangkut->kode;
+            $dokumen->pengangkut_nama = $pengangkut->pesawat;
+            $dokumen->tiba_tgl = $request->tiba_tgl;
+            $dokumen->hawb_no = preg_replace("/[\s-_.]+/", "", $request->hawb_no);
+            $dokumen->hawb_tgl = $request->hawb_tgl;
+            $dokumen->kmsn_jmlh = $request->kmsn_jmlh;
+            $dokumen->kmsn_jenis = $request->kmsn_jenis;
+            $dokumen->brutto = $request->brutto;
+            $dokumen->netto = $request->netto;
+            $dokumen->lokasi_id = $lokasi->id;
+            $dokumen->lokasi_label = $lokasi->kode;
+            $dokumen->no_fasilitas = $request->no_fasilitas;
+            $dokumen->tgl_fasilitas = $request->tgl_fasilitas;
+            $dokumen->ket_fasilitas = $request->ket_fasilitas;
+            $dokumen->save();
+
+            DB::commit();
+
+            Alert::success('Berhasil Update');
+            return redirect()->route('mydokumen.show', $dokumen->id);
+
+        } catch(\Exception $e){
+            DB::rollback();
+
+            Alert::error($e->getMessage());
+            return back();
+        }
+
     }
 
     /**
@@ -275,12 +332,6 @@ class MyDokumenController extends Controller
     }
 
     public function dataDokumen(){
-        // if(Gate::denies('VIEW-MY-DOKUMEN'))
-        // {
-        //     Alert::error('Sorry');
-        //     return back();
-        // }
-
 
         $dokumen = DB::table('dokumen')
                     ->select(

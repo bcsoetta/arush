@@ -20,19 +20,12 @@ Dokumen Lengkap
         @include('partial.panel')
         <div class="row">
             <div class="col-md-12">
-                {{-- parsial --}}
-                @include('partial.header-dokumen')
                 <h2>Dokumen :  
-                @can('EDIT-DOKUMEN')
-                @if($dokumen->status_id <= 4)
-                <a href="{{ route('dokumen.edit', $dokumen->id)}}"><button class="btn btn-danger" style="margin: 10px">Edit</button></a>
+
+                @if($dokumen->status_id <= 2)
+                <a href="{{ route('mydokumen.edit', $dokumen->id)}}"><button class="btn btn-danger" style="margin: 10px">Edit</button></a>
+                <button class="btn btn-danger" style="margin: 10px" data-toggle="modal" data-target="#pembatalan">Hapus</button>
                 @endif
-                @endcan
-                @can('HAPUS-DOKUMEN')
-                @if($dokumen->status_id < 5)
-                <button class="btn btn-danger" style="margin: 10px" data-toggle="modal" data-target="#pembatalan">Pembatalan Dokumen</button>
-                @endif
-                @endcan
 
                 </h2>
                 @if($dokumen->status_id == 8)
@@ -42,7 +35,7 @@ Dokumen Lengkap
                 </div>
                 @endif
                  <div class="table-responsive">
-                <table class="table">
+                <table class="table table-condensed">
                     <tr>
                         <th>Nomor RH</th>
                         <td>:</td>
@@ -130,7 +123,7 @@ Dokumen Lengkap
                 </div>
                 <h2>Dokumen Pelengkap:
                 
-                    @if($dokumen->status_id < 5)
+                    @if($dokumen->status_id < 2)
                     <button class="btn btn-danger" style="margin: 10px" data-toggle="modal" data-target="#dokumenPelengkap">Tambah Dokumen Pelengkap</button>
                     @endif
                 
@@ -158,11 +151,9 @@ Dokumen Lengkap
                             <td style="text-align: center">{{$dokap->tgl}}</td>
                             <td class="text-center">
                                 <a class="btn btn-primary btn-xs" href="{{route('dokumen-pelengkap.show', $dokap->id)}}" target="_blank">Show</a>
-                                @can('EDIT-DETAIL')
-                                @if($dokumen->status_id < 4)
+                                @if($dokumen->status_id < 2)
                                 <!-- <a class="btn btn-danger btn-xs" href="">Edit</a> -->
                                 @endif
-                                @endcan
                             </td>
                         </tr>
                     @endforeach
@@ -170,16 +161,10 @@ Dokumen Lengkap
                 </table>
                 </div>
 
-                <h2>Detail Barang:
-                
-                    @can('CREATE-DETAIL')
-                    @if($dokumen->status_id > 1 AND auth()->user()->hasRole('PENGGUNA-JASA'))
-                    @else
-                        @if($dokumen->status_id <= 4)
-                        <a href="{{route('detail.create', $dokumen->id)}}"><button class="btn btn-danger" style="margin: 10px">Tambah Detail Barang</button></a>
-                        @endif
+                <h2>Detail Barang:                
+                    @if($dokumen->status_id <= 2)
+                    <a href="{{route('detail.create', $dokumen->id)}}"><button class="btn btn-danger" style="margin: 10px">Tambah Detail Barang</button></a>
                     @endif
-                    @endcan
                 
                 </h2>
                 <div class="table-responsive">
@@ -212,11 +197,11 @@ Dokumen Lengkap
                             <td class="text-right">{{number_format($detail->nilai_pabean,2,',','.')}}</td>
                             <td class="text-center">
                                 <a class="btn btn-primary btn-xs" href="{{ route('detail.show', $detail->id)}}">Show</a>
-                                @can('EDIT-DETAIL')
-                                @if($dokumen->status_id < 4)
+
+                                @if($dokumen->status_id < 2)
                                 <a class="btn btn-danger btn-xs" href="{{ route('detail.edit', $detail->id)}}">Edit</a>
                                 @endif
-                                @endcan
+
                             </td>
                         </tr>
                     @endforeach
@@ -312,15 +297,12 @@ Dokumen Lengkap
                 </div>
 
                 <h2>Jaminan (BPJ): 
-                @if($dokumen->status_id <= 4)
+                <!-- @if($dokumen->status_id <= 2)
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#jaminanTerusMenerus">
+                        Ambil BPJ
+                    </button>
 
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#jaminan">
-                Rekam BPJ
-                </button>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#jaminanTerusMenerus">
-                BPJ Sebelumnya
-                </button>
-                @endif
+                @endif -->
                 </h2>
                 <div class="table-responsive">
                     <table class="table">
@@ -348,7 +330,7 @@ Dokumen Lengkap
                             <td>{{$jamin->status}}</td>
                             <td>
                             <a class="btn btn-xs btn-primary" href="{{route('cetak.bpj', [$jamin->id, $dokumen->id])}}" target="_blank">Cetak</a>
-                            @if($dokumen->status_id <= 4 )
+                            @if($dokumen->status_id <= 2 )
                             <a class="btn btn-xs btn-danger" href="{{route('jaminan.unlink', [$jamin->id, $dokumen->id])}}" onclick="return confirm('Unlink jaminan ?');">Unlink</a>
                             @endif
                             </td>
@@ -365,22 +347,32 @@ Dokumen Lengkap
                             <th>Jenis</th>
                             <th>Nomor</th>
                             <th>tgl</th>
+                            <th>Act</th>
                         </tr>
+                        @if(!empty($dokumen->ip->no_ip))
                         <tr>
                             <td>Instruksi Pemeriksaan(IP)</td>
-                            <td>{{$dokumen->ip['no_ip']}}</td>
-                            <td>{{tgl_indo($dokumen->ip['created_at'])}}</td>
+                            <td>{{$dokumen->ip->no_ip}}</td>
+                            <td>{{tgl_indo($dokumen->ip->created_at)}}</td>
+                            <td><a href="{{route('cetak.ip', $dokumen->id)}}" target="_blank">show</a></td>
                         </tr>
+                        @endif
+                        @if(!empty($dokumen->lhp->nolhp))
                         <tr>
                             <td>LHP</td>
-                            <td>{{$dokumen->lhp['no_lhp']}}</td>
-                            <td>{{tgl_indo($dokumen->lhp['created_at'])}}</td>
+                            <td>{{$dokumen->lhp->lhp}}</td>
+                            <td>{{tgl_indo($dokumen->lhp->created_at)}}</td>
+                            <td><a href="{{route('cetak.lhp', $dokumen->id)}}" target="_blank">show</a></td>
                         </tr>
+                        @endif
+                        @if(!empty($dokumen->sppb->no_sppb))
                         <tr>
                             <td>SPPB</td>
-                            <td>{{$dokumen->sppb['no_sppb']}}</td>
-                            <td>{{tgl_indo($dokumen->sppb['created_at'])}}</td>
+                            <td>{{$dokumen->sppb->no_sppb}}</td>
+                            <td>{{tgl_indo($dokumen->sppb->created_at)}}</td>
+                            <td><a href="{{route('cetak.sppb', $dokumen->id)}}" target="_blank">show</a></td>
                         </tr>
+                        @endif
                     </table>
                 </div>
 
@@ -407,7 +399,6 @@ Dokumen Lengkap
                             <td>{{$dokumen->definitif->tgl_ntpn}}</td>
                             <td class="text-right">{{number_format($dokumen->definitif->total_bayar,0,',','.')}}</td>
                             <td class="text-right">
-                                <a class="btn btn-xs btn-danger" href="{{route('pendok.edit', $dokumen->id)}}">Edit</a>
                             </td>
                         </tr>
                         @endisset
@@ -488,12 +479,12 @@ Dokumen Lengkap
             <div class="modal-body">
                 <form class="form-horizontal" method="POST" action="{{ route('jaminan.store') }}">
                     {{ csrf_field() }}
-                    <input id="dokid" type="hidden" class="form-control" name="dok_id" value="{{ $dokumen->id }}">
+                    <input type="hidden" class="form-control" name="dok_id" value="{{ $dokumen->id }}">
                     <div class="form-group{{ $errors->has('penjamin') ? ' has-error' : '' }}">
                         <label for="nomor" class="col-md-4 control-label">Nama</label>
 
                         <div class="col-md-8">
-                            <input id="name" type="text" class="form-control" name="penjamin" value="{{ old('penjamin') ? old('penjamin') : $dokumen->importir_nm }}"  autofocus>
+                            <input type="text" class="form-control" name="penjamin" value="{{ old('penjamin') ? old('penjamin') : $dokumen->importir_nm }}"  autofocus>
 
                             @if ($errors->has('penjamin'))
                             <span class="help-block">
@@ -507,7 +498,7 @@ Dokumen Lengkap
                         <label for="nomor" class="col-md-4 control-label">NPWP</label>
 
                         <div class="col-md-8">
-                            <input id="name" type="text" class="form-control" name="npwp" value="{{ old('npwp') ? old('npwp') : $dokumen->importir_npwp }}"  autofocus>
+                            <input type="text" class="form-control" name="npwp" value="{{ old('npwp') ? old('npwp') : $dokumen->importir_npwp }}"  autofocus>
 
                             @if ($errors->has('penjamin'))
                             <span class="help-block">
@@ -521,7 +512,7 @@ Dokumen Lengkap
                         <label for="nomor" class="col-md-4 control-label">Alamat</label>
 
                         <div class="col-md-8">
-                            <input id="name" type="text" class="form-control" name="alamat" value="{{ old('alamat') ? old('alamat') : $dokumen->importir_alamat }}"  autofocus>
+                            <input type="text" class="form-control" name="alamat" value="{{ old('alamat') ? old('alamat') : $dokumen->importir_alamat }}"  autofocus>
 
                             @if ($errors->has('penjamin'))
                             <span class="help-block">
@@ -535,7 +526,7 @@ Dokumen Lengkap
                         <label for="nomor" class="col-md-4 control-label">No Jaminan</label>
 
                         <div class="col-md-8">
-                            <input id="name" type="text" class="form-control" name="nomor_jaminan" value="{{ old('nomor_jaminan') }}"  autofocus>
+                            <input type="text" class="form-control" name="nomor_jaminan" value="{{ old('nomor_jaminan') }}"  autofocus>
 
                             @if ($errors->has('nomor_jaminan'))
                             <span class="help-block">
@@ -549,7 +540,7 @@ Dokumen Lengkap
                         <label for="nomor" class="col-md-4 control-label">Tgl No Jaminan</label>
 
                         <div class="col-md-8 tgl_dok">
-                            <input id="name" type="text" class="form-control" name="tanggal_jaminan" value="{{ old('tanggal_jaminan')}}"  autofocus>
+                            <input type="text" class="form-control" name="tanggal_jaminan" value="{{ old('tanggal_jaminan')}}"  autofocus>
 
                             @if ($errors->has('tanggal_jaminan'))
                             <span class="help-block">
@@ -646,7 +637,7 @@ Dokumen Lengkap
             <div class="modal-body">
                 <form class="form-horizontal" method="POST" action="{{ route('dokumen-pelengkap.store') }}" enctype="multipart/form-data">
                     {{ csrf_field() }}
-                    <input id="dokid" type="hidden" class="form-control" name="dok_id" value="{{ $dokumen->id }}">
+                    <input type="hidden" class="form-control" name="dok_id" value="{{ $dokumen->id }}">
                     <div class="form-group{{ $errors->has('nama_dok') ? ' has-error' : '' }}">
                         <label for="nomor" class="col-md-4 control-label">Nama Dokumen</label>
 
@@ -820,31 +811,31 @@ Dokumen Lengkap
         // Mengubah semua input menjadi format koma dan titik
 
 
-    $(document).ready(function(){
-        $('#jumlah').keyup(function(){
-            $('#jumlah').val(formatRupiah($('#jumlah').val()));
-        });
+    // $(document).ready(function(){
+    //     $('#jumlah').keyup(function(){
+    //         $('#jumlah').val(formatRupiah($('#jumlah').val()));
+    //     });
 
-        $(function() {
-            $('#jaminan-terusmenerus').DataTable({
-                processing: true,
-                serverSide: true,
-                order: [ [0, 'desc'] ],
-                ajax: '{!! route('jaminan.data.show', $dokumen->id) !!}',
-                columns: [
-                    { data: 'nomor', name: 'nomor', className: "text-center" },
-                    { data: 'tanggal', name: 'tanggal', className: "text-center" },
-                    { data: 'penjamin', name: 'penjamin' },
-                    { data: 'bentuk_jaminan', name: 'bentuk_jaminan', className: "text-center" },
-                    { data: 'jumlah', name: 'jumlah', render: $.fn.dataTable.render.number(',', '.', 0, ''), className: "text-right"},
-                    { data: 'jenis_label', name: 'jenis_label', className: "text-center" },
-                    { data: 'saldo', name: 'saldo', render: $.fn.dataTable.render.number(',', '.', 0, ''), className: "text-right"},
-                    { data: 'tanggal_jatuh_tempo', name: 'tanggal_jatuh_tempo', className: "text-center" },
-                    { data: 'status', name: 'status', className: "text-center" },
-                    { data: 'action', name: 'action', orderable: false, searchable: false}
-                ]
-            });
-        });
+    //     $(function() {
+    //         $('#jaminan-terusmenerus').DataTable({
+    //             processing: true,
+    //             serverSide: true,
+    //             order: [ [0, 'desc'] ],
+    //             ajax: '{!! route('jaminan.data.show', $dokumen->id) !!}',
+    //             columns: [
+    //                 { data: 'nomor', name: 'nomor', className: "text-center" },
+    //                 { data: 'tanggal', name: 'tanggal', className: "text-center" },
+    //                 { data: 'penjamin', name: 'penjamin' },
+    //                 { data: 'bentuk_jaminan', name: 'bentuk_jaminan', className: "text-center" },
+    //                 { data: 'jumlah', name: 'jumlah', render: $.fn.dataTable.render.number(',', '.', 0, ''), className: "text-right"},
+    //                 { data: 'jenis_label', name: 'jenis_label', className: "text-center" },
+    //                 { data: 'saldo', name: 'saldo', render: $.fn.dataTable.render.number(',', '.', 0, ''), className: "text-right"},
+    //                 { data: 'tanggal_jatuh_tempo', name: 'tanggal_jatuh_tempo', className: "text-center" },
+    //                 { data: 'status', name: 'status', className: "text-center" },
+    //                 { data: 'action', name: 'action', orderable: false, searchable: false}
+    //             ]
+    //         });
+    //     });
 
         // $('.npwp').mask("00.000.000.0-000.000");
         // $('.mawb').mask("000 00000000");

@@ -27,21 +27,10 @@ DashBoard
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach($users as $user)
-                        @if($user->isOnline())
-                            <tr>
-                                <td>{{$user->name}}</td>
-                                <td>{{$user->nip}}</td>
-                                <td class="text-success text-center">online</td>
-                            </tr>
-                        @endif
-                    @endforeach
-                            
-
-
                     </tbody>
                 </table>
             </div>
+
             <div class="col-md-3">
                 <h2>Dokumen Status :</h2>
                 <span>Keseluruhan Dokumen</span>
@@ -152,34 +141,6 @@ DashBoard
             </div>
             <div class="col-md-6">
                 <h2>LHP Pemeriksa : {{date('M')}}</h2>
-                <!-- <form class="form-horizontal">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" style="text-align: left">Bulan</label>
-                        <div class="col-sm-5">
-                            <select class="form-control">
-                                <option>Januari</option>
-                                <option>Pebruari</option>
-                                <option>Maret</option>
-                                <option>Pebruari</option>
-                                <option>Pebruari</option>
-                                <option>Pebruari</option>
-                                <option>Pebruari</option>
-                                <option>Pebruari</option>
-                                <option>Pebruari</option>
-                                <option>Desember</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" style="text-align: left">Tahun</label>
-                        <div class="col-sm-5">
-                            <select class="form-control">
-                                <option>2019</option>
-                                <option>2020</option>
-                            </select>
-                        </div>
-                    </div>
-                </form> -->
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#chartLhpPerbulan">Chart</a></li>
                     <li><a data-toggle="tab" href="#TableLhpPerbulan">Table</a></li>
@@ -286,5 +247,44 @@ DashBoard
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
 {!! $dokumenChart->script() !!}
 {!! $lhpChart->script() !!}
+<script>
+
+$( document ).ready(function(){
+
+    //user online
+    const urlUser = '/api/user-online';
+    $.ajax({
+        url: urlUser,
+        type: 'GET',
+        success: function(response){
+            let tdData = '';
+                $.each(response, function(i, item){
+                tdData += '<tr>' + 
+                '<td>' + item.name + '</td>' + 
+                '<td>' + item.nip + '</td>' + 
+                '<td class="text-success text-center">' + 'online' + '</td>' + 
+                '</tr>'
+            })
+            $('#users-table').append(tdData);
+        }
+    });
+
+    // dokumen status
+
+    let tahun = new Date().getFullYear();
+
+    const urlStatusDokumen = '/api/status-dokumen/'+ tahun;
+
+    $.ajax({
+        url: urlStatusDokumen,
+        type: 'GET',
+        success: function(response){
+            console.log(response)
+        }
+    });
+
+});
+
+</script>
 
 @endsection

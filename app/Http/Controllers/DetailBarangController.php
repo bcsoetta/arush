@@ -43,14 +43,7 @@ class DetailBarangController extends Controller
      */
     public function create(Dokumen $dokumen)
     {
-        if(Gate::denies('CREATE-DETAIL'))
-        {
-            Alert::error('Sorry');
-            return back();
-        }
-
-        if($dokumen->status_id > 1 AND auth()->user()->hasRole('PENGGUNA-JASA'))
-        {
+        if($dokumen->status_id > 4){
             Alert::error('Sorry');
             return back();
         }
@@ -67,12 +60,6 @@ class DetailBarangController extends Controller
      */
     public function store(Request $request)
     {
-        if(Gate::denies('CREATE-DETAIL'))
-        {
-            Alert::error('Sorry');
-            return back();
-        }
-
         $this->validate($request,[
             'dokumen_id' =>   'required',
             'uraian_barang' =>   'required',
@@ -116,10 +103,6 @@ class DetailBarangController extends Controller
 
         $dokumen = Dokumen::findOrFail($request->dokumen_id);
         //cek user pengguna jasa
-        if (auth()->user()->hasRole('PENGGUNA-JASA') AND $dokumen->user_id != auth()->user()->id) {           
-            Alert::error('Sorry');
-            return back();
-        }
 
         $detail = new DokumenDetail;
         $detail->dokumen_id = $request->dokumen_id;
@@ -161,6 +144,10 @@ class DetailBarangController extends Controller
         $detail->dibebaskan_total = (double)preg_replace('/[,]/','.',preg_replace('/[^,\d]/', '',$request->dibebaskan_total));
 
         $detail->save();
+
+        if (auth()->user()->hasRole('PENGGUNA-JASA')) {
+            return redirect()->route('mydokumen.show', $detail->dokumen_id);
+        }
         
         return redirect()->route('dokumen.show', $detail->dokumen_id);
     }

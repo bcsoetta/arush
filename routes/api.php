@@ -16,3 +16,6 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/user-online','DataController@userOnline')->name('userOnline');
+Route::get('/status-dokumen/{tahun}','DataController@statusDokumen')->name('statusDokumen');

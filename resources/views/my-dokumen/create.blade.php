@@ -132,7 +132,7 @@ Rekam Dokumen
                     $.each(data,function(k, v){
                         var classD = v.selisih_hari > 3 ? 'danger': '';
 
-                        $("#mytable1 > tbody").append(
+                        $("#mytable1 > tbody").empty().append(
                             "<tr class='"+ classD +"'>"+
                             "<td>" + v.daftar_no +"</td>"+
                             "<td>" + v.daftar_tgl +"</td>"+
@@ -144,7 +144,10 @@ Rekam Dokumen
                             "<td>" + v.sppb.created_at +"</td>"+
                             "<td>" + v.selisih_hari +"</td>"+
                         "</tr>");
-                    })
+                    });
+
+                    // document.getElementById('btn_kirim').remove();
+
                     
                 }
             });

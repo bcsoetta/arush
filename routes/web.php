@@ -26,7 +26,7 @@ Route::post('/proses-cek-dokumen', 'DokumenController@prosesCekDokumen')->name('
 Route::get('/cek-dokumen-npwp/{npwp}','DokumenController@cekNpwp')->name('dokumen.cekNpwp');
 
 //DOKUMEN PELENGKAP
-Route::resource('/dokumen-pelengkap','DokumenPelengkapController');
+Route::resource('/dokumen-pelengkap','DokumenPelengkapController')->middleware('auth');
 
 //SPPB
 Route::post('/SPPB/putus/{id}','SPPBController@putusSppb')->name('putus.sppb.index');
@@ -164,4 +164,4 @@ Route::get('/dashboard/test', 'DashBoardController@test')->name('dashboard.test'
 
 //MY DOKUMEN
 Route::resource('/mydokumen','MyDokumenController')->middleware('auth');
-Route::get('/dataMyDokumen', 'MyDokumenController@dataDokumen')->name('mydokumen.data');
+Route::get('/dataMyDokumen', 'MyDokumenController@dataDokumen')->name('mydokumen.data')->middleware('auth');

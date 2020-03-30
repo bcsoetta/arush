@@ -407,7 +407,6 @@ Dokumen Lengkap
                             <td>{{$dokumen->definitif->tgl_ntpn}}</td>
                             <td class="text-right">{{number_format($dokumen->definitif->total_bayar,0,',','.')}}</td>
                             <td class="text-right">
-                                <a class="btn btn-xs btn-danger" href="{{route('pendok.edit', $dokumen->id)}}">Edit</a>
                             </td>
                         </tr>
                         @endisset

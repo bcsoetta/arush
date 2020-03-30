@@ -230,7 +230,7 @@
 </div>
 <hr>
 
-<div class="form-group">
+<div class="form-group" id="btn_kirim">
     <div>
         <button type="submit" class="btn btn-primary main-color-bg pull-right" onclick="konfirm()">
             Simpan

@@ -13,7 +13,6 @@ use Carbon\carbon;
 class DashBoardController extends Controller
 {
     public function index(){
-        $users = User::all();
 
         $dokumen = DB::select('
                 SELECT
@@ -29,6 +28,8 @@ class DashBoardController extends Controller
                 GROUP BY months.name
                 ORDER BY months.id
         ');
+
+        // dd($dokumen);
         
         $labelDokumen = [];
         $dataDokumen = [];
@@ -171,6 +172,7 @@ class DashBoardController extends Controller
                     ORDER BY s.id 
         ');
 
+
         $sumStatus = 0;
 
         foreach ($status as $sts) {
@@ -208,22 +210,22 @@ class DashBoardController extends Controller
                     ));
     }
 
-    public function test(){
-        $waktu = DB::select("
-                SELECT
-                    YEAR(b.created_at) AS tahun,
-                    a.importir_npwp AS npwp_importir,
-                    a.importir_nm AS nama_importir,
-                    DATE_FORMAT(b.created_at, '%M') AS bulan,
-                    avg(TIMESTAMPDIFF(SECOND,a.daftar_tgl,b.created_at)/3600) AS ratarata
-                FROM dokumen AS a
-                INNER JOIN dokumen_sppb AS b 
-                ON a.id = b.dokumen_id
-                GROUP BY MONTH(b.created_at), npwp_importir, nama_importir
-                ORDER BY npwp_importir, MONTH(b.created_at) ASC
-            ");
+    // public function test(){
+    //     $waktu = DB::select("
+    //             SELECT
+    //                 YEAR(b.created_at) AS tahun,
+    //                 a.importir_npwp AS npwp_importir,
+    //                 a.importir_nm AS nama_importir,
+    //                 DATE_FORMAT(b.created_at, '%M') AS bulan,
+    //                 avg(TIMESTAMPDIFF(SECOND,a.daftar_tgl,b.created_at)/3600) AS ratarata
+    //             FROM dokumen AS a
+    //             INNER JOIN dokumen_sppb AS b 
+    //             ON a.id = b.dokumen_id
+    //             GROUP BY MONTH(b.created_at), npwp_importir, nama_importir
+    //             ORDER BY npwp_importir, MONTH(b.created_at) ASC
+    //         ");
 
-            return view('dashboard.importir', compact('waktu'));
+    //         return view('dashboard.importir', compact('waktu'));
 
-    }
+    // }
 }

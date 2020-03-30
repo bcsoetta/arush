@@ -58,11 +58,12 @@ class DokumenPelengkapController extends Controller
             $fileName = $request->file_dok->hashName();
             $request->file_dok->storeAs('public\dokumen_pelengkap', $fileName);
             $dokPel->file = $fileName;
+            $dokPel->size = $size;
         }
         $dokPel->save();
 
         Alert::success('Berhasil Disimpan');
-        return redirect()->route('dokumen.show', $dokumen->id);
+        return redirect()->route('mydokumen.show', $dokumen->id);
     }
 
     /**

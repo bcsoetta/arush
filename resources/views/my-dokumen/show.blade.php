@@ -24,7 +24,12 @@ Dokumen Lengkap
 
                 @if($dokumen->status_id <= 2)
                 <a href="{{ route('mydokumen.edit', $dokumen->id)}}"><button class="btn btn-danger" style="margin: 10px">Edit</button></a>
-                <button class="btn btn-danger" style="margin: 10px" data-toggle="modal" data-target="#pembatalan">Hapus</button>
+                <form method="POST" action="{{route('mydokumen.destroy', $dokumen->id)}}" style="display: inline;">
+                {{ method_field('DELETE') }}
+                {{ csrf_field() }}
+                    <button type="submit" class="btn btn-danger" style="margin: 10px" onclick="konfirm()">Hapus</button>
+                
+                </form>
                 @endif
 
                 </h2>

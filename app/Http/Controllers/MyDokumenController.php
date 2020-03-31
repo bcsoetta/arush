@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use DataTables;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 
 class MyDokumenController extends Controller
 {
@@ -256,6 +257,11 @@ class MyDokumenController extends Controller
     {
         $dokumen = Dokumen::findOrFail($id);
 
+        if ($dokumen->status_id > 2 ) {
+            Alert::error('tidak bisa diedit user');
+            return back();
+        }
+
         $this->validate($request,[
             'pengangkut' => 'required',
             'tiba_tgl' => 'required|date',
@@ -328,7 +334,74 @@ class MyDokumenController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+        $dokumen = Dokumen::findOrFail($id);
+
+        if ($dokumen->status_id > 2 ) {
+            Alert::error('tidak bisa diedit didelete user');
+            return back();
+        }
+
+        //delete / unlink jaminan
+        // jaminannya tidak di delete, relasinya saja yang didelete
+        
+        DB::table('dokumen_jaminan')->where('dokumen_id', $dokumen->id)->delete();
+
+        //delete dokumen pelengkap dan file
+        foreach ($dokumen->dokumenPelengkap as $dok) {
+            $exists = file_exists("storage/dokumen_pelengkap/". $dok->file);
+
+            if($exists){
+                unlink("storage/dokumen_pelengkap/". $dok->file);
+            }
+
+            $dok->delete();
+        
+        }
+
+        //delete detail
+        foreach ($dokumen->detail as $detail) {
+            $detail->delete();
+        }
+
+
+        //delete dokumen
+
+        if (!empty($dokumen->ip)) {
+            $dokumen->ip->delete();
+        }
+
+        if (!empty($dokumen->lhp)) {
+            foreach ($dokumen->lhp->photo as $photo) {
+                $exists = file_exists("storage/lhp_photo/". $photo->filename);
+                if($exists){
+                    unlink("storage/lhp_photo/". $photo->filename);
+                }
+                $photo->delete();
+            }
+
+            foreach ($dokumen->lhp->barangLhp as $barang) {
+                $barang->delete();
+            }
+
+            $dokumen->lhp->delete();
+        }
+
+        if (!empty($dokumen->sppb)) {
+            $dokumen->sppb->delete();
+        }
+        
+        if (!empty($dokumen->definitif)) {
+            $dokumen->definitif->delete();
+        }
+
+        foreach ($dokumen->logStatus as $log) {
+            $log->delete();
+        }
+
+        $dokumen->delete();
+
+        return redirect()->route('mydokumen.index');
     }
 
     public function dataDokumen(){

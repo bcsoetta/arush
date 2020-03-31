@@ -126,13 +126,15 @@ Rekam Dokumen
                 dataType: 'json',
                 success: function (data) {
                     // $('#myModal').modal('show');
+                        console.log(data);
                     $('#myModal').modal({
                         backdrop: 'static'
                     });
                     $.each(data,function(k, v){
+
                         var classD = v.selisih_hari > 3 ? 'danger': '';
 
-                        $("#mytable1 > tbody").empty().append(
+                        $("#mytable1 > tbody").append(
                             "<tr class='"+ classD +"'>"+
                             "<td>" + v.daftar_no +"</td>"+
                             "<td>" + v.daftar_tgl +"</td>"+

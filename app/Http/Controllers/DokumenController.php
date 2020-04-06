@@ -371,6 +371,7 @@ class DokumenController extends Controller
             Alert::error('Sorry');
             return back();
         }
+        
         $dokumen = Dokumen::findOrFail($id);
 
         $this->validate($request,[

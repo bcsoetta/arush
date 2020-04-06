@@ -1,6 +1,10 @@
 <div class="row">
       @if($dokumen->status_id == 0)
+            <form action="{{ route('mydokumen.kirim', $dokumen->id)}}" method="POST">
+            {{ csrf_field() }}
             <button class="btn btn-danger pull-right" style="margin: 10px" type="submit" onclick="konfirm()">KIRIM DOKUMEN</button>
+            
+            </form>
       @endif
       @can('PENERIMAAN-DOKUMEN')
             @if($dokumen->status_id == 1)

@@ -22,7 +22,7 @@ Dokumen Lengkap
             <div class="col-md-12">
                 <h2>Dokumen :  
 
-                @if($dokumen->status_id <= 2)
+                @if($dokumen->status_id < 1)
                 <a href="{{ route('mydokumen.edit', $dokumen->id)}}"><button class="btn btn-danger" style="margin: 10px">Edit</button></a>
                 <form method="POST" action="{{route('mydokumen.destroy', $dokumen->id)}}" style="display: inline;">
                 {{ method_field('DELETE') }}
@@ -128,7 +128,7 @@ Dokumen Lengkap
                 </div>
                 <h2>Dokumen Pelengkap:
                 
-                    @if($dokumen->status_id < 2)
+                    @if($dokumen->status_id < 1)
                     <button class="btn btn-danger" style="margin: 10px" data-toggle="modal" data-target="#dokumenPelengkap">Tambah Dokumen Pelengkap</button>
                     @endif
                 
@@ -156,8 +156,13 @@ Dokumen Lengkap
                             <td style="text-align: center">{{$dokap->tgl}}</td>
                             <td class="text-center">
                                 <a class="btn btn-primary btn-xs" href="{{route('dokumen-pelengkap.show', $dokap->id)}}" target="_blank">Show</a>
-                                @if($dokumen->status_id < 2)
-                                <!-- <a class="btn btn-danger btn-xs" href="">Edit</a> -->
+                                @if($dokumen->status_id < 1)
+                                <form method="POST" action="{{route('dokumen-pelengkap.destroy', $dokap->id)}}" style="display: inline;">
+                                    {{ method_field('DELETE') }}
+                                    {{ csrf_field() }}
+                                        <button type="submit" class="btn btn-danger btn-xs" onclick="konfirm()">Hapus</button>
+                                
+                                </form>
                                 @endif
                             </td>
                         </tr>
@@ -167,7 +172,7 @@ Dokumen Lengkap
                 </div>
 
                 <h2>Detail Barang:                
-                    @if($dokumen->status_id <= 2)
+                    @if($dokumen->status_id < 1)
                     <a href="{{route('detail.create', $dokumen->id)}}"><button class="btn btn-danger" style="margin: 10px">Tambah Detail Barang</button></a>
                     @endif
                 
@@ -203,8 +208,14 @@ Dokumen Lengkap
                             <td class="text-center">
                                 <a class="btn btn-primary btn-xs" href="{{ route('detail.show', $detail->id)}}">Show</a>
 
-                                @if($dokumen->status_id < 2)
-                                <a class="btn btn-danger btn-xs" href="{{ route('detail.edit', $detail->id)}}">Edit</a>
+                                @if($dokumen->status_id < 1)
+                                <a class="btn btn-danger btn-xs" href="{{ route('mydokumen.editDetail', $detail->id)}}">Edit</a>
+                                <form method="POST" action="{{route('detail.destroy', $detail->id)}}" style="display: inline;">
+                                    {{ method_field('DELETE') }}
+                                    {{ csrf_field() }}
+                                        <button type="submit" class="btn btn-danger btn-xs" onclick="konfirm()">Hapus</button>
+                                    
+                                </form>
                                 @endif
 
                             </td>
@@ -814,37 +825,6 @@ Dokumen Lengkap
     }
 
         // Mengubah semua input menjadi format koma dan titik
-
-
-    // $(document).ready(function(){
-    //     $('#jumlah').keyup(function(){
-    //         $('#jumlah').val(formatRupiah($('#jumlah').val()));
-    //     });
-
-    //     $(function() {
-    //         $('#jaminan-terusmenerus').DataTable({
-    //             processing: true,
-    //             serverSide: true,
-    //             order: [ [0, 'desc'] ],
-    //             ajax: '{!! route('jaminan.data.show', $dokumen->id) !!}',
-    //             columns: [
-    //                 { data: 'nomor', name: 'nomor', className: "text-center" },
-    //                 { data: 'tanggal', name: 'tanggal', className: "text-center" },
-    //                 { data: 'penjamin', name: 'penjamin' },
-    //                 { data: 'bentuk_jaminan', name: 'bentuk_jaminan', className: "text-center" },
-    //                 { data: 'jumlah', name: 'jumlah', render: $.fn.dataTable.render.number(',', '.', 0, ''), className: "text-right"},
-    //                 { data: 'jenis_label', name: 'jenis_label', className: "text-center" },
-    //                 { data: 'saldo', name: 'saldo', render: $.fn.dataTable.render.number(',', '.', 0, ''), className: "text-right"},
-    //                 { data: 'tanggal_jatuh_tempo', name: 'tanggal_jatuh_tempo', className: "text-center" },
-    //                 { data: 'status', name: 'status', className: "text-center" },
-    //                 { data: 'action', name: 'action', orderable: false, searchable: false}
-    //             ]
-    //         });
-    //     });
-
-        // $('.npwp').mask("00.000.000.0-000.000");
-        // $('.mawb').mask("000 00000000");
-    });
 
 
 

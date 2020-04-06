@@ -11,6 +11,8 @@ use App\Jaminan;
 use App\Status;
 use App\LogStatus;
 use App\LiburNasional;
+use App\DokumenDetail;
+use App\Kurs;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -436,5 +438,41 @@ class MyDokumenController extends Controller
             return '<a href="'.$urlDokumen.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Detail</a>';
         })
         ->make(true);
+    }
+
+    public function editDetail(DokumenDetail $dokumenDetail){
+
+        if($dokumenDetail->dokumen->status_id > 2 || $dokumenDetail->dokumen->created_by != auth()->user()->id){
+            Alert::error('Dokumen status SPPB');
+            return back();
+        }
+
+        $kurs = Kurs::all();
+        return view('detailbarang.edit', compact('dokumenDetail', 'kurs'));
+    }
+
+    public function kirim(Dokumen $dokumen){
+
+        if($dokumen->status_id != 0){
+            Alert::error('cek status');
+            return back();
+        }
+
+        $status = Status::findOrFail(0);
+
+        $dokumen->status_id = $status->id;
+        $dokumen->status_label = $status->label;
+        $dokumen->save();
+
+        $StatusLog = new LogStatus;
+        $StatusLog->status_id= $status->id;
+        $StatusLog->dokumen_id= $dokumen->id;
+        $StatusLog->status_label= "KIRIM ". $status->label;
+        $StatusLog->user_id = auth()->user()->id;
+        $StatusLog->user_name = auth()->user()->name;
+        $StatusLog->save();
+
+        Alert::success('Berhasil dikirim');
+        return back();
     }
 }

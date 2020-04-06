@@ -109,6 +109,21 @@ class DokumenPelengkapController extends Controller
      */
     public function destroy(DokumenPelengkap $dokumenPelengkap)
     {
-        //
+
+         if($dokumenPelengkap->dokumen->status_id > 2 || $dokumenDetail->dokumen->created_by != auth()->user()->id){
+                Alert::error('Error not user or status');
+                return back();
+        }
+
+        $exists = file_exists("storage/dokumen_pelengkap/". $dokumenPelengkap->file);
+        
+        if($exists){
+            unlink("storage/dokumen_pelengkap/". $dokumenPelengkap->file);
+        }
+        $dokumenPelengkap->delete();
+
+        Alert::success('Berhasil Dihapus');
+
+        return back();
     }
 }

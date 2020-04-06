@@ -51,10 +51,10 @@
                                     <th style="width:200px">JENIS HARGA</th>
                                     <td colspan="3">
                                         <select class="form-control jenisharga {{ $errors->has('harga_jenis') ? 'salah' : '' }}" style=" width: 100%" name="harga_jenis" placeholder="pilih">
-                                        <option value="{{$dokumenDetail->harga_jenis}}" selected>{{$dokumenDetail->harga_jenis}}</option>
-                                        <option value="CIF">CIF</option>
-                                        <option value="FOB">FOB</option>
-                                        <option value="C&F">C&amp;F</option>
+                                            <option value="{{$dokumenDetail->harga_jenis}}" selected>{{$dokumenDetail->harga_jenis}}</option>
+                                            <option value="CIF">CIF</option>
+                                            <option value="FOB">FOB</option>
+                                            <option value="C&F">C&amp;F</option>
                                         </select>
                                     </td>
                                 </tr>

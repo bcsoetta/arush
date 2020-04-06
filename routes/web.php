@@ -164,4 +164,10 @@ Route::get('/dashboard/test', 'DashBoardController@test')->name('dashboard.test'
 
 //MY DOKUMEN
 Route::resource('/mydokumen','MyDokumenController')->middleware('auth');
+Route::post('/mydokumen-kirim/{dokumen}', 'MyDokumenController@kirim')->name('mydokumen.kirim')->middleware('auth');
+Route::get('/my-edit-detail-barang/{dokumenDetail}', 'MyDokumenController@editDetail')->name('mydokumen.editDetail')->middleware('auth');
 Route::get('/dataMyDokumen', 'MyDokumenController@dataDokumen')->name('mydokumen.data')->middleware('auth');
+
+
+//Perusahaan
+Route::resource('/perusahaan', 'PerusahaanController')->middleware('auth');

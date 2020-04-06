@@ -160,11 +160,11 @@ class DetailBarangController extends Controller
      */
     public function show(DokumenDetail $dokumenDetail)
     {
-        if(Gate::denies('SHOW-DETAIL'))
-        {
-            Alert::error('Sorry');
-            return back();
-        }
+        // if(Gate::denies('SHOW-DETAIL'))
+        // {
+        //     Alert::error('Sorry');
+        //     return back();
+        // }
 
         $dokumen = Dokumen::findOrFail($dokumenDetail->dokumen_id);
         $no =1;
@@ -185,6 +185,12 @@ class DetailBarangController extends Controller
             return back();
         }
 
+        //cek status dokumen jika sudah SPPB
+        if($dokumenDetail->dokumen->status_id > 5){
+            Alert::error('Dokumen status SPPB');
+            return back();
+        }
+
         $kurs = Kurs::all();
         return view('detailbarang.edit', compact('dokumenDetail', 'kurs'));
     }
@@ -198,11 +204,11 @@ class DetailBarangController extends Controller
      */
     public function update(Request $request, DokumenDetail $dokumenDetail)
     {
-        if(Gate::denies('EDIT-DETAIL'))
-        {
-            Alert::error('Sorry');
-            return back();
-        }
+        // if(Gate::denies('EDIT-DETAIL'))
+        // {
+        //     Alert::error('Sorry');
+        //     return back();
+        // }
 
         $this->validate($request,[
             'dokumen_id' =>   'required',
@@ -248,10 +254,10 @@ class DetailBarangController extends Controller
 
         $dokumen = Dokumen::findOrFail($request->dokumen_id);
         //cek user pengguna jasa
-        if (auth()->user()->hasRole('PENGGUNA-JASA') AND $dokumen->user_id != auth()->user()->id) {           
-            Alert::error('Sorry');
-            return back();
-        }
+        // if (auth()->user()->hasRole('PENGGUNA-JASA') AND $dokumen->user_id != auth()->user()->id) {           
+        //     Alert::error('Sorry');
+        //     return back();
+        // }
 
         // $dokumenDetail->dokumen_id = $request->dokumen_id;
         $dokumenDetail->uraian_barang = $request->uraian_barang;
@@ -294,6 +300,12 @@ class DetailBarangController extends Controller
 
         $dokumenDetail->save();
 
+        if (auth()->user()->hasRole('PENGGUNA-JASA')) {
+            Alert::success('Disimpan');
+            return back();
+        }
+        
+
         return redirect()->route('detail.show', $dokumenDetail->id);
 
     }
@@ -306,6 +318,17 @@ class DetailBarangController extends Controller
      */
     public function destroy(DokumenDetail $dokumenDetail)
     {
+        if(auth()->user()->hasRole('PENGGUNA-JASA')){
+            if($dokumenDetail->dokumen->status_id > 2 || $dokumenDetail->dokumen->created_by != auth()->user()->id){
+                Alert::error('Error not user or status');
+                return back();
+            }
+
+            $dokumenDetail->delete();
+            return back();
+        }
+
+
         if(Gate::denies('HAPUS-DETAIL'))
         {
             Alert::error('Sorry');

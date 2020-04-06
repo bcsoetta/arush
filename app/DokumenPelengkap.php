@@ -9,6 +9,11 @@ class DokumenPelengkap extends Model
 {
     protected $table = 'dokumen_pelengkap';
 
+    public function dokumen()
+    {
+        return $this->belongsTo('App\Dokumen');
+    }
+    
     public function setTglAttribute($value)
     {
         $this->attributes['tgl'] = strlen($value)? Carbon::createFromFormat('d-m-Y', $value) : null;

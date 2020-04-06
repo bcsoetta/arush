@@ -40,6 +40,7 @@
         <ul class="dropdown-menu">
             <li><a href="{{ route('change-password')}}">Change Password</a></li>
             @can('USERS')
+            <li><a href="{{ route('perusahaan.index')}}">Perusahaan</a></li>
             <li><a href="{{route('users.index')}}">Users</a></li>
             @endcan
             @can('PROFILE')

@@ -202,10 +202,10 @@ class DokumenController extends Controller
         }
 
         // // block them all
-        if(count($blokir) > 0){
-            //back to 
-            return view('dokumen/belum-definitif', compact('importirBelumPib'));
-        }
+        // if(count($blokir) > 0){
+        //     //back to 
+        //     return view('dokumen/belum-definitif', compact('importirBelumPib'));
+        // }
 
         // simpan ke DB
         try{
@@ -228,7 +228,7 @@ class DokumenController extends Controller
             $dokumen->pengangkut_kode = $pengangkut->kode;
             $dokumen->pengangkut_nama = $pengangkut->pesawat;
             $dokumen->tiba_tgl = $request->tiba_tgl;
-            $dokumen->hawb_no = preg_replace("/[\s-_.]+/", "", $request->hawb_no);
+            $dokumen->hawb_no = preg_replace("/[\s\-_.]+/", "", $request->hawb_no);
             $dokumen->hawb_tgl = $request->hawb_tgl;
             $dokumen->kmsn_jmlh = $request->kmsn_jmlh;
             $dokumen->kmsn_jenis = $request->kmsn_jenis;
@@ -263,8 +263,10 @@ class DokumenController extends Controller
         } catch(\Exception $e){
             DB::rollback();
 
-            Alert::error($e->getMessage());
-            return back();
+            // Alert::error($e->getMessage());
+            // return back();
+
+            return $e->getMessage();
         }
 
     }
@@ -597,9 +599,9 @@ class DokumenController extends Controller
             }
 
             //jika ada yang di blokir maka data dikirim
-            if(count($blokir) > 0){
-                return json_encode($dokumen);
-            }
+            // if(count($blokir) > 0){
+            //     return json_encode($dokumen);
+            // }
     }
 
     public function pembatalan(Request $request, $id){

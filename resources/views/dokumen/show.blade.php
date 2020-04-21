@@ -144,6 +144,7 @@ Dokumen Lengkap
                             <th>Nomor</th>
                             <th>Tanggal</th>
                             <th>File</th>
+                            <th>Act</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -156,13 +157,16 @@ Dokumen Lengkap
                             <td style="text-align: center">{{$dokap->nama}}</td>
                             <td style="text-align: center">{{$dokap->nomor}}</td>
                             <td style="text-align: center">{{$dokap->tgl}}</td>
+                            <td style="text-align: center">{{!empty($dokap->file) ? 'Yes' : 'No'}}</td>
                             <td class="text-center">
+                                @if(!empty($dokap->file))
                                 <a class="btn btn-primary btn-xs" href="{{route('dokumen-pelengkap.show', $dokap->id)}}" target="_blank">Show</a>
-                                @can('EDIT-DETAIL')
-                                @if($dokumen->status_id < 4)
-                                <!-- <a class="btn btn-danger btn-xs" href="">Edit</a> -->
+                                    @can('EDIT-DETAIL')
+                                    @if($dokumen->status_id < 4)
+                                    <!-- <a class="btn btn-danger btn-xs" href="">Edit</a> -->
+                                    @endif
+                                    @endcan
                                 @endif
-                                @endcan
                             </td>
                         </tr>
                     @endforeach
@@ -368,6 +372,7 @@ Dokumen Lengkap
                         </tr>
                         <tr>
                             <td>Instruksi Pemeriksaan(IP)</td>
+
                             <td>{{$dokumen->ip['no_ip']}}</td>
                             <td>{{tgl_indo($dokumen->ip['created_at'])}}</td>
                         </tr>
@@ -844,14 +849,7 @@ Dokumen Lengkap
                 ]
             });
         });
-
-        // $('.npwp').mask("00.000.000.0-000.000");
-        // $('.mawb').mask("000 00000000");
     });
-
-
-
-
 
 </script>
 

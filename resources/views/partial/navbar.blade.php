@@ -3,7 +3,9 @@
     @can('VIEW-DASHBOARD')
     <li><a href="{{route('dashboard.index')}}">Dashboard</a></li>
     @endcan
+    @can('PJ-VIEW-MY-DOKUMEN')
     <li><a href="{{route('mydokumen.index')}}">My Dokumen</a></li>
+    @endcan
     @can('VIEW-DOKUMEN')
     <li><a href="{{route('dokumen.proses')}}">Dokumen</a></li>
     @endcan
@@ -40,7 +42,9 @@
         <ul class="dropdown-menu">
             <li><a href="{{ route('change-password')}}">Change Password</a></li>
             @can('USERS')
+            @can('SET-PERUSAHAAN')
             <li><a href="{{ route('perusahaan.index')}}">Perusahaan</a></li>
+            @endcan
             <li><a href="{{route('users.index')}}">Users</a></li>
             @endcan
             @can('PROFILE')

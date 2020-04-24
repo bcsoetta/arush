@@ -195,7 +195,6 @@ class DashBoardController extends Controller
 
 
                     return view('dashboard.index', compact(
-                        'users',
                         'dokumen',
                         'sumDokumen', 
                         'dokumenChart',

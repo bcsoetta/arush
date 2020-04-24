@@ -428,8 +428,7 @@ class MyDokumenController extends Controller
                     )
                     ->leftJoin('dokumen_sppb','dokumen.id','=','dokumen_sppb.dokumen_id')
                     ->leftJoin('dokumen_definitif','dokumen.id','=','dokumen_definitif.dokumen_id')
-                    ->where('dokumen.created_by','=', auth()->user()->id)
-                    ->get();
+                    ->where('dokumen.created_by','=', auth()->user()->id);
 
         return Datatables::of($dokumen)
         

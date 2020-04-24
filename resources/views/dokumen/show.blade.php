@@ -833,8 +833,8 @@ Dokumen Lengkap
             $('#jaminan-terusmenerus').DataTable({
                 processing: true,
                 serverSide: true,
-                order: [ [0, 'desc'] ],
                 ajax: '{!! route('jaminan.data.show', $dokumen->id) !!}',
+                order: [ [0, 'desc'] ],
                 columns: [
                     { data: 'nomor', name: 'nomor', className: "text-center" },
                     { data: 'tanggal', name: 'tanggal', className: "text-center" },

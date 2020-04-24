@@ -172,6 +172,8 @@ class DokumenController extends Controller
             'lokasi' => 'required'
         ]);
 
+        //Cek barang covid kah
+
         // Cek jika belum definitif untuk importir ini
 
         $importirBelumPib = Dokumen::whereIn('status_id', [5,6])

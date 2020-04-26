@@ -63,8 +63,7 @@ class IPController extends Controller
                         'dokumen.updated_at'
                         )
                     ->join('dokumen', 'dokumen_ip.dokumen_id', '=','dokumen.id')
-                    ->where('dokumen_ip.pemeriksa_id', auth()->user()->id)
-                    ->get();
+                    ->where('dokumen_ip.pemeriksa_id', auth()->user()->id);
         }
         
         if (auth()->user()->hasRole('ADMIN')) {
@@ -84,8 +83,7 @@ class IPController extends Controller
                         'dokumen_ip.aju_foto',
                         'dokumen.updated_at'
                         )
-                    ->join('dokumen', 'dokumen_ip.dokumen_id', '=','dokumen.id')
-                    ->get();
+                    ->join('dokumen', 'dokumen_ip.dokumen_id', '=','dokumen.id');
         }
 
 

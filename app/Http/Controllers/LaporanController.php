@@ -158,7 +158,7 @@ class LaporanController extends Controller
         $dokumen->map(function($doc){
             // tgl awal (tgl sppb, kenapa tgl sppb karena gate sudah otomatis)
             // mungkin suatu hari bisa hitung waktu gate out ini di ganti
-            // dan rh seharusnya rush hanling jadi harusnya keluar cepat
+            // dan rh seharusnya rush handling jadi harusnya keluar cepat
 
             $tglAwal = $doc->sppb->created_at;
             $tglAwal = $tglAwal->toDateString();

@@ -174,8 +174,7 @@ class PendokController extends Controller
         }
 
         $dokumen= Dokumen::where('status_id', 5)
-        ->orWhere('status_id', 6)
-        ->get();
+        ->orWhere('status_id', 6);
 
         return Datatables::of($dokumen)
         ->addColumn('sppb', function(Dokumen $dokumen){

@@ -178,7 +178,7 @@ class GateOutController extends Controller
             return back();
         }
 
-        $dokumen = Dokumen::where('status_id', '5')->get();
+        $dokumen = Dokumen::where('status_id', '5');
 
         return Datatables::of($dokumen)
         ->addColumn('daftar_tgl', function(Dokumen $dokumen){

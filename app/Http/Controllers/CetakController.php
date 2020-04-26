@@ -124,7 +124,8 @@ class CetakController extends Controller
 
     public function formCetakJaminanHarian(){
         $users = User::where('active', 1)->get();
-        $ba = BeritaAcara::all();
+        // $ba = BeritaAcara::all();
+        $ba = Db::table('laporan_ba_jaminan_harian')->get();
 
         return view('cetak.form-cetak-jaminan-harian', compact('users', 'ba'));
     }

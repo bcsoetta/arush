@@ -39,7 +39,7 @@ class JaminanController extends Controller
             return back();
         }
 
-            $jaminan = Jaminan::get();
+            $jaminan = DB::table('jaminan');
 
             return Datatables::of($jaminan)
             ->addColumn('saldo', function($jaminan){
@@ -216,7 +216,7 @@ class JaminanController extends Controller
 
         $jaminan->saldo = $saldo;
 
-        return view('jaminan.show', compact('jaminan', 'dokumen', 'no'));
+        return view('jaminan.show', compact('jaminan', 'no'));
     }
 
     /**

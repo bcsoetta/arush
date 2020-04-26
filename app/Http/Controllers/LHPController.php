@@ -60,8 +60,7 @@ class LHPController extends Controller
                         'dokumen.updated_at'
                         )
                     ->join('dokumen', 'dokumen_lhp.dokumen_id', '=','dokumen.id')
-                    ->where('dokumen_lhp.pemeriksa_id', auth()->user()->id)
-                    ->get();
+                    ->where('dokumen_lhp.pemeriksa_id', auth()->user()->id);
         }
         
         if (auth()->user()->hasRole('ADMIN')) {
@@ -78,8 +77,7 @@ class LHPController extends Controller
                         'dokumen_lhp.pemeriksa_nama as pemeriksa',
                         'dokumen.updated_at'
                         )
-                    ->join('dokumen', 'dokumen_lhp.dokumen_id', '=','dokumen.id')
-                    ->get();
+                    ->join('dokumen', 'dokumen_lhp.dokumen_id', '=','dokumen.id');
         }
 
 

@@ -252,7 +252,7 @@ DashBoard
 $( document ).ready(function(){
 
     //user online
-    const urlUser = '/api/user-online';
+    const urlUser = {{route('userOnline')}};
     $.ajax({
         url: urlUser,
         type: 'GET',

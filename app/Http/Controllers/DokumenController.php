@@ -65,7 +65,8 @@ class DokumenController extends Controller
                     )
                     ->leftJoin('dokumen_sppb','dokumen.id','=','dokumen_sppb.dokumen_id')
                     ->leftJoin('dokumen_definitif','dokumen.id','=','dokumen_definitif.dokumen_id')
-                    ->where('status_id','<', 7);
+                    ->where('status_id','<', 7)
+                    ->get();
 
             return Datatables::of($dokumen)
             
@@ -106,7 +107,8 @@ class DokumenController extends Controller
                         'dokumen_definitif.tgl_ntpn as tgl_ntpn'
                     )
                     ->leftJoin('dokumen_sppb','dokumen.id','=','dokumen_sppb.dokumen_id')
-                    ->leftJoin('dokumen_definitif','dokumen.id','=','dokumen_definitif.dokumen_id');
+                    ->leftJoin('dokumen_definitif','dokumen.id','=','dokumen_definitif.dokumen_id')
+                    ->get();
 
         return Datatables::of($dokumen)
         

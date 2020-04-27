@@ -47,17 +47,17 @@ Dokumen
             $('#table-pendok').DataTable({
                 processing: true,
                 serverSide: true,
-                order: [ [0, 'desc'],[1, 'desc'] ],
+                order: [ [6, 'desc'] ],
                 ajax: '{!! route('pendok.data') !!}',
                 columns: [
-                    { data: 'daftar_no', name: 'daftar_no', className: "text-center" },
-                    { data: 'daftar_tgl', name: 'daftar_tgl', className: "text-center" },
-                    { data: 'importir_nm', name: 'importir_nm' },
-                    { data: 'hawb_no', name: 'hawb_no' },
-                    { data: 'hawb_tgl', name: 'hawb_tgl', className: "text-center"},
-                    { data: 'sppb', name: 'sppb', className: "text-center"},
-                    { data: 'tgl_sppb', name: 'tgl_sppb', className: "text-center"},
-                    { data: 'status_label', name: 'status_label', className: "text-center"},
+                    { data: 'daftar_no', name: 'dokumen.daftar_no', className: "text-center" },
+                    { data: 'daftar_tgl', name: 'dokumen.daftar_tgl', className: "text-center" },
+                    { data: 'importir_nm', name: 'dokumen.importir_nm' },
+                    { data: 'hawb_no', name: 'dokumen.hawb_no' },
+                    { data: 'hawb_tgl', name: 'dokumen.hawb_tgl', className: "text-center"},
+                    { data: 'no_sppb', name: 'dokumen_sppb.no_sppb', className: "text-center"},
+                    { data: 'created_at', name: 'dokumen_sppb.created_at', className: "text-center"},
+                    { data: 'status_label', name: 'dokumen.status_label', className: "text-center"},
                     { data: 'action', name: 'action', orderable: false, searchable: false, className: "text-center"}
                 ]
             });

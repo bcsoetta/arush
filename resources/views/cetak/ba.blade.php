@@ -117,7 +117,7 @@ barang dengan data sebagai berikut :</span></p>
 <p class=MsoListParagraphCxSpFirst style='margin-bottom:0in;margin-bottom:.0001pt;
 text-indent:-.25in;line-height:normal'><span lang=IN style='font-family:"Arial",sans-serif'>1.<span
 style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span><span
-lang=IN style='font-family:"Arial",sans-serif'>No Pendaftaran/Tgl : </span></p>
+lang=IN style='font-family:"Arial",sans-serif'>No Pendaftaran RH/Tgl : {{$dokumen->daftar_no}} / {{tgl_indo($dokumen->daftar_tgl)}}</span></p>
 
 <p class=MsoListParagraphCxSpMiddle style='margin-bottom:0in;margin-bottom:
 .0001pt;text-indent:-.25in;line-height:normal'><span lang=IN style='font-family:

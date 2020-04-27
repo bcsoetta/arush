@@ -29,6 +29,7 @@ Dokumen
                             <th>Nomor</th>
                             <th>Tanggal</th>
                             <th>Importir</th>
+                            <th>PPJK</th>
                             <th>HAWB</th>
                             <th>Tgl</th>
                             <th>SPPB</th>
@@ -53,17 +54,16 @@ Dokumen
 <script src="{{ asset('js/dataTables.bootstrap.min.js') }}"></script>
 <script>
    $(document).ready(function(){
-       console.log("ready show");
         $(function() {
             $('#process-table').DataTable({
                 processing: true,
                 serverSide: true,
                 responsive: true,
                 ajax: '{!! route('dokumen.proses') !!}',
-                order: [ [12,'asc'],[1, 'desc'] ],
+                order: [ [13,'asc'],[1, 'desc'] ],
                 columnDefs:[
                     {
-                        targets: [12],
+                        targets: [13],
                         visible : false,
                         searchable : false
                     }
@@ -72,14 +72,15 @@ Dokumen
                     { data: 'daftar_no', name: 'daftar_no', className: "text-center" },
                     { data: 'daftar_tgl', name: 'daftar_tgl', className: "text-center"},
                     { data: 'importir_nm', name: 'importir_nm' },
+                    { data: 'ppjk_nm', name: 'ppjk_nm' },
                     { data: 'hawb_no', name: 'hawb_no' },
                     { data: 'hawb_tgl', name: 'hawb_tgl', className: "text-center"},
-                    { data: 'no_sppb', name: 'no_sppb', className: "text-center"},
-                    { data: 'tgl_sppb', name: 'tgl_sppb', className: "text-center"},
-                    { data: 'waktu_keluar', name: 'waktu_keluar', className: "text-center"},
-                    { data: 'no_pib', name: 'no_pib', className: "text-center"},
-                    { data: 'tgl_pib', name: 'tgl_pib', className: "text-center"},
-                    { data: 'tgl_ntpn', name: 'tgl_ntpn', className: "text-center"},
+                    { data: 'no_sppb', name: 'dokumen_sppb.no_sppb', className: "text-center"},
+                    { data: 'created_at', name: 'dokumen_sppb.created_at', className: "text-center"},
+                    { data: 'waktu_keluar', name: 'dokumen_sppb.waktu_keluar', className: "text-center"},
+                    { data: 'nomor', name: 'dokumen_definitif.nomor', className: "text-center"},
+                    { data: 'tanggal', name: 'dokumen_definitif.tanggal', className: "text-center"},
+                    { data: 'tgl_ntpn', name: 'dokumen_definitif.tgl_ntpn', className: "text-center"},
                     { data: 'status_label', name: 'status_label' },
                     { data: 'status_id', name: 'status_id' },
                     { data: 'action', name: 'action', orderable: false, searchable: false, className: "text-center"}

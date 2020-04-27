@@ -51,25 +51,23 @@ class DokumenController extends Controller
                         'dokumen.daftar_no',
                         'dokumen.daftar_tgl',
                         'dokumen.importir_nm',
+                        'dokumen.ppjk_nm',
                         'dokumen.hawb_no',
                         'dokumen.hawb_tgl',
                         'dokumen.status_label',
                         'dokumen.status_id',
                         'dokumen_sppb.no_sppb',
-                        'dokumen_sppb.created_at as tgl_sppb',
-                        'dokumen_sppb.created_at as tgl_sppb',
-                        'dokumen_sppb.waktu_keluar as waktu_keluar',
-                        'dokumen_definitif.nomor as no_pib',
-                        'dokumen_definitif.tanggal as tgl_pib',
-                        'dokumen_definitif.tgl_ntpn as tgl_ntpn'
+                        'dokumen_sppb.created_at',
+                        'dokumen_sppb.waktu_keluar',
+                        'dokumen_definitif.nomor',
+                        'dokumen_definitif.tanggal',
+                        'dokumen_definitif.tgl_ntpn'
                     )
                     ->leftJoin('dokumen_sppb','dokumen.id','=','dokumen_sppb.dokumen_id')
                     ->leftJoin('dokumen_definitif','dokumen.id','=','dokumen_definitif.dokumen_id')
-                    ->where('status_id','<', 7)
-                    ->get();
+                    ->where('status_id','<', 7);
 
             return Datatables::of($dokumen)
-            
             ->addColumn('action', function ($dokumen) {
                 $urlDokumen= url('dokumen/'.$dokumen->id);
                 return '<a href="'.$urlDokumen.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Detail</a>';
@@ -94,21 +92,21 @@ class DokumenController extends Controller
                         'dokumen.daftar_no',
                         'dokumen.daftar_tgl',
                         'dokumen.importir_nm',
+                        'dokumen.ppjk_nm',
                         'dokumen.hawb_no',
                         'dokumen.hawb_tgl',
                         'dokumen.status_label',
                         'dokumen.status_id',
                         'dokumen_sppb.no_sppb',
-                        'dokumen_sppb.created_at as tgl_sppb',
-                        'dokumen_sppb.created_at as tgl_sppb',
-                        'dokumen_sppb.waktu_keluar as waktu_keluar',
-                        'dokumen_definitif.nomor as no_pib',
-                        'dokumen_definitif.tanggal as tgl_pib',
-                        'dokumen_definitif.tgl_ntpn as tgl_ntpn'
+                        'dokumen_sppb.created_at',
+                        'dokumen_sppb.created_at',
+                        'dokumen_sppb.waktu_keluar',
+                        'dokumen_definitif.nomor',
+                        'dokumen_definitif.tanggal',
+                        'dokumen_definitif.tgl_ntpn'
                     )
                     ->leftJoin('dokumen_sppb','dokumen.id','=','dokumen_sppb.dokumen_id')
-                    ->leftJoin('dokumen_definitif','dokumen.id','=','dokumen_definitif.dokumen_id')
-                    ->get();
+                    ->leftJoin('dokumen_definitif','dokumen.id','=','dokumen_definitif.dokumen_id');
 
         return Datatables::of($dokumen)
         

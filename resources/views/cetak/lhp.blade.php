@@ -58,9 +58,6 @@ PELAYANAN UTAMA TIPE C SOEKARNO HATTA</span></p>
  </tr>
 </table>
 
-<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt'><b><u><span
-lang=IN style='font-family:"Arial",sans-serif'><span style='text-decoration:
- none'>&nbsp;</span></span></u></b></p>
 
 <table class=MsoTableGrid border=0 cellspacing=0 cellpadding=0
  style='border-collapse:collapse;border:none'>
@@ -82,7 +79,34 @@ normal'><span lang=IN style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
   <td width=151 valign=top style='width:113.15pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
   150%'><a name="OLE_LINK6"></a><a name="OLE_LINK5"></a><a name="OLE_LINK4"><span
-  lang=IN style='font-family:"Arial",sans-serif'>Nomor Pendaftaran</span></a></p>
+  lang=IN style='font-family:"Arial",sans-serif'>No Pendaftaran RH</span></a></p>
+  </td>
+  <td width=19 valign=top style='width:14.2pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  150%'><span lang=IN style='font-family:"Arial",sans-serif'>:</span></p>
+  </td>
+  <td width=190 valign=top style='width:142.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  150%'><span lang=IN style='font-family:"Arial",sans-serif'>{{$dokumen->daftar_no}}</span></p>
+  </td>
+  <td width=67 valign=top style='width:50.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  150%'><span lang=IN style='font-family:"Arial",sans-serif'>Tanggal</span></p>
+  </td>
+  <td width=19 valign=top style='width:13.9pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  150%'><span lang=IN style='font-family:"Arial",sans-serif'>:</span></p>
+  </td>
+  <td width=251 valign=top style='width:188.35pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  150%'><span lang=IN style='font-family:"Arial",sans-serif'>{{tgl_indo($dokumen->daftar_tgl)}}</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=151 valign=top style='width:113.15pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  150%'><a name="OLE_LINK6"></a><a name="OLE_LINK5"></a><a name="OLE_LINK4"><span
+  lang=IN style='font-family:"Arial",sans-serif'>Nomor LHP</span></a></p>
   </td>
   <td width=19 valign=top style='width:14.2pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
@@ -503,7 +527,5 @@ normal'><span lang=IN style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
   </td>
  </tr>
 </table>
-
-<p class=MsoNormal><span lang=IN>&nbsp;</span></p>
 
 </div></body></html>

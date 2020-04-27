@@ -72,7 +72,7 @@
         </ul>
     </li>
     @can('SEARCH')
-    <li><a href="{{ route('search.index')}}">Pencarian <span class="glyphicon glyphicon-search" aria-hidden="true"></span></a></li>
+    {{-- <li><a href="{{ route('search.index')}}">Pencarian <span class="glyphicon glyphicon-search" aria-hidden="true"></span></a></li> --}}
     @endcan
 </ul>
 @endif

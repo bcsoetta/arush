@@ -173,19 +173,27 @@ class PendokController extends Controller
             return back();
         }
 
-        $dokumen= Dokumen::where('status_id', 5)
-        ->orWhere('status_id', 6);
+        // $dokumen= Dokumen::where('status_id', 5)
+        // ->orWhere('status_id', 6);
+
+        $dokumen = DB::table('dokumen')->select(
+            'dokumen.id',
+            'dokumen.daftar_no',
+            'dokumen.daftar_tgl',
+            'dokumen.importir_nm',
+            'dokumen.hawb_no',
+            'dokumen.hawb_tgl',
+            'dokumen_sppb.no_sppb',
+            'dokumen_sppb.created_at',
+            'dokumen.status_label'
+        )
+        ->leftJoin('dokumen_sppb','dokumen.id','=','dokumen_sppb.dokumen_id')
+        ->where('dokumen.status_id', [5,6]);
 
         return Datatables::of($dokumen)
-        ->addColumn('sppb', function(Dokumen $dokumen){
-            return $dokumen->sppb->no_sppb;
-        })
-        ->addColumn('tgl_sppb', function(Dokumen $dokumen){
-            return $dokumen->sppb->created_at;
-        })
-        ->addColumn('action', function ($dokumen) {
-            return '<a href="'. route('pendok.create', $dokumen->id) .'" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-edit"></i>Rekam Dokumen Definitif</a>';
-        })
-        ->make(true);
+            ->addColumn('action', function ($dokumen) {
+                return '<a href="'. route('pendok.create', $dokumen->id) .'" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-edit"></i>Rekam Dokumen Definitif</a>';
+            })
+            ->make(true);
     }
 }

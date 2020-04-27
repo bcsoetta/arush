@@ -45,7 +45,6 @@ class GateOutController extends Controller
             return back();
         }
 
-        
         $detailBarang = $dokumen->detail;
         
         return view('gate-out.create', compact('dokumen', 'detailBarang'));
@@ -178,18 +177,22 @@ class GateOutController extends Controller
             return back();
         }
 
-        $dokumen = Dokumen::where('status_id', '5');
+        // $dokumen = Dokumen::where('status_id', '5');
+        $dokumen = DB::table('dokumen')->select(
+            'dokumen.id',
+            'dokumen.daftar_no',
+            'dokumen.daftar_tgl',
+            'dokumen.importir_nm',
+            'dokumen.hawb_no',
+            'dokumen.hawb_tgl',
+            'dokumen_sppb.no_sppb',
+            'dokumen_sppb.created_at'
+
+        )
+        ->leftJoin('dokumen_sppb','dokumen.id','=','dokumen_sppb.dokumen_id')
+        ->where('dokumen.status_id', 5);
 
         return Datatables::of($dokumen)
-        ->addColumn('daftar_tgl', function(Dokumen $dokumen){
-            return tgl_indo($dokumen->daftar_tgl);
-        })
-        ->addColumn('sppb', function(Dokumen $dokumen){
-            return $dokumen->sppb->no_sppb;
-        })
-        ->addColumn('tgl_sppb', function(Dokumen $dokumen){
-            return tgl_indo($dokumen->sppb->created_at);
-        })
         ->addColumn('action', function ($dokumen) {
             return '<a href="'. route('gateout.create', $dokumen->id) .'" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-edit"></i> Proses pengeluaran</a>';
         })

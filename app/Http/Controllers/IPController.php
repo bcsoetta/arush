@@ -42,20 +42,18 @@ class IPController extends Controller
             return back();
         }
         
-
-
         if (auth()->user()->hasRole('PEMERIKSA')) {
             $ip = DB::table('dokumen_ip')
                     ->select(
-                        'dokumen.id as id',
+                        'dokumen.id',
                         'dokumen.status_id',
-                        'dokumen.daftar_no as nomor',
-                        'dokumen.daftar_tgl as tgl',
-                        'dokumen.importir_nm as importir',
-                        'dokumen.hawb_no as awb',
-                        'dokumen_ip.no_ip as no_ip',
-                        'dokumen_ip.created_at as ip_tgl',
-                        'dokumen_ip.pemeriksa_nama as pemeriksa',
+                        'dokumen.daftar_no',
+                        'dokumen.daftar_tgl',
+                        'dokumen.importir_nm',
+                        'dokumen.hawb_no',
+                        'dokumen_ip.no_ip',
+                        'dokumen_ip.created_at',
+                        'dokumen_ip.pemeriksa_nama',
                         'dokumen_ip.tingkat_periksa',
                         'dokumen_ip.aju_contoh',
                         'dokumen_ip.aju_foto',
@@ -69,15 +67,15 @@ class IPController extends Controller
         if (auth()->user()->hasRole('ADMIN')) {
             $ip = DB::table('dokumen_ip')
                     ->select(
-                        'dokumen.id as id',
+                        'dokumen.id',
                         'dokumen.status_id',
-                        'dokumen.daftar_no as nomor',
-                        'dokumen.daftar_tgl as tgl',
-                        'dokumen.importir_nm as importir',
-                        'dokumen.hawb_no as awb',
-                        'dokumen_ip.no_ip as no_ip',
-                        'dokumen_ip.created_at as ip_tgl',
-                        'dokumen_ip.pemeriksa_nama as pemeriksa',
+                        'dokumen.daftar_no',
+                        'dokumen.daftar_tgl',
+                        'dokumen.importir_nm',
+                        'dokumen.hawb_no',
+                        'dokumen_ip.no_ip',
+                        'dokumen_ip.created_at',
+                        'dokumen_ip.pemeriksa_nama',
                         'dokumen_ip.tingkat_periksa',
                         'dokumen_ip.aju_contoh',
                         'dokumen_ip.aju_foto',
@@ -85,26 +83,14 @@ class IPController extends Controller
                         )
                     ->join('dokumen', 'dokumen_ip.dokumen_id', '=','dokumen.id');
         }
-
-
-
             return Datatables::of($ip)
-                ->editColumn('tgl', function($ip){
-                    return date('d-m-Y', strtotime($ip->tgl));
-                })
-                ->editColumn('ip_tgl', function($ip){
-                    return date('d-m-Y', strtotime($ip->ip_tgl));
-                })
                 ->addColumn('action', function ($ip) {
-
-                    $btn = '<a href="'.route('cetak.ip', $ip->id).'" class="btn btn-xs btn-primary">Cetak IP</a> ';
-                    
+                    //$ip->id adalah dokumen.id (automatis alias jadi id)
+                    $btn = '<a href="'.route('cetak.ip', $ip->id).'" class="btn btn-xs btn-primary" target="_blank">Cetak IP</a> ';
                     //jika status rekam LHP muncul tombol rekam
                     if($ip->status_id == 3){
                         $btn = $btn . '<a href="'. route('lhp.create', $ip->id).'" class="btn btn-xs btn-danger">Rekam LHP</a>';
-
                     }
-
                     return $btn;
                 })
                 ->make(true);

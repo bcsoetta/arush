@@ -57,14 +57,14 @@ Laporan Hasil Pemeriksaan (LHP)
                 ],
                 ajax: '{!! route('lhp.dataLhp') !!}',
                 columns: [
-                    { data: 'nomor', name: 'nomor', className: "text-center" },
-                    { data: 'tgl', name: 'tgl', className: "text-center" },
-                    { data: 'no_lhp', name: 'no_lhp', className: "text-center" },
-                    { data: 'lhp_tgl', name: 'lhp_tgl', className: "text-center" },
-                    { data: 'importir', name: 'importir' },
-                    { data: 'awb', name: 'awb'},
-                    { data: 'pemeriksa', name: 'pemeriksa' },
-                    { data: 'updated_at', name: 'updated_at'},
+                    { data: 'daftar_no', name: 'dokumen.daftar_no', className: "text-center" },
+                    { data: 'daftar_tgl', name: 'dokumen.daftar_tgl', className: "text-center" },
+                    { data: 'no_lhp', name: 'dokumen_lhp.no_lhp', className: "text-center" },
+                    { data: 'created_at', name: 'dokumen_lhp.created_at', className: "text-center" },
+                    { data: 'importir_nm', name: 'dokumen.importir_nm' },
+                    { data: 'hawb_no', name: 'dokumen.hawb_no'},
+                    { data: 'pemeriksa_nama', name: 'dokumen_lhp.pemeriksa_nama' },
+                    { data: 'updated_at', name: 'dokumen.updated_at'},
                     { data: 'action', name: 'action', orderable: false, searchable: false}
                 ]
             });

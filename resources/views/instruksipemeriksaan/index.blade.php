@@ -59,17 +59,17 @@ IP
                     }
                 ],
                 columns: [
-                    { data: 'nomor', name: 'nomor', className: "text-center" },
-                    { data: 'tgl', name: 'tgl', className: "text-center" },
-                    { data: 'no_ip', name: 'no_ip', className: "text-center" },
-                    { data: 'ip_tgl', name: 'ip_tgl', className: "text-center" },
-                    { data: 'importir', name: 'importir' },
-                    { data: 'awb', name: 'awb'},
-                    { data: 'pemeriksa', name: 'pemeriksa' },
-                    { data: 'tingkat_periksa', name: 'tingkat_periksa', className: "text-center" },
-                    { data: 'aju_contoh', name: 'aju_contoh', className: "text-center" },
-                    { data: 'aju_foto', name: 'aju_foto', className: "text-center" },
-                    { data: 'updated_at', name: 'updated_at'},
+                    { data: 'daftar_no', name: 'dokumen.daftar_no', className: "text-center" },
+                    { data: 'daftar_tgl', name: 'dokumen.daftar_tgl', className: "text-center" },
+                    { data: 'no_ip', name: 'dokumen_ip.no_ip', className: "text-center" },
+                    { data: 'created_at', name: 'dokumen_ip.created_at', className: "text-center" },
+                    { data: 'importir_nm', name: 'dokumen.importir_nm' },
+                    { data: 'hawb_no', name: 'dokumen.hawb_no'},
+                    { data: 'pemeriksa_nama', name: 'dokumen_ip.pemeriksa_nama' },
+                    { data: 'tingkat_periksa', name: 'dokumen_ip.tingkat_periksa', className: "text-center" },
+                    { data: 'aju_contoh', name: 'dokumen_ip.aju_contoh', className: "text-center" },
+                    { data: 'aju_foto', name: 'dokumen_ip.aju_foto', className: "text-center" },
+                    { data: 'updated_at', name: 'dokumen.updated_at'},
                     { data: 'action', name: 'action', orderable: false, searchable: false, className: "text-center"}
                 ]
             });

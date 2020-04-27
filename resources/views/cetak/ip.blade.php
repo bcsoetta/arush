@@ -118,6 +118,33 @@ style='font-size:12.0pt;line-height:115%;font-family:"Arial",sans-serif'>{{tgl_i
 <td width=189 valign=top style='width:141.5pt;padding:0cm 5.4pt 0cm 5.4pt'>
 <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><span
 style='font-size:12.0pt;line-height:115%;font-family:"Arial",sans-serif'>Nomor
+IP</span></p>
+</td>
+<td width=19 valign=top style='width:14.2pt;padding:0cm 5.4pt 0cm 5.4pt'>
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><span
+style='font-size:12.0pt;line-height:115%;font-family:"Arial",sans-serif'>:</span></p>
+</td>
+<td width=170 valign=top style='width:127.55pt;padding:0cm 5.4pt 0cm 5.4pt'>
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><span
+style='font-size:12.0pt;line-height:115%;font-family:"Arial",sans-serif'>{{$dokumen->ip->no_ip}}</span></p>
+</td>
+<td width=76 valign=top style='width:2.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><span
+style='font-size:12.0pt;line-height:115%;font-family:"Arial",sans-serif'>Tanggal</span></p>
+</td>
+<td width=47 valign=top style='width:35.45pt;padding:0cm 5.4pt 0cm 5.4pt'>
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><span
+style='font-size:12.0pt;line-height:115%;font-family:"Arial",sans-serif'>:</span></p>
+</td>
+<td width=164 valign=top style='width:123.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><span
+style='font-size:12.0pt;line-height:115%;font-family:"Arial",sans-serif'>{{tgl_indo($dokumen->ip->created_at)}}</span></p>
+</td>
+</tr>
+<tr>
+<td width=189 valign=top style='width:141.5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><span
+style='font-size:12.0pt;line-height:115%;font-family:"Arial",sans-serif'>Nomor
 </span><span lang=EN-US style='font-size:12.0pt;line-height:115%;font-family:
 "Arial",sans-serif'>H</span><span style='font-size:12.0pt;line-height:115%;
 font-family:"Arial",sans-serif'>A</span><span lang=EN-US style='font-size:

@@ -48,15 +48,15 @@ class LHPController extends Controller
         if (auth()->user()->hasRole('PEMERIKSA')) {
             $lhp = DB::table('dokumen_lhp')
                     ->select(
-                        'dokumen.id as id',
+                        'dokumen.id',
                         'dokumen.status_id',
-                        'dokumen.daftar_no as nomor',
-                        'dokumen.daftar_tgl as tgl',
-                        'dokumen.importir_nm as importir',
-                        'dokumen.hawb_no as awb',
-                        'dokumen_lhp.no_lhp as no_lhp',
-                        'dokumen_lhp.created_at as lhp_tgl',
-                        'dokumen_lhp.pemeriksa_nama as pemeriksa',
+                        'dokumen.daftar_no',
+                        'dokumen.daftar_tgl',
+                        'dokumen.importir_nm',
+                        'dokumen.hawb_no',
+                        'dokumen_lhp.no_lhp',
+                        'dokumen_lhp.created_at',
+                        'dokumen_lhp.pemeriksa_nama',
                         'dokumen.updated_at'
                         )
                     ->join('dokumen', 'dokumen_lhp.dokumen_id', '=','dokumen.id')
@@ -66,15 +66,15 @@ class LHPController extends Controller
         if (auth()->user()->hasRole('ADMIN')) {
             $lhp = DB::table('dokumen_lhp')
                     ->select(
-                        'dokumen.id as id',
+                        'dokumen.id',
                         'dokumen.status_id',
-                        'dokumen.daftar_no as nomor',
-                        'dokumen.daftar_tgl as tgl',
-                        'dokumen.importir_nm as importir',
-                        'dokumen.hawb_no as awb',
-                        'dokumen_lhp.no_lhp as no_lhp',
-                        'dokumen_lhp.created_at as lhp_tgl',
-                        'dokumen_lhp.pemeriksa_nama as pemeriksa',
+                        'dokumen.daftar_no',
+                        'dokumen.daftar_tgl',
+                        'dokumen.importir_nm',
+                        'dokumen.hawb_no',
+                        'dokumen_lhp.no_lhp',
+                        'dokumen_lhp.created_at',
+                        'dokumen_lhp.pemeriksa_nama',
                         'dokumen.updated_at'
                         )
                     ->join('dokumen', 'dokumen_lhp.dokumen_id', '=','dokumen.id');
@@ -83,14 +83,7 @@ class LHPController extends Controller
 
 
             return Datatables::of($lhp)
-                ->editColumn('tgl', function($lhp){
-                    return date('d-m-Y', strtotime($lhp->tgl));
-                })
-                ->editColumn('lhp_tgl', function($lhp){
-                    return date('d-m-Y', strtotime($lhp->lhp_tgl));
-                })
                 ->addColumn('action', function ($lhp) {
-
                     $btn = '<a href="'.route('lhp.show', $lhp->id).'" class="btn btn-xs btn-success">Lihat</a> 
                         <a href="'.route('cetak.lhp', $lhp->id).'" class="btn btn-xs btn-primary" target="_blank">Cetak</a>
                         <a href="'.route('cetak.ba', $lhp->id).'" class="btn btn-xs btn-primary" target="_blank">Cetak BA</a> 
@@ -101,7 +94,6 @@ class LHPController extends Controller
                         $btn = $btn . '<a href="'. route('lhp.edit', $lhp->id).'" class="btn btn-xs btn-danger">Edit</a>';
 
                     }
-
                     return $btn;
                 })
                 ->make(true);

@@ -157,7 +157,7 @@ Dokumen Lengkap
                             <td style="text-align: center">{{$dokap->nama}}</td>
                             <td style="text-align: center">{{$dokap->nomor}}</td>
                             <td style="text-align: center">{{$dokap->tgl}}</td>
-                            <td style="text-align: center">{{!empty($dokap->file) ? 'Yes' : 'No'}}</td>
+                            <td style="text-align: center">{{!empty($dokap->file) ? 'Ada' : 'Tidak Ada'}}</td>
                             <td class="text-center">
                                 @if(!empty($dokap->file))
                                 <a class="btn btn-primary btn-xs" href="{{route('dokumen-pelengkap.show', $dokap->id)}}" target="_blank">Show</a>
@@ -692,16 +692,18 @@ Dokumen Lengkap
                             @endif
                         </div>
                     </div>
-                    <div class="form-group{{ $errors->has('tanggal_jatuh_tempo') ? ' has-error' : '' }}">
-                        <label for="tanggal_jatuh_tempo" class="col-md-4 control-label">File</label>
+                    <div class="form-group{{ $errors->has('file_dok') ? ' has-error' : '' }}">
+                        <label for="file_dok" class="col-md-4 control-label">File</label>
 
                         <div class="col-md-8">
                             <input id="file_dok" type="file" class="form-control" name="file_dok" value="{{ old('file_dok') }}" >
 
-                            @if ($errors->has('file'))
+                            @if ($errors->has('file_dok'))
                             <span class="help-block">
-                                <strong>{{ $errors->first('file') }}</strong>
+                                <strong>{{ $errors->first('file_dok') }}</strong>
                             </span>
+                            @else
+                            <span>wajib file, format: pdf, jpg, png, jpeg, max: 15M</span>
                             @endif
                         </div>
                     </div>                

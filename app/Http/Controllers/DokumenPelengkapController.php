@@ -43,6 +43,7 @@ class DokumenPelengkapController extends Controller
             'dok_id' => 'required',
             'nama_dok' => 'required',
             'no_dok' => 'required',
+            'file_dok'  => 'mimes:pdf,png,jpg,jpeg|max:15360',
         ]);
 
         $dokumen = Dokumen::findOrFail($request->dok_id);
@@ -52,18 +53,28 @@ class DokumenPelengkapController extends Controller
         $dokPel->nama= $request->nama_dok;
         $dokPel->nomor = $request->no_dok;
         $dokPel->tgl = $request->tgl_dok;
+        //jika ada file
         if($request->hasFile('file_dok'))
         {
-            $size = File::size($request->file_dok);
-            $fileName = $request->file_dok->hashName();
-            $request->file_dok->storeAs('public\dokumen_pelengkap', $fileName);
-            $dokPel->file = $fileName;
-            $dokPel->size = $size;
+            //jika berhasil diupload
+            if($request->file('file_dok')->isValid()){
+                $size = File::size($request->file_dok);
+                $fileName = $request->file_dok->hashName();
+                $request->file_dok->storeAs('public\dokumen_pelengkap', $fileName);
+                $dokPel->file = $fileName;
+                $dokPel->size = $size;
+            } else {
+                Alert::error('File tidak berhasil diupload');
+                return back();
+            }
+        } else {
+            Alert::error('Tidak ada File');
+            return back();
         }
         $dokPel->save();
 
         Alert::success('Berhasil Disimpan');
-        return redirect()->route('mydokumen.show', $dokumen->id);
+        return redirect()->route('dokumen.show', $dokumen->id);
     }
 
     /**

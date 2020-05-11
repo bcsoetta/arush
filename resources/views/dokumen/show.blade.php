@@ -703,7 +703,7 @@ Dokumen Lengkap
                                 <strong>{{ $errors->first('file_dok') }}</strong>
                             </span>
                             @else
-                            <span>wajib file, format: pdf, jpg, png, jpeg, max: 15M</span>
+                            <span>wajib file, format: pdf, jpg, png, jpeg, max: 10M</span>
                             @endif
                         </div>
                     </div>                

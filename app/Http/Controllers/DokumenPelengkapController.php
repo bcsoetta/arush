@@ -43,7 +43,7 @@ class DokumenPelengkapController extends Controller
             'dok_id' => 'required',
             'nama_dok' => 'required',
             'no_dok' => 'required',
-            'file_dok'  => 'mimes:pdf,png,jpg,jpeg|max:15360',
+            'file_dok'  => 'mimes:pdf,png,jpg,jpeg|max:10240',
         ]);
 
         $dokumen = Dokumen::findOrFail($request->dok_id);

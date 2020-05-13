@@ -218,7 +218,7 @@ class KursController extends Controller
 
     public function grab_number($kmk)
     {
-        return str_replace(',', '', $kmk);
-        // return str_replace(',', '.', $data);
+        $data = str_replace('.', '', $kmk);
+        return str_replace(',', '.', $data);
     }
 }

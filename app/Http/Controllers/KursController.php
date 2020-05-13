@@ -132,7 +132,7 @@ class KursController extends Controller
 
     // }
 
-    public function updateAll()
+    public function updateAllx()
     {
         $queries=array();
         $validity=array();
@@ -221,4 +221,126 @@ class KursController extends Controller
         $data = str_replace('.', '', $kmk);
         return str_replace(',', '.', $data);
     }
+
+    function updateAll() {	
+		$monthLookup = array(
+			'Januari'	=> '01',
+			'January'	=> '01',
+			'Februari'	=> '02',
+			'February'	=> '02',
+			'Maret'		=> '03',
+			'March'		=> '03',
+			'April'		=> '04',
+			'Mei'		=> '05',
+			'May'		=> '05',
+			'Juni'		=> '06',
+			'June'		=> '06',
+			'Juli'		=> '07',
+			'July'		=> '07',
+			'Agustus'	=> '08',
+			'August'	=> '08',
+			'September'	=> '09',
+			'Oktober'	=> '10',
+			'October'	=> '10',
+			'Nopember'	=> '11',
+			'November'	=> '11',
+			'Desember'	=> '12',
+			'December'	=> '12'
+			);	
+		// ssl context (BYPASS SSL)
+		$arrContextOptions=array(
+			"ssl"=>array(
+				"cafile" => "/home/services/kurs_kemenkeu.crt",
+				"verify_peer"=>false,
+				"verify_peer_name"=>false,
+			),
+		);  
+		// source data
+		$html = file_get_contents('http://www.fiskal.kemenkeu.go.id/dw-kurs-db.asp', false, stream_context_create($arrContextOptions) );
+
+
+		// echo $html;
+
+		// grab tanggal awal dan akhir
+		$patTanggal = '/Tanggal Berlaku\:\s(\d{1,2})\s+(\w+)\s+(\d{4})\s\-\s(\d{1,2})\s+(\w+)\s+(\d{4})/i';
+
+
+		$result = preg_match($patTanggal, $html, $matches);
+
+
+		if (count($matches) >= 6) {
+			// fix tanggal
+			if (strlen($matches[1]) == 1)
+				$matches[1] = '0'.$matches[1];
+
+			if (strlen($matches[4]) == 1)
+				$matches[4] = '0'.$matches[4];	
+
+			$retData = array(
+				'dateStart'	=> $matches[3].'-'.$monthLookup[$matches[2]].'-'.$matches[1],
+				'dateEnd'	=> $matches[6].'-'.$monthLookup[$matches[5]].'-'.$matches[4],
+				'data' => array()
+				);
+		} else{
+			Alert::error('no data');
+            return redirect()->back();
+        }
+
+		// grab data asli (KODE KURS + NILAI TUKARNYA)
+		$patKurs = '/\(([A-Z]{3})\).+.+>(.+)\s<img/';
+
+		$result = preg_match_all($patKurs, $html, $matches);
+		// dd($matches);
+
+		if (count($matches) > 2) {
+			// dump it all?
+			for ($i = 0; $i < count($matches[0]); $i++) {
+				$kdValuta = $matches[1][$i];
+
+				$matches[2][$i] = str_replace('.', '', $matches[2][$i]);
+				$nilai = str_replace(',', '.', $matches[2][$i]);
+
+
+				$kurs = $nilai * 1;
+
+				// for JPY, divide further by 100
+				if ($kdValuta == 'JPY')
+					$kurs /= 100.0;
+				// dd($kurs);
+
+				// echo $kdValuta . ' = ' . sprintf("%.4f", $kurs) . "\n";
+
+				// just plug it in I guess
+				$retData['data'][$kdValuta] = sprintf("%.4f", $kurs);
+			}	
+		} else {
+		    Alert::error('no data');
+            return redirect()->back();
+        }
+
+		if (isset($retData)){
+            foreach ($retData['data'] as $key => $value) {
+                $valuta = DB::table('kurs')->where('code', $key)->get();
+                if(count($valuta) > 0){
+                    //jika sudah ada
+                    DB::table('kurs')
+                        ->where('code', $key)
+                        ->update(['nilai' => $value]);
+                } else {
+                    //jika belum ada ada
+                    DB::table('kurs')->insert(
+                        ['code'=> $key, 'label'=> $key, 'nilai'=> $value]
+                    );
+                }
+            }
+                DB::table('kurs')->update(['tgl_awal' => $retData['dateStart']]);
+                DB::table('kurs')->update(['tgl_akhir' => $retData['dateEnd']]);
+                
+                Alert::success('Update kurs');
+                return redirect()->back();
+        }else {
+		    Alert::error('no data');
+            return redirect()->back();
+        }
+	}
 }

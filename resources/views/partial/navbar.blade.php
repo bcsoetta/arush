@@ -65,11 +65,11 @@
             @endcan
             @can('PERMISSION')
             <li><a href="{{route('permissions.index')}}">Permissions</a></li>
+            <li><a href="{{route('setting.show')}}">Setting</a></li>
             @endcan
             @can('RESET-PASSWORD')
             <li><a href="{{route('reset-password')}}">Reset Password</a></li>
             @endcan
-            <li><a href="{{route('setting.show')}}">Setting</a></li>
         </ul>
     </li>
     @can('SEARCH')

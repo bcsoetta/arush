@@ -42,10 +42,10 @@
         <ul class="dropdown-menu">
             <li><a href="{{ route('change-password')}}">Change Password</a></li>
             @can('USERS')
+            <li><a href="{{route('users.index')}}">Users</a></li>
+            @endcan
             @can('SET-PERUSAHAAN')
             <li><a href="{{ route('perusahaan.index')}}">Perusahaan</a></li>
-            @endcan
-            <li><a href="{{route('users.index')}}">Users</a></li>
             @endcan
             @can('PROFILE')
             <li><a href="{{route('profiles.index')}}">Profile</a></li>
@@ -69,6 +69,7 @@
             @can('RESET-PASSWORD')
             <li><a href="{{route('reset-password')}}">Reset Password</a></li>
             @endcan
+            <li><a href="{{route('setting.show')}}">Setting</a></li>
         </ul>
     </li>
     @can('SEARCH')

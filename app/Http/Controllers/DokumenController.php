@@ -149,6 +149,7 @@ class DokumenController extends Controller
             Alert::error('Sorry');
             return back();
         }
+        
 
         $this->validate($request,[
             'importir_nm' =>   'required|min:3',
@@ -171,6 +172,7 @@ class DokumenController extends Controller
             'netto' => 'required|numeric',
             'lokasi' => 'required'
         ]);
+
 
         //Cek barang covid kah
 
@@ -201,11 +203,13 @@ class DokumenController extends Controller
             }
         }
 
-        // // block them all
-        // if(count($blokir) > 0){
-        //     //back to 
-        //     return view('dokumen/belum-definitif', compact('importirBelumPib'));
-        // }
+        $set = DB::table('setting')->where('blokir', 'Y')->find(1);
+
+        // block them all
+        if(count($blokir) > 0 AND isset($set->blokir)){
+            //back to 
+            return view('dokumen/belum-definitif', compact('importirBelumPib'));
+        }
 
         // simpan ke DB
         try{
@@ -597,11 +601,12 @@ class DokumenController extends Controller
                     $blokir[] = 1;
                 }
             }
-
-            //jika ada yang di blokir maka data dikirim
-            // if(count($blokir) > 0){
-            //     return json_encode($dokumen);
-            // }
+            //setting pemblokiran ON or OFF
+            $set = DB::table('setting')->where('blokir', 'Y')->find(1);
+            // jika ada yang di blokir maka data dikirim
+            if(count($blokir) > 0 AND isset($set->blokir)){
+                return json_encode($dokumen);
+            }
     }
 
     public function pembatalan(Request $request, $id){

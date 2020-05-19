@@ -12,6 +12,9 @@ Route::resource('/admin/users','UsersController');
 Route::resource('/pengangkut','PengangkutController');
 Route::resource('/user/profiles','UserProfilesController');
 Route::resource('/admin/libur-nasional','LiburNasionalController');
+//setting
+Route::get('/setting','SettingController@show')->name('setting.show');
+Route::post('/setting','SettingController@update')->name('setting.update');
 
 //DOKUMEN
 Route::resource('/dokumen','DokumenController');

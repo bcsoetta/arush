@@ -132,7 +132,7 @@ class KursController extends Controller
 
     // }
 
-    public function updateAllx()
+    public function updateAll()
     {
         $queries=array();
         $validity=array();
@@ -218,11 +218,13 @@ class KursController extends Controller
 
     public function grab_number($kmk)
     {
-        $data = str_replace('.', '', $kmk);
-        return str_replace(',', '.', $data);
+        // $data = str_replace('.', '', $kmk);
+        // return str_replace(',', '.', $data);
+        return str_replace(',', '', $kmk);
+        // dd($kmk);
     }
 
-    function updateAll() {	
+    function updateAllx() {	
 		$monthLookup = array(
 			'Januari'	=> '01',
 			'January'	=> '01',
@@ -256,7 +258,7 @@ class KursController extends Controller
 			),
 		);  
 		// source data
-		$html = file_get_contents('http://www.fiskal.kemenkeu.go.id/dw-kurs-db.asp', false, stream_context_create($arrContextOptions) );
+		$html = file_get_contents('https://www.fiskal.kemenkeu.go.id/dw-kurs-db.asp', false, stream_context_create($arrContextOptions) );
 
 
 		// echo $html;

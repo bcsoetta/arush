@@ -147,9 +147,10 @@ class KursController extends Controller
         );
 
         $doc = new \DOMDocument;
-
-        if(@$doc->loadHTMLFile('https://fiskal.kemenkeu.go.id/dw-kurs-db.asp'))
+        dd(@$doc->loadHTML(file_get_contents('https://www.fiskal.kemenkeu.go.id/dw-kurs-db.asp')));
+        if(@$doc->loadHTML(file_get_contents('https://fiskal.kemenkeu.go.id/dw-kurs-db.asp')))
             {
+                dd($doc);
                 $tds=$doc->getElementsByTagName('td');
 
                 $valuta;
@@ -207,7 +208,7 @@ class KursController extends Controller
                 DB::table('kurs')->update(['tgl_akhir' => $tgl_akhir]);
 
             }else{
-                echo "Failed to load the kurs :(<br>Keknya masalah di DNSnya, coba clear dlu cachenya trus coba lagi";
+                Alert::error('Failed to load url fiskal');
             }
 
             Alert::success('Update kurs');
@@ -224,7 +225,7 @@ class KursController extends Controller
         // dd($kmk);
     }
 
-    function updateAllx() {	
+    function updateAll() {	
 		$monthLookup = array(
 			'Januari'	=> '01',
 			'January'	=> '01',
@@ -258,7 +259,7 @@ class KursController extends Controller
 			),
 		);  
 		// source data
-		$html = file_get_contents('https://www.fiskal.kemenkeu.go.id/dw-kurs-db.asp', false, stream_context_create($arrContextOptions) );
+		$html = file_get_contents('https://fiskal.kemenkeu.go.id/dw-kurs-db.asp', false, stream_context_create($arrContextOptions) );
 
 
 		// echo $html;
@@ -299,8 +300,9 @@ class KursController extends Controller
 			for ($i = 0; $i < count($matches[0]); $i++) {
 				$kdValuta = $matches[1][$i];
 
-				$matches[2][$i] = str_replace('.', '', $matches[2][$i]);
-				$nilai = str_replace(',', '.', $matches[2][$i]);
+				// $matches[2][$i] = str_replace('.', '', $matches[2][$i]);
+				// $nilai = str_replace(',', '.', $matches[2][$i]);
+				$nilai = str_replace(',', '', $matches[2][$i]);
 
 
 				$kurs = $nilai * 1;

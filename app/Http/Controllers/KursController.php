@@ -132,7 +132,7 @@ class KursController extends Controller
 
     // }
 
-    public function updateAll()
+    public function updateAllx()
     {
         $queries=array();
         $validity=array();
@@ -225,7 +225,7 @@ class KursController extends Controller
         // dd($kmk);
     }
 
-    function updateAll() {	
+    public function updateAll() {	
 		$monthLookup = array(
 			'Januari'	=> '01',
 			'January'	=> '01',

@@ -259,17 +259,23 @@ class KursController extends Controller
 			),
 		);  
 		// source data
-		$html = file_get_contents('https://fiskal.kemenkeu.go.id/dw-kurs-db.asp', false, stream_context_create($arrContextOptions) );
-
-
+        // source data
+		try {
+			//code...
+			$html = file_get_contents('https://fiskal.kemenkeu.go.id/informasi-publik/kurs-pajak', false, stream_context_create($arrContextOptions) );
+		} catch (\Exception $e) {
+			// return empty data, will be interpreted as service unavailable
+			return null;
+		}
+        
+        
+        
 		// echo $html;
-
+        
 		// grab tanggal awal dan akhir
-		$patTanggal = '/Tanggal Berlaku\:\s(\d{1,2})\s+(\w+)\s+(\d{4})\s\-\s(\d{1,2})\s+(\w+)\s+(\d{4})/i';
-
-
+        $patTanggal = '/Tanggal Berlaku\:\s(\d{1,2})\s+(\w+)\s+(\d{4})\s\-\s(\d{1,2})\s+(\w+)\s+(\d{4})/i';
+        
 		$result = preg_match($patTanggal, $html, $matches);
-
 
 		if (count($matches) >= 6) {
 			// fix tanggal
@@ -288,9 +294,9 @@ class KursController extends Controller
 			Alert::error('no data');
             return redirect()->back();
         }
-
 		// grab data asli (KODE KURS + NILAI TUKARNYA)
-		$patKurs = '/\(([A-Z]{3})\).+.+>(.+)\s<img/';
+        // $patKurs = '/\(([A-Z]{3})\).+.+>(.+)\s<img/';
+        $patKurs = '/\((\w{3})\)<\/td>\s+<td.+>\s+<img.+\/>\s+([0-9\,\.]+)<\/td>/';
 
 		$result = preg_match_all($patKurs, $html, $matches);
 		// dd($matches);
@@ -300,17 +306,27 @@ class KursController extends Controller
 			for ($i = 0; $i < count($matches[0]); $i++) {
 				$kdValuta = $matches[1][$i];
 
-				// $matches[2][$i] = str_replace('.', '', $matches[2][$i]);
-				// $nilai = str_replace(',', '.', $matches[2][$i]);
-				$nilai = str_replace(',', '', $matches[2][$i]);
+				// FIX: AUTO-DETECT NUMBER FORMAT. CHECK RIGHT MOST
+				$comma = substr($matches[2][$i], -3, 1);
 
+				if ($comma == ',') {
+					// some idiot at BKF decides to use comma as decimal separator					
+					$nilai = str_replace('.', '', $matches[2][$i]);
+					$nilai = str_replace(',', '.', $nilai);
+				} else if ($comma == '.') {
+					// the usual format. just remove all commas
+					$nilai = str_replace(',', '', $matches[2][$i]);
+				} else {
+					// must be error. throw something
+					throw new \Exception("Unknown decimal separator '{$comma}'", 400);
+				}
+				
 
 				$kurs = $nilai * 1;
 
 				// for JPY, divide further by 100
 				if ($kdValuta == 'JPY')
 					$kurs /= 100.0;
-				// dd($kurs);
 
 				// echo $kdValuta . ' = ' . sprintf("%.4f", $kurs) . "\n";
 

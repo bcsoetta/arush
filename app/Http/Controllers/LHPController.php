@@ -297,8 +297,8 @@ class LHPController extends Controller
             return back();
         }
         $lhp = Lhp::where('dokumen_id', $id)->latest()->first();
-
-        if ($lhp->pemeriksa_id != auth()->user()->id) {           
+        // dd(!auth()->user()->hasRole('ADMIN'));
+        if ($lhp->pemeriksa_id != auth()->user()->id AND  !auth()->user()->hasRole('ADMIN')) {           
             Alert::error('Bukan milik');
             return back();
         }
@@ -432,8 +432,9 @@ class LHPController extends Controller
         
         //cek user
         $photos = LhpPhoto::where('dokumen_lhp_id', $id)->get();
+        $dokId = $photos->first()->dokumen_id;
 
-        return view('lhp.photo-edit', compact('photos'));
+        return view('lhp.photo-edit', compact('photos','dokId'));
 
     }
 
@@ -447,7 +448,7 @@ class LHPController extends Controller
 
         $photo = LhpPhoto::findOrFail($id);
 
-        if ($photo->user_id != auth()->user()->id) {           
+        if ($photo->user_id != auth()->user()->id AND  !auth()->user()->hasRole('ADMIN')) {           
             Alert::error('Bukan milik');
             return back();
         }

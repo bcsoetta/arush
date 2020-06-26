@@ -150,7 +150,6 @@ class DokumenController extends Controller
             return back();
         }
         
-
         $this->validate($request,[
             'importir_nm' =>   'required|min:3',
             'importir_npwp' => 'required',
@@ -179,7 +178,10 @@ class DokumenController extends Controller
         // Cek jika belum definitif untuk importir ini
 
         $importirBelumPib = Dokumen::whereIn('status_id', [5,6])
-        ->where('importir_npwp', $request->importir_npwp)
+        ->Where(function($q) use($request){
+            $q->where('importir_npwp', $request->importir_npwp)
+              ->orWhere('ppjk_npwp', $request->ppjk_npwp);
+        })
         ->get();
 
         $blokir=[];
@@ -544,8 +546,10 @@ class DokumenController extends Controller
             return back();
         }
             $dokumen = Dokumen::whereIn('status_id', [5,6])
-            ->where('importir_npwp', $request->importir_npwp)
-            ->orWhere('ppjk_npwp', $request->ppjk_npwp)
+            ->Where(function($q) use($request){
+                $q->where('importir_npwp', $request->importir_npwp)
+                  ->orWhere('ppjk_npwp', $request->ppjk_npwp);
+            })
             ->get();
 
             $blokir=[];

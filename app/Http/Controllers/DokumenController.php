@@ -180,7 +180,6 @@ class DokumenController extends Controller
 
         $importirBelumPib = Dokumen::whereIn('status_id', [5,6])
         ->where('importir_npwp', $request->importir_npwp)
-        ->orWhere('ppjk_npwp', $request->ppjk_npwp)
         ->get();
 
         $blokir=[];

@@ -373,18 +373,18 @@ Dokumen Lengkap
                         <tr>
                             <td>Instruksi Pemeriksaan(IP)</td>
 
-                            <td>{{$dokumen->ip['no_ip']}}</td>
-                            <td>{{tgl_indo($dokumen->ip['created_at'])}}</td>
+                            <td>{{$dokumen->ip ? $dokumen->ip['no_ip'] : ''}}</td>
+                            <td>{{$dokumen->ip ? tgl_indo($dokumen->ip['created_at']) : ''}}</td>
                         </tr>
                         <tr>
                             <td>LHP</td>
-                            <td>{{$dokumen->lhp['no_lhp']}}</td>
-                            <td>{{tgl_indo($dokumen->lhp['created_at'])}}</td>
+                            <td>{{$dokumen->lhp ? $dokumen->lhp['no_lhp'] : ''}}</td>
+                            <td>{{$dokumen->lhp ? tgl_indo($dokumen->lhp['created_at']) : ''}}</td>
                         </tr>
                         <tr>
                             <td>SPPB</td>
-                            <td>{{$dokumen->sppb['no_sppb']}}</td>
-                            <td>{{tgl_indo($dokumen->sppb['created_at'])}}</td>
+                            <td>{{$dokumen->sppb ? $dokumen->sppb['no_sppb'] : ''}}</td>
+                            <td>{{$dokumen->sppb ? tgl_indo($dokumen->sppb['created_at']) : ''}}</td>
                         </tr>
                     </table>
                 </div>

@@ -265,7 +265,7 @@ class KursController extends Controller
 			$html = file_get_contents('https://fiskal.kemenkeu.go.id/informasi-publik/kurs-pajak', false, stream_context_create($arrContextOptions) );
 		} catch (\Exception $e) {
 			// return empty data, will be interpreted as service unavailable
-			return null;
+			return $e;
 		}
         
         
@@ -273,10 +273,10 @@ class KursController extends Controller
 		// echo $html;
         
 		// grab tanggal awal dan akhir
-        $patTanggal = '/Tanggal Berlaku\:\s(\d{1,2})\s+(\w+)\s+(\d{4})\s\-\s(\d{1,2})\s+(\w+)\s+(\d{4})/i';
+        // $patTanggal = '/Tanggal Berlaku\:\s(\d{1,2})\s+(\w+)\s+(\d{4})\s\-\s(\d{1,2})\s+(\w+)\s+(\d{4})/i';
+        $patTanggal = '/Tanggal Berlaku\:\s+(\d{1,2})\s+(\w+)\s+(\d{4})\s+\-\s+(\d{1,2})\s+(\w+)\s+(\d{4})/i';
+        $result = preg_match($patTanggal, $html, $matches);
         
-		$result = preg_match($patTanggal, $html, $matches);
-
 		if (count($matches) >= 6) {
 			// fix tanggal
 			if (strlen($matches[1]) == 1)
@@ -296,7 +296,8 @@ class KursController extends Controller
         }
 		// grab data asli (KODE KURS + NILAI TUKARNYA)
         // $patKurs = '/\(([A-Z]{3})\).+.+>(.+)\s<img/';
-        $patKurs = '/\((\w{3})\)<\/td>\s+<td.+>\s+<img.+\/>\s+([0-9\,\.]+)<\/td>/';
+        // $patKurs = '/\((\w{3})\)<\/td>\s+<td.+>\s+<img.+\/>\s+([0-9\,\.]+)<\/td>/';
+        $patKurs = '/\((\w{3})\)<\/td>\s.+\s.+\s.+>([0-9]{1,3}\.[0-9]{3}\,[0-9]{2,})<\/div>/';
 
 		$result = preg_match_all($patKurs, $html, $matches);
 		// dd($matches);
@@ -337,6 +338,8 @@ class KursController extends Controller
 		    Alert::error('no data');
             return redirect()->back();
         }
+
+        // dd($retData);
 
 		if (isset($retData)){
             foreach ($retData['data'] as $key => $value) {

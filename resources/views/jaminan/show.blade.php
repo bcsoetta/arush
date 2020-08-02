@@ -108,8 +108,6 @@ Jaminan
                             <td class="text-center">{{$data->definitif ? $data->definitif->billing : '' }}</td>
                             <td class="text-center">{{$data->definitif ? $data->definitif->ntpn : '' }}</td>
                             <td class="text-center">{{$data->definitif ? $data->definitif->tgl_ntpn : '' }}</td>
-                            <td class="text-center">{{$data->definitif ? $data->definitif->tgl_ntpn : '' }}</td>
-                            <td class="text-center">{{$data->definitif ? $data->definitif->tgl_ntpn : '' }}</td>
                             <td class="text-center">{{$data->definitif ? number_format($data->definitif->total_bayar,0,',','.') : '' }}</td>
                             <td class="text-center">{{$data->definitif ? $data->definitif->nomor : '' }}</td>
                             <td class="text-center">{{$data->definitif ? $data->definitif->tanggal : '' }}</td>

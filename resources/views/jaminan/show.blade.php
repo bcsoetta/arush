@@ -24,6 +24,16 @@ Jaminan
                         <td>{{$jaminan->tanggal}}</td>
                     </tr>
                     <tr>
+                        <th>No Jaminan</th>
+                        <th>:</th>
+                        <td>{{$jaminan->nomor_jaminan}}</td>
+                    </tr>
+                    <tr>
+                        <th>Tgl Jaminan</th>
+                        <th>:</th>
+                        <td>{{$jaminan->tanggal_jaminan}}</td>
+                    </tr>
+                    <tr>
                         <th>Penjamin</th>
                         <th>:</th>
                         <td>{{$jaminan->penjamin}}</td>
@@ -92,15 +102,17 @@ Jaminan
                             <td class="text-center">{{tgl_indo($data->daftar_tgl)}}</td>
                             <td>{{$data->importir_nm}}</td>
                             <td>{{$data->ppjk_nm}}</td>                            
-                            <td class="text-center">{{$data->sppb['no_sppb']}}</td>
-                            <td class="text-center">{{tgl_indo($data->sppb['created_at'])}}</td>
+                            <td class="text-center">{{$data->sppb ? $data->sppb->no_sppb : '' }}</td>
+                            <td class="text-center">{{$data->sppb ? tgl_indo($data->sppb->created_at) : '' }}</td>
                             <td class="text-right">{{number_format($data->detail->sum('bayar_total'),0,',','.')}}</td>
-                            <td class="text-center">{{$data->definitif['billing']}}</td>
-                            <td class="text-center">{{$data->definitif['ntpn']}}</td>
-                            <td class="text-center">{{$data->definitif['tgl_ntpn']}}</td>
-                            <td class="text-right">{{number_format($data->definitif['total_bayar'],0,',','.')}}</td>
-                            <td class="text-center">{{$data->definitif['nomor']}}</td>
-                            <td class="text-center">{{$data->definitif['tanggal']}}</td>
+                            <td class="text-center">{{$data->definitif ? $data->definitif->billing : '' }}</td>
+                            <td class="text-center">{{$data->definitif ? $data->definitif->ntpn : '' }}</td>
+                            <td class="text-center">{{$data->definitif ? $data->definitif->tgl_ntpn : '' }}</td>
+                            <td class="text-center">{{$data->definitif ? $data->definitif->tgl_ntpn : '' }}</td>
+                            <td class="text-center">{{$data->definitif ? $data->definitif->tgl_ntpn : '' }}</td>
+                            <td class="text-center">{{$data->definitif ? number_format($data->definitif->total_bayar,0,',','.') : '' }}</td>
+                            <td class="text-center">{{$data->definitif ? $data->definitif->nomor : '' }}</td>
+                            <td class="text-center">{{$data->definitif ? $data->definitif->tanggal : '' }}</td>
                             <td class="text-center">{{$data->status_label}}</td>
                         </tr>
                         @endforeach

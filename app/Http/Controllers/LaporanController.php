@@ -470,6 +470,164 @@ class LaporanController extends Controller
 
         })->export('xlsx');
     }
+    //download dokumen
+    public function downloadDokumenJaminan(Request $request){
+        $this->validate($request,[
+            'tgl_awal' => 'required',
+            'tgl_akhir' => 'required'
+        ]);
+
+
+        $tgl_awal = \DateTime::createFromFormat('d-m-Y',$request->tgl_awal);
+        $tgl_akhir = \DateTime::createFromFormat('d-m-Y',$request->tgl_akhir);
+
+        //karena formatnya d-m-Y 00:00:00
+        //maka ditambah 1 hari supayan last 
+
+        $tgl_awal = $tgl_awal->format('Y-m-d');
+        $tgl_akhir = $tgl_akhir->format('Y-m-d 23:59:59');
+
+        $dokumen = Dokumen::whereBetween('daftar_tgl',[$tgl_awal,$tgl_akhir]);
+
+
+        $detail = DokumenDetail::whereHas('dokumen', function($query) use ($tgl_awal,$tgl_akhir){
+            $query->whereBetween('daftar_tgl',[$tgl_awal,$tgl_akhir]);
+        });
+
+        $fileName = 'Dokumen RH dan Jaminan Tgl '. $request->tgl_awal . ' sd ' . $request->tgl_akhir;
+
+        Excel::create($fileName, function ($excel) use($dokumen, $detail, $fileName) {
+            // Set the properties
+            
+            $excel->setTitle($fileName)->setCreator('Arush (Aplikasi Rush handling)');
+
+            $excel->sheet('Dokumen', function($sheet) use ($dokumen) {
+                
+                $sheet->appendRow([
+                    'NO RH',
+                    'TGL',
+                    'NPWP IMPORTIR',
+                    'NAMA IMPORTIR',
+                    'ALAMAT IMPORTIR',
+                    'NPWP PPJK',
+                    'NAMA PPJK',
+                    'ALAMAT PPJK',
+                    'HAWB',
+                    'TGL HAWB',
+                    'LOKASI',
+                    'PHT_BAYAR_BM',
+                    'PHT_BAYAR_PPN',
+                    'PHT_BAYAR_PPNBM',
+                    'PHT_BAYAR_PPH',
+                    'PHT_BAYAR_TOTAL',
+                    'NO FASILITAS',
+                    'TGL FASILITAS',
+                    'KET FASILITAS',
+                    'STATUS',
+                    'KET PEMBATALAN',
+                    'JNS DOK DEFINITIF',
+                    'NO DOK',
+                    'TGL DOK',
+                    'BILLING',
+                    'NTPN',
+                    'TGL NTPN',
+                    'TOTAL BAYAR',
+                    'NOMOR BPJ',
+                    'TANGGAL BPJ',
+                    'NAMA PENJAMIN',
+                    'NPWP/ID',
+                    'NOMOR JAMINAN',
+                    'TANGGAL JAMINAN',
+                    'JUMLAH',
+                    'BENTUK',
+                    'JENIS',
+                    'NAMA BPP',
+                    'NIP BPP',
+                    'NOMOR BPJ TAMBAHAN',
+                    'TANGGAL BPJ TAMBAHAN',
+                    'NAMA PENJAMIN',
+                    'NPWP/ID',
+                    'NOMOR JAMINAN',
+                    'TANGGAL JAMINAN',
+                    'JUMLAH',
+                    'BENTUK',
+                    'JENIS',
+                    'NAMA BPP',
+                    'NIP BPP',
+                ]);
+                
+                $sheet->setColumnFormat(array(
+                    'C' => '0',
+                    'Y' => '0',
+                    'AF' => '0',
+                    'AM' => '0',
+                    'AQ' => '0',
+                    'AX' => '0',
+                ));
+
+
+                $dokumen->chunk(500, function($dokumenInstance) use($sheet) {
+
+                    foreach ($dokumenInstance as $val) {
+                        $sheet->appendRow([
+                            $val->daftar_no, 
+                            $val->daftar_tgl, 
+                            $val->importir_npwp, 
+                            $val->importir_nm, 
+                            $val->importir_alamat, 
+                            $val->ppjk_npwp, 
+                            $val->ppjk_nm, 
+                            $val->ppjk_alamat, 
+                            $val->hawb_no, 
+                            $val->hawb_tgl, 
+                            $val->lokasi_label, 
+                            $val->detail->sum('bayar_bm'), 
+                            $val->detail->sum('bayar_ppn'), 
+                            $val->detail->sum('bayar_ppnbm'), 
+                            $val->detail->sum('bayar_pph'), 
+                            $val->detail->sum('bayar_total'), 
+                            $val->no_fasilitas, 
+                            $val->tgl_fasilitas, 
+                            $val->ket_fasilitas, 
+                            $val->status_label, 
+                            $val->keterangan_pembatalan, 
+                            $val->definitif ? $val->definitif->jenis : '',
+                            $val->definitif ? $val->definitif->nomor : '',
+                            $val->definitif ? $val->definitif->tanggal : '',
+                            $val->definitif ? $val->definitif->billing : '',
+                            $val->definitif ? $val->definitif->ntpn : '',
+                            $val->definitif ? $val->definitif->tgl_ntpn : '',
+                            $val->definitif ? $val->definitif->total_bayar : '',
+                            isset($val->jaminan[0])? $val->jaminan[0]->nomor : '',
+                            isset($val->jaminan[0])? $val->jaminan[0]->tanggal : '',
+                            isset($val->jaminan[0])? $val->jaminan[0]->penjamin : '',
+                            isset($val->jaminan[0])? $val->jaminan[0]->npwp : '',
+                            isset($val->jaminan[0])? $val->jaminan[0]->nomor_jaminan : '',
+                            isset($val->jaminan[0])? $val->jaminan[0]->tanggal_jaminan : '',
+                            isset($val->jaminan[0])? $val->jaminan[0]->jumlah : '',
+                            isset($val->jaminan[0])? $val->jaminan[0]->bentuk_jaminan : '',
+                            isset($val->jaminan[0])? $val->jaminan[0]->jenis_label : '',
+                            isset($val->jaminan[0])? $val->jaminan[0]->user->name : '',
+                            isset($val->jaminan[0])? $val->jaminan[0]->user->nip : '',
+                            isset($val->jaminan[1])? $val->jaminan[1]->nomor : '',
+                            isset($val->jaminan[1])? $val->jaminan[1]->tanggal : '',
+                            isset($val->jaminan[1])? $val->jaminan[1]->penjamin : '',
+                            isset($val->jaminan[1])? $val->jaminan[1]->npwp : '',
+                            isset($val->jaminan[1])? $val->jaminan[1]->nomor_jaminan : '',
+                            isset($val->jaminan[1])? $val->jaminan[1]->tanggal_jaminan : '',
+                            isset($val->jaminan[1])? $val->jaminan[1]->jumlah : '',
+                            isset($val->jaminan[1])? $val->jaminan[1]->bentuk_jaminan : '',
+                            isset($val->jaminan[1])? $val->jaminan[1]->jenis_label : '',
+                            isset($val->jaminan[1])? $val->jaminan[1]->user->name : '',
+                            isset($val->jaminan[1])? $val->jaminan[1]->user->nip : '',
+                        ]);
+                    }
+                });
+
+            });
+
+        })->export('xlsx');
+    }
 
     //download detail barang
     public function downloadDetail(Request $request){

@@ -64,6 +64,11 @@ Jaminan
                         <td>{{number_format($jaminan->saldo,0,',','.')}}</td>
                     </tr>
                     <tr>
+                        <th>Perekam</th>
+                        <th>:</th>
+                        <td>{{$jaminan->user->name}}</td>
+                    </tr>
+                    <tr>
                         <th>STATUS</th>
                         <th>:</th>
                         <td>{{$jaminan->status}}</td>

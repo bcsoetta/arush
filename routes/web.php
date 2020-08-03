@@ -158,6 +158,7 @@ Route::get('/laporan-dokumen-belum-dateout', 'LaporanController@belumGateOut')->
 Route::get('/laporan-jaminan-terus-menerus', 'LaporanController@terusmenerus')->name('laporan.terusMenerus');
 Route::get('/laporan-download-form', 'LaporanController@formDownload')->name('laporan.formDownload');
 Route::get('/laporan-download-dokumen', 'LaporanController@downloadDokumen')->name('laporan.downloadDokumen');
+Route::get('/laporan-download-dokumen-jaminan', 'LaporanController@downloadDokumenJaminan')->name('laporan.downloadDokumenJaminan');
 Route::get('/laporan-download-detail', 'LaporanController@downloadDetail')->name('laporan.downloadDetail');
 // Route::get('/laporan-dokumen-jaminan', 'LaporanController@jaminanDokumen')->name('laporan.dokumenJaminan');
 

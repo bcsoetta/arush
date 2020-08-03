@@ -224,6 +224,7 @@ class LaporanController extends Controller
             $excel->setTitle($fileName)->setCreator('Arush (Aplikasi Rush handling)');
 
             $excel->sheet('Dokumen', function($sheet) use ($dokumen) {
+                
                 $sheet->appendRow([
                     'NO RH',
                     'TGL',
@@ -285,6 +286,18 @@ class LaporanController extends Controller
                     'PENDOK NAMA',
                     'PENDOK NIP'
                 ]);
+                
+                $sheet->setColumnFormat(array(
+                    'C' => '0',
+                    'AE' => '0',
+                    'AG' => '0',
+                    'AN' => '0',
+                    'AS' => '0',
+                    'AU' => '0',
+                    'BB' => '0',
+                    'BG' => '0'
+                ));
+
 
                 $dokumen->chunk(500, function($dokumenInstance) use($sheet) {
 
@@ -319,37 +332,37 @@ class LaporanController extends Controller
                             $val->ket_fasilitas, 
                             $val->status_label, 
                             $val->keterangan_pembatalan, 
-                            $val->ip['no_ip'], 
-                            $val->ip['created_at'], 
-                            $val->ip['pemeriksa_nip'], 
-                            $val->ip['pemeriksa_nama'], 
-                            $val->ip['seksi_nip'], 
-                            $val->ip['seksi_nama'], 
-                            $val->lhp['no_lhp'], 
-                            $val->lhp['created_at'], 
-                            $val->lhp['jam_periksa'], 
-                            $val->lhp['jam_selesai'], 
-                            $val->lhp['lokasi'], 
-                            $val->lhp['pemeriksa_nip'], 
-                            $val->lhp['pemeriksa_nama'], 
-                            $val->lhp['kesimpulan'],
-                            $val->sppb['no_sppb'], 
-                            $val->sppb['created_at'], 
-                            $val->sppb['seksi_nip'], 
-                            $val->sppb['seksi_nama'], 
-                            $val->sppb['gate_nip'], 
-                            $val->sppb['gate_nama'], 
-                            $val->sppb['catatan_pengeluaran'], 
-                            $val->sppb['waktu_keluar'],
-                            $val->definitif['jenis'],
-                            $val->definitif['nomor'],
-                            $val->definitif['tanggal'],
-                            $val->definitif['billing'],
-                            $val->definitif['ntpn'],
-                            $val->definitif['tgl_ntpn'],
-                            $val->definitif['total_bayar'],
-                            $val->definitif['pendok_nama'],
-                            $val->definitif['pendok_nip']
+                            $val->ip ? $val->ip->no_ip : '',
+                            $val->ip ? $val->ip->created_at : '',
+                            $val->ip ? $val->ip->pemeriksa_nip : '',
+                            $val->ip ? $val->ip->pemeriksa_nama : '',
+                            $val->ip ? $val->ip->seksi_nip : '',
+                            $val->ip ? $val->ip->seksi_nama : '',
+                            $val->lhp ? $val->lhp->no_lhp : '',
+                            $val->lhp ? $val->lhp->no_created_atlhp : '',
+                            $val->lhp ? $val->lhp->jam_periksa : '',
+                            $val->lhp ? $val->lhp->jam_selesai : '',
+                            $val->lhp ? $val->lhp->lokasi : '',
+                            $val->lhp ? $val->lhp->pemeriksa_nip : '',
+                            $val->lhp ? $val->lhp->pemeriksa_nama : '',
+                            $val->lhp ? $val->lhp->kesimpulan : '',
+                            $val->sppb ? $val->sppb->no_sppb : '',
+                            $val->sppb ? $val->sppb->created_at : '',
+                            $val->sppb ? $val->sppb->seksi_nip : '',
+                            $val->sppb ? $val->sppb->seksi_nama : '',
+                            $val->sppb ? $val->sppb->gate_nip : '',
+                            $val->sppb ? $val->sppb->gate_nama : '',
+                            $val->sppb ? $val->sppb->catatan_pengeluaran : '',
+                            $val->sppb ? $val->sppb->waktu_keluar : '',
+                            $val->definitif ? $val->definitif->jenis : '',
+                            $val->definitif ? $val->definitif->nomor : '',
+                            $val->definitif ? $val->definitif->tanggal : '',
+                            $val->definitif ? $val->definitif->billing : '',
+                            $val->definitif ? $val->definitif->ntpn : '',
+                            $val->definitif ? $val->definitif->tgl_ntpn : '',
+                            $val->definitif ? $val->definitif->total_bayar : '',
+                            $val->definitif ? $val->definitif->pendok_nama : '',
+                            $val->definitif ? $val->definitif->pendok_nip : ''
                         ]);
                     }
                 });
@@ -400,6 +413,11 @@ class LaporanController extends Controller
                     'DIBEBASKAN PPH',
                     'DIBEBASKAN TOTAL'
                 ]);
+                $sheet->setColumnFormat(array(
+                    'D' => '0',
+                    'I' => '0'
+                ));
+
                 $detail->chunk(500, function($detailInstance) use($sheet) {
                     foreach ($detailInstance as $val) {
                         $sheet->appendRow([

@@ -162,7 +162,7 @@ class DokumenController extends Controller
             // 'ppjk_alamat' => 'required',
             'pengangkut' => 'required',
             'tiba_tgl' => 'required|date',
-            'hawb_no' => 'required|unique:dokumen|min:2',
+            'hawb_no' => 'required|min:2',
             'hawb_tgl' => 'required|date',
             // 'bc11_no' => 'required|numeric',
             // 'bc11_pos' => 'required|numeric',

@@ -13,6 +13,7 @@
     <li><a href="{{ route('jaminan.index')}}">Jaminan</a></li>
     @endcan
     @can('VIEW-IP')
+    <li><a href="{{ route('presensi.create')}}">Presensi</a></li>
     <li><a href="{{ route('instruksi-pemeriksaan.index')}}">Instruksi Pemeriksaan (IP)</a></li>
     @endcan
     @can('VIEW-LHP')

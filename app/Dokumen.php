@@ -23,7 +23,7 @@ class Dokumen extends Model
 
     public function logStatus()
     {
-        return $this->hasMany('App\LogStatus')->oldest();
+        return $this->hasMany('App\LogStatus')->latest();
     }
 
     public function ip()

@@ -15,21 +15,6 @@ DashBoard
     </div>
     <div class="panel-body">
         <div class="row">
-            <div class="col-md-3">
-                <h2>User Online :</h2>
-                <span>per dua menit</span>
-                <table id="users-table" class="table table-condensed table-hover table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>Nama</th>
-                            <th>NIP</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
 
             <div class="col-md-3">
                 <h2>Dokumen Status :</h2>

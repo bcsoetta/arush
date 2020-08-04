@@ -8,9 +8,12 @@ use App\Penomoran;
 use App\Pengangkut;
 use App\Lokasi;
 use App\Jaminan;
+use App\Ip;
 use App\Status;
 use App\LogStatus;
 use App\LiburNasional;
+use App\Presensi;
+use App\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -686,5 +689,119 @@ class DokumenController extends Controller
         Alert::success('Berhasil Dibatalkan');
         return back();   
     }
-       
+
+    public function penerimaanDokumenIP($id)
+    {
+        if(Gate::denies('PENERIMAAN-DOKUMEN'))
+        {
+            Alert::error('Sorry');
+            return back();
+        }
+
+        try{
+            DB::beginTransaction();
+            //random pemeriksa
+            $pemeriksa = $this->randomPemeriksa();
+            
+            if(empty($pemeriksa)){
+                Alert::error('cek presensi pemeriksa');
+                return back();
+            }
+            
+            $dokumen = Dokumen::findOrFail($id);
+            $status = Status::findOrFail('2');
+            //cek staus dokumen 1
+            if($dokumen->status_id != 1){
+                Alert::error('error status');
+                return back();
+            }
+
+            
+            $codePenomoran = 'NOMOR_RH';
+            //penomoran dokumen
+            $dokumen->daftar_no = $dokumen->penomoran($codePenomoran);
+            $dokumen->status_id = $status->id;
+            $dokumen->status_label = $status->label;
+            $dokumen->save();
+
+            $StatusLog = new LogStatus;
+            $StatusLog->status_id= $status->id;
+            $StatusLog->dokumen_id= $dokumen->id;
+            $StatusLog->status_label= $status->label;
+            $StatusLog->user_id = auth()->user()->id;
+            $StatusLog->user_name = auth()->user()->name;
+            $StatusLog->save();
+
+
+            //kasih jeda 1 second
+            sleep(1);
+            //proses penunjukan IP System
+            //cari pemeriksa available
+            $dokumen = Dokumen::findOrFail($id);
+            $status = Status::findOrFail(3);
+            $codePenomoran = 'NOMOR_IP';
+            $ip = new Ip;
+            $ip->dokumen_id = $dokumen->id;
+            $ip->no_ip = $dokumen->penomoran($codePenomoran);
+            $ip->pemeriksa_id = $pemeriksa->id;
+            $ip->pemeriksa_nip = $pemeriksa->nip;
+            $ip->pemeriksa_nama = $pemeriksa->name;
+            $ip->tingkat_periksa = '100%';
+            $ip->aju_foto = 'YA';
+            $ip->save();
+
+            $dokumen->status_id = $status->id;
+            $dokumen->status_label = $status->label;
+            $dokumen->save();
+
+            $StatusLog = new LogStatus;
+            $StatusLog->dokumen_id= $dokumen->id;
+            $StatusLog->status_id= $status->id;
+            $StatusLog->status_label= $status->label;
+            $StatusLog->user_name = 'SYSTEM';
+            $StatusLog->save();
+            
+            DB::commit();
+            
+            Alert::success('Penerimaan Berhasil');
+            return back();            
+
+         } catch(\Exception $e){
+            DB::rollback();
+
+            Alert::error($e->getMessage());
+            return back();
+        }
+
+
+    }
+
+    public function randomPemeriksa(){
+        //cek ada pemeriksa yang availabel
+        // perlu test jika pemeriksanya 1,2 dst
+        $availabelPemeriksa = Presensi::where('end','>',now())->where('start','<', now())->get();
+        $jumlahpemeriksa = $availabelPemeriksa->count();
+
+        //cek kondisi jumlah pemeriksa
+        if($jumlahpemeriksa > 1){
+
+            $nl = $jumlahpemeriksa-1;
+            $ip = Ip::latest()->limit($nl)->get();
+
+            do {
+                //get random pemeriksa id
+                //selama cek true loop until false
+                $pemeriksa_id = $availabelPemeriksa->random()->user_id;
+                $cek = $ip->contains('pemeriksa_id',$pemeriksa_id);
+            } while ($cek);
+
+        } elseif($jumlahpemeriksa == 1){
+            $pemeriksa_id = $availabelPemeriksa->first()->user_id;
+        } else {
+            Alert::error('Tidak ada pemeriksa yang hadir');
+            return;
+        }
+        
+        return $pemeriksa = User::findOrFail($pemeriksa_id);
+    }
 }

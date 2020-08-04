@@ -509,9 +509,9 @@ none'><span style='font-size:12.0pt;line-height:115%;font-family:"Arial",sans-se
 </td>
 </tr>
 </table>
-
+<br>
 <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><span
-style='font-size:12.0pt;line-height:115%;font-family:"Arial",sans-serif'>&nbsp;</span></p>
+style='font-style: italic;font-size:12.0pt;line-height:115%;font-family:"Arial",sans-serif'>*Formulir ini dicetak secara otomatis oleh sistem komputer dan tidak memerlukan nama, tanda tangan pejabat dan cap dinas.</span></p>
 
 </div>
 </body></html>

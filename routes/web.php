@@ -20,6 +20,7 @@ Route::post('/setting','SettingController@update')->name('setting.update');
 Route::resource('/dokumen','DokumenController');
 Route::post('/dokumen/pembatalan/{id}', 'DokumenController@pembatalan')->name('dokumen.pembatalan');
 Route::post('/dokumen/terima/{id}', 'DokumenController@penomoranDokumen')->name('dokumen.terima');
+Route::post('/dokumen/terima-ip/{id}', 'DokumenController@penerimaanDokumenIP')->name('dokumen.penerimaanDokumenIP');
 Route::get('/jaminan/dokumen/{id}', 'DokumenController@jaminan')->name('dokumen.jaminan');
 Route::get('/importir', 'DokumenController@importir');
 Route::get('/dataDokumen', 'DokumenController@dataDokumen')->name('dokumen.data');
@@ -130,8 +131,8 @@ Route::get('pendok/edit/{id}', 'PendokController@edit')->name('pendok.edit');
 Route::post('pendok/update/{id}', 'PendokController@update')->name('pendok.update');
 
 //ABESENSI
-Route::get('absensi/index', 'AbsensiController@index')->name('absensi.index');
-Route::post('absensi/ubah/{id}', 'AbsensiController@ubahKehadiran')->name('absensi.ubah');
+// Route::get('absensi/index', 'AbsensiController@index')->name('absensi.index');
+// Route::post('absensi/ubah/{id}', 'AbsensiController@ubahKehadiran')->name('absensi.ubah');
 
 //SEARCH
 Route::get('search', 'SearchController@index')->name('search.index');
@@ -175,3 +176,6 @@ Route::get('/dataMyDokumen', 'MyDokumenController@dataDokumen')->name('mydokumen
 
 //Perusahaan
 Route::resource('/perusahaan', 'PerusahaanController')->middleware('auth');
+
+Route::get('/presensi/create','PresensiController@create')->name('presensi.create');
+Route::post('/presensi/store','PresensiController@store')->name('presensi.store');

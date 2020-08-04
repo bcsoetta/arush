@@ -822,6 +822,25 @@ Dokumen Lengkap
         var nilai = parseFloat(nilai.replace(',','.'));
         return nilai;
     }
+    function konfirmBtn(elmn) {
+        let button = document.querySelector(elmn);
+        event.preventDefault(); // prevent form submit
+        var form = event.target.form; // storing the form
+        swal({
+            title: 'Yakin !',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya',
+            cancelButtonText: "Tidak",
+            }).then((isConfirm) => {
+            if (isConfirm) {
+                button.disabled = true;
+                form.submit();  // submitting the form when user press yes
+            }
+        });
+    }
 
         // Mengubah semua input menjadi format koma dan titik
 

@@ -388,12 +388,7 @@ class DokumenController extends Controller
 
             'pengangkut' => 'required',
             'tiba_tgl' => 'required|date',
-            'hawb_no' => [
-                'required',
-                'min:2,',
-                Rule::unique('dokumen')->ignore($dokumen->id)
-
-            ],
+            'hawb_no' => 'required|min:2',
             'hawb_tgl' => 'required|date',
             'kmsn_jmlh' => 'required|numeric|min:1',
             'kmsn_jenis' => 'required|min:2',

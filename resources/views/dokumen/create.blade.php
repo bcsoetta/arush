@@ -89,6 +89,10 @@ Rekam Dokumen
         placeholder: "Pilih",
         allowClear: true
     });
+    $(".pilih-select").select2({
+        placeholder: "Pilih",
+        allowClear: true
+    });
 
     $(function() {
         $("#importir_nm").autocomplete({

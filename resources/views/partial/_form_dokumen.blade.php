@@ -164,13 +164,86 @@
         </div>
     </div>
 </div>
-
+{{--BC 11--}}
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group {{ $errors->has('no_bc_11') ? ' has-error' : '' }}">
+            <label for="importir_npwp">No BC 11</label>
+            <input type="text" class="form-control" name="no_bc_11" value="{{ old('no_bc_11') }}" placeholder="no bc 11">
+            @if ($errors->has('no_bc_11'))
+            <span class="help-block">
+                {{ $errors->first('no_bc_11') }}
+            </span>
+            @endif
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group {{ $errors->has('tgl_bc_11') ? ' has-error' : '' }}">
+            <label for="importir_npwp">Tgl Bc 11</label>
+            <input type="text" class="form-control" name="tgl_bc_11" value="{{ old('tgl_bc_11') }}" placeholder="tgl Bc 11">
+            @if ($errors->has('tgl_bc_11'))
+            <span class="help-block">
+                {{ $errors->first('tgl_bc_11') }}
+            </span>
+            @endif
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group {{ $errors->has('brutto') ? ' has-error' : '' }}">
+            <label for="importir_npwp">Pos</label>
+            <input type="text" class="form-control" name="pos_bc_11" value="{{ old('brutto') }}" placeholder="pos bc 11">
+            @if ($errors->has('brutto'))
+            <span class="help-block">
+                {{ $errors->first('brutto') }}
+            </span>
+            @endif
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group {{ $errors->has('sub_pos_bc_11') ? ' has-error' : '' }}">
+            <label for="importir_npwp">Sub Pos</label>
+            <input type="text" class="form-control" name="sub_pos_bc_11" value="{{ old('sub_pos_bc_11') }}" placeholder="Sub Pos BC 11">
+            @if ($errors->has('sub_pos_bc_11'))
+            <span class="help-block">
+                {{ $errors->first('sub_pos_bc_11') }}
+            </span>
+            @endif
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-6">
+        <div class="form-group {{ $errors->has('partial_manifes') ? ' has-error' : '' }}">
+            <label>Partial Manifes</label>
+            <select class="form-control pilih-select" name="partial_manifes">
+                <option value="N" selected>Tidak</option>
+                <option value="Y">Ya</option>                
+            </select>
+            @if ($errors->has('partial_manifes'))
+            <span class="help-block">
+                {{ $errors->first('partial_manifes') }}
+            </span>
+            @endif
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group {{ $errors->has('kemasan partial') ? ' has-error' : '' }}">
+            <label for="importir_npwp">Jumlah Kemasan Partial</label>
+            <input type="text" class="form-control" name="kemasan partial" value="{{ old('kemasan partial') }}" placeholder="jumlah partial yang datang">
+            @if ($errors->has('kemasan partial'))
+            <span class="help-block">
+                {{ $errors->first('kemasan partial') }}
+            </span>
+            @endif
+        </div>            
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
         <h3>Lokasi</h3>
         <div class="form-group {{ $errors->has('lokasi') ? ' has-error' : '' }}">
-            <label for="lokasi">Lokasi</label>
-            <select class="form-control" name="lokasi" id="pilih">
+            <label for="lokasi">Lokasi Barang</label>
+            <select class="form-control pilih-select" name="lokasi">
                 <option value="" selected></option>
                 @foreach($lokasi as $tempat)
                 <option value="{{$tempat->id}}">{{$tempat->kode}}-{{$tempat->nama}}</option>
@@ -183,6 +256,7 @@
             @endif
         </div>
     </div>
+
 </div>
 
 <h3>Fasilitas</h3>

@@ -48,6 +48,9 @@
             @can('SET-PERUSAHAAN')
             <li><a href="{{ route('perusahaan.index')}}">Perusahaan</a></li>
             @endcan
+            @can('ABSENSI')
+            <li><a href="{{ route('presensi.index')}}">Presensi</a></li>
+            @endcan
             @can('PROFILE')
             <li><a href="{{route('profiles.index')}}">Profile</a></li>
             @endcan

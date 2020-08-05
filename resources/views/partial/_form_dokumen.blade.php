@@ -165,6 +165,7 @@
     </div>
 </div>
 {{--BC 11--}}
+{{--
 <div class="row">
     <div class="col-md-3">
         <div class="form-group {{ $errors->has('no_bc_11') ? ' has-error' : '' }}">
@@ -211,6 +212,7 @@
         </div>
     </div>
 </div>
+
 <div class="row">
     <div class="col-md-6">
         <div class="form-group {{ $errors->has('partial_manifes') ? ' has-error' : '' }}">
@@ -238,6 +240,7 @@
         </div>            
     </div>
 </div>
+--}}
 <div class="row">
     <div class="col-md-12">
         <h3>Lokasi</h3>

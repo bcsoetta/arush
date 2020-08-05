@@ -699,7 +699,7 @@ class DokumenController extends Controller
             $pemeriksa = $this->randomPemeriksa();
             
             if(empty($pemeriksa)){
-                Alert::error('cek presensi pemeriksa');
+                Alert::error('Cek absensi saat ini');
                 return back();
             }
             
@@ -779,8 +779,9 @@ class DokumenController extends Controller
 
         //cek kondisi jumlah pemeriksa
         if($jumlahpemeriksa > 1){
-
+            //beri ruang 1 untuk pemeriksa
             $nl = $jumlahpemeriksa-1;
+            //get latest ip limit by jumlah pemeriksa - minus one
             $ip = Ip::latest()->limit($nl)->get();
 
             do {
@@ -793,10 +794,9 @@ class DokumenController extends Controller
         } elseif($jumlahpemeriksa == 1){
             $pemeriksa_id = $availabelPemeriksa->first()->user_id;
         } else {
-            Alert::error('Tidak ada pemeriksa yang hadir');
             return;
         }
         
-        return $pemeriksa = User::findOrFail($pemeriksa_id);
+        return User::findOrFail($pemeriksa_id);
     }
 }

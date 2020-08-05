@@ -14,7 +14,7 @@ Isi daftar Hadir
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-primary">
-                <div class="panel-heading">Isi Daftar Hadir</div>
+                <div class="panel-heading">Isi Daftar Waktu Kerja</div>
                 <div class="panel-body">
                 @if(Session::has('success'))
                     <div class="alert alert-info">
@@ -32,35 +32,25 @@ Isi daftar Hadir
                     @endif
                     <div class="row">
                         
-                        <h4 class="col-md-12">Hari Tanggal : {{date('d-m-Y')}}</h4>
-                        <h4 class="col-md-12">User: {{auth()->user()->name}}</h4>
+                        <h4 class="col-md-12">Hari Tanggal : {{date('d-m-Y').' - '.auth()->user()->name}}</h4>
+                        <br>
                         <form class="col-md-8 col-md-offset-1" method="POST" action="{{route('presensi.store')}}">
                         {{ csrf_field() }}
-
+                            @foreach($waktuKerja as $jam)
                             <div class="radio">
                                 <label>
-                                    <input type="radio" name="waktu_kerja" value="pagi">
-                                    Pagi
+                                    <input type="radio" name="waktu_kerja" value="{{$jam->label}}">
+                                    {{strtoupper($jam->label) . ' ' . $jam->waktu_mulai . ' sampai dengan '. $jam->waktu_selesai }}
                                 </label>
                             </div>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="waktu_kerja" value="sore">
-                                    Sore
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="waktu_kerja" value="malam">
-                                    Malam
-                                </label>
-                            </div>
+                            @endforeach
                             <br>
                             <button type="submit" class="btn btn-primary">Simpan</button>
                         </form>
                     </div>
                     <br>
-                        <h4>Riwayat:</h4>
+                        <h4>Status:</h4>
+                        <p>*Daftar ini tidak ada hubunganya dengan presensi ceisa</p>
                         <div class="table-responsive">
 
                             <table class="table table-bordered table-small mt-4" style="margin-top: 10px;">
@@ -71,8 +61,8 @@ Isi daftar Hadir
                                 <tbody>
                                     @foreach($hadir as $data)
                                     <tr>
-                                        <td>{{$data->start->format('d-m-Y H:i:s')}}</td>
-                                        <td>{{$data->end->format('d-m-Y H:i:s')}}</td>
+                                        <td class="text-center">{{$data->start->format('d-m-Y H:i:s')}}</td>
+                                        <td class="text-center">{{$data->end->format('d-m-Y H:i:s')}}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>

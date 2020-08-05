@@ -177,5 +177,6 @@ Route::get('/dataMyDokumen', 'MyDokumenController@dataDokumen')->name('mydokumen
 //Perusahaan
 Route::resource('/perusahaan', 'PerusahaanController')->middleware('auth');
 
+Route::get('/presensi','PresensiController@index')->name('presensi.index');
 Route::get('/presensi/create','PresensiController@create')->name('presensi.create');
 Route::post('/presensi/store','PresensiController@store')->name('presensi.store');

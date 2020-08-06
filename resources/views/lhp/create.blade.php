@@ -37,7 +37,7 @@ input, textarea {
                     <form class="form-horizontal" method="POST" action="{{ route('lhp.store', $dokumen->id) }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
-                        <div class="form-group{{ $errors->has('tgl_periksa') ? ' has-error' : '' }}" id="tgl">
+                        <div class="form-group{{ $errors->has('tgl_periksa') ? ' has-error' : '' }}">
                             <label for="tgl_periksa" class="col-md-2 control-label">Nomor Pendaftaran RH</label>
 
                             <div class="col-md-10">

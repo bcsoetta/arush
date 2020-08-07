@@ -152,77 +152,80 @@ class DokumenController extends Controller
             Alert::error('Sorry');
             return back();
         }
-        
+
         $this->validate($request,[
             'importir_nm' =>   'required|min:3',
             'importir_npwp' => 'required',
             'importir_alamat' => 'required|min:6',
-            // 'ppjk_nm' => 'required',
-            // 'ppjk_npwp' => 'required',
-            // 'ppjk_alamat' => 'required',
             'pengangkut' => 'required',
             'tiba_tgl' => 'required|date',
             'hawb_no' => 'required|min:2',
             'hawb_tgl' => 'required|date',
-            // 'bc11_no' => 'required|numeric',
-            // 'bc11_pos' => 'required|numeric',
-            // 'bc11_sub' => 'required|numeric',
-            // 'bc11_tgl' => 'required|date',
             'kmsn_jmlh' => 'required|numeric|min:1',
             'kmsn_jenis' => 'required|min:2',
             'brutto' => 'required|numeric',
             'netto' => 'required|numeric',
-            'lokasi' => 'required'
+            'jumlah_kemasan_partial' => 'numeric|nullable',
+            'no_bc_11' => 'numeric|nullable',
+            'pos_bc_11' => 'numeric|nullable',
+            'sub_pos_bc_11' => 'numeric|nullable',
+            'tgl_bc_11' => 'date|nullable',
+            'lokasi' => 'required',
+            'partial_manifes' => 'required',
+            'lokasi_periksa_gudang_importir' => 'required',
+            'setuju-trm' => 'required',
+            'partial_ke' => 'numeric|nullable',
         ]);
 
-
+        
+        
         //Cek barang covid kah
-
+        
         // Cek jika belum definitif untuk importir ini
-
+        
         $importirBelumPib = Dokumen::whereIn('status_id', [5,6])
         ->Where(function($q) use($request){
             $q->where('importir_npwp', $request->importir_npwp)
-              ->orWhere('ppjk_npwp', $request->ppjk_npwp);
+            ->orWhere('ppjk_npwp', $request->ppjk_npwp);
         })
         ->get();
-
+        
         $blokir=[];
-
+        
         $importirBelumPib->map(function($doc){
             $tglAwal = $doc->sppb->created_at;
             $tglAwal = $tglAwal->toDateString();
             $today = date('Y-m-d');
-
+            
             $selisih = hari_kerja($tglAwal, $today);
-
+            
             $doc['selisih_hari'] = $selisih;
             return $doc;
-
+            
         });
-
+        
         foreach ($importirBelumPib as $dok) {
             if($dok->selisih_hari > 3){
                 $blokir[]=1;
             }
         }
-
+        
         $set = DB::table('setting')->where('blokir', 'Y')->find(1);
-
+        
         // block them all
         if(count($blokir) > 0 AND isset($set->blokir)){
             //back to 
             return view('dokumen/belum-definitif', compact('importirBelumPib'));
         }
-
+        
         // simpan ke DB
         try{
             DB::beginTransaction();
-
+            
             $status = Status::findOrFail('1');
             $lokasi = Lokasi::findOrFail($request->lokasi);
             $pengangkut = Pengangkut::findOrFail($request->pengangkut);
-
+            
             $dokumen = new Dokumen;
             // $dokumen->daftar_no = $nomor;
             $dokumen->daftar_tgl = date('Y-m-d H:i:s');
@@ -240,10 +243,20 @@ class DokumenController extends Controller
             $dokumen->hawb_tgl = $request->hawb_tgl;
             $dokumen->kmsn_jmlh = $request->kmsn_jmlh;
             $dokumen->kmsn_jenis = $request->kmsn_jenis;
+            $dokumen->bc11_partial = $request->partial_manifes;
+            $dokumen->partial_ke = $request->partial_ke;
+            $dokumen->kmsn_jmlh_partial = $request->jumlah_kemasan_partial;
+            $dokumen->kmsn_jenis_partial = $request->jenis_kemasan_partial;
+            
             $dokumen->brutto = $request->brutto;
             $dokumen->netto = $request->netto;
+            $dokumen->bc11_no = $request->no_bc_11;
+            $dokumen->bc11_tgl = $request->tgl_bc_11;
+            $dokumen->bc11_pos = $request->pos_bc_11;
+            $dokumen->bc11_sub = $request->sub_pos_bc_11;
             $dokumen->lokasi_id = $lokasi->id;
             $dokumen->lokasi_label = $lokasi->kode;
+            $dokumen->lokasi_periksa_gd_importir = $request->lokasi_periksa_gudang_importir;
             $dokumen->no_fasilitas = $request->no_fasilitas;
             $dokumen->tgl_fasilitas = $request->tgl_fasilitas;
             $dokumen->ket_fasilitas = $request->ket_fasilitas;
@@ -385,7 +398,6 @@ class DokumenController extends Controller
         $dokumen = Dokumen::findOrFail($id);
 
         $this->validate($request,[
-
             'pengangkut' => 'required',
             'tiba_tgl' => 'required|date',
             'hawb_no' => 'required|min:2',
@@ -394,7 +406,14 @@ class DokumenController extends Controller
             'kmsn_jenis' => 'required|min:2',
             'brutto' => 'required|numeric',
             'netto' => 'required|numeric',
-            'lokasi' => 'required'
+            'jumlah_kemasan_partial' => 'numeric|nullable',
+            'no_bc_11' => 'numeric|nullable',
+            'pos_bc_11' => 'numeric|nullable',
+            'sub_pos_bc_11' => 'numeric|nullable',
+            'lokasi' => 'required',
+            'partial_manifes' => 'required',
+            'lokasi_periksa_gudang_importir' => 'required',
+            'partial_ke' => 'numeric|nullable',
         ]);
 
         try{
@@ -417,14 +436,24 @@ class DokumenController extends Controller
             $dokumen->pengangkut_kode = $pengangkut->kode;
             $dokumen->pengangkut_nama = $pengangkut->pesawat;
             $dokumen->tiba_tgl = $request->tiba_tgl;
-            $dokumen->hawb_no = preg_replace("/[\s-_.]+/", "", $request->hawb_no);
+            $dokumen->hawb_no = preg_replace("/[\s\-_.]+/", "", $request->hawb_no);
             $dokumen->hawb_tgl = $request->hawb_tgl;
             $dokumen->kmsn_jmlh = $request->kmsn_jmlh;
             $dokumen->kmsn_jenis = $request->kmsn_jenis;
+            $dokumen->bc11_partial = $request->partial_manifes;
+            $dokumen->partial_ke = $request->partial_ke;
+            $dokumen->kmsn_jmlh_partial = $request->jumlah_kemasan_partial;
+            $dokumen->kmsn_jenis_partial = $request->jenis_kemasan_partial;
+
             $dokumen->brutto = $request->brutto;
             $dokumen->netto = $request->netto;
+            $dokumen->bc11_no = $request->no_bc_11;
+            $dokumen->bc11_tgl = $request->tgl_bc_11;
+            $dokumen->bc11_pos = $request->pos_bc_11;
+            $dokumen->bc11_sub = $request->sub_pos_bc_11;
             $dokumen->lokasi_id = $lokasi->id;
             $dokumen->lokasi_label = $lokasi->kode;
+            $dokumen->lokasi_periksa_gd_importir = $request->lokasi_periksa_gudang_importir;
             $dokumen->no_fasilitas = $request->no_fasilitas;
             $dokumen->tgl_fasilitas = $request->tgl_fasilitas;
             $dokumen->ket_fasilitas = $request->ket_fasilitas;

@@ -74,6 +74,13 @@ Rekam Dokumen
         autoclose: true,
         todayHighlight: true
     });
+    $('.input_tgl input').datepicker({
+        format: "dd-mm-yyyy",
+        language: "id",
+        orientation: "bottom auto",
+        autoclose: true,
+        todayHighlight: true
+    });
     $('#tgl_jaminan input').datepicker({
         format: "dd-mm-yyyy",
         language: "id",

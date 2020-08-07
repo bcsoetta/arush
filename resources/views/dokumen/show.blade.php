@@ -102,20 +102,44 @@ Dokumen Lengkap
                         <td colspan="3">Tanggal : {{$dokumen->hawb_tgl}}</td>
                     </tr>
                     <tr>
-                        <th>Kemasan</th>
+                        <th>Jumlah Kemasan</th>
                         <td>:</td>
                         <td colspan="4">{{$dokumen->kmsn_jmlh}} {{$dokumen->kmsn_jenis}}</td>
                     </tr>
+                    <tr>
+                        <th>Berat</th>
+                        <td>:</td>
+                        <td colspan="4"> Brutto: {{$dokumen->brutto}} Netto: {{$dokumen->netto}}</td>
+                    </tr>
+                    <tr>
+                        <th>BC 11</th>
+                        <td>:</td>
+                        <td colspan="4"> Nomor: {{$dokumen->bc11_no}} Pos: {{$dokumen->bc11_pos}} SubPos: {{$dokumen->bc11_sub}} Tanggal: {{$dokumen->bc11_tgl}}</td>
+                    </tr>
+
+                    <tr>
+                        <th>partial Shipment</th>
+                        <td>:</td>
+                        <td colspan="4"> {{$dokumen->bc11_partial == 'Y' ? 'YES': 'NO'}} Jumlah Kemasan Partial: {{$dokumen->kmsn_jmlh_partial}} {{$dokumen->kmsn_jenis_partial}}</td>
+                    </tr>
+
                     <tr>
                         <th>Sarana Angkut</th>
                         <td>:</td>
                         <td colspan="4">{{$dokumen->pengangkut_kode}} , {{$dokumen->pengangkut_nama}}</td>
                     </tr>
                     <tr>
-                        <th>Lokasi</th>
+                        <th>Lokasi TPS</th>
                         <td>:</td>
                         <td colspan="4">{{$dokumen->lokasi_label}}</td>
                     </tr>
+
+                    <tr>
+                        <th>Periksa Gudang Importir</th>
+                        <td>:</td>
+                        <td colspan="4">{{$dokumen->lokasi_periksa_gd_importir == 'Y' ? 'Ya': ''}}</td>
+                    </tr>
+
                     <tr>
                         <th colspan="6"><h3>Fasilitas</h3></th>
                     </tr>

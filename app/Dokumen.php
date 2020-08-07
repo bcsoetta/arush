@@ -144,7 +144,7 @@ class Dokumen extends Model
     {
         $this->attributes['tgl_fasilitas'] = strlen($value)? Carbon::createFromFormat('d-m-Y', $value) : null;
     }
-
+    
      //GET FROM DATABASE
     // public function getDaftarTglAttribute($value)
     // {

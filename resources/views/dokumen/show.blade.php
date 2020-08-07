@@ -120,7 +120,7 @@ Dokumen Lengkap
                     <tr>
                         <th>partial Shipment</th>
                         <td>:</td>
-                        <td colspan="4"> {{$dokumen->bc11_partial == 'Y' ? 'YES': 'NO'}} Jumlah Kemasan Partial: {{$dokumen->kmsn_jmlh_partial}} {{$dokumen->kmsn_jenis_partial}}</td>
+                        <td colspan="4"> {{$dokumen->bc11_partial == 'Y' ? 'YES': 'NO'}} Partial ke-{{$dokumen->partial_ke}} Kemasan Partial: {{$dokumen->kmsn_jmlh_partial}} {{$dokumen->kmsn_jenis_partial}}</td>
                     </tr>
 
                     <tr>

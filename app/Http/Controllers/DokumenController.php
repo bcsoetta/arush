@@ -175,6 +175,7 @@ class DokumenController extends Controller
             'lokasi_periksa_gudang_importir' => 'required',
             'setuju-trm' => 'required',
             'partial_ke' => 'numeric|nullable',
+            'tgl_fasilitas' => 'date|nullable',
         ]);
 
         
@@ -414,6 +415,7 @@ class DokumenController extends Controller
             'partial_manifes' => 'required',
             'lokasi_periksa_gudang_importir' => 'required',
             'partial_ke' => 'numeric|nullable',
+            'tgl_fasilitas' => 'date|nullable',
         ]);
 
         try{

@@ -8,11 +8,15 @@
       @endif
       @can('PENERIMAAN-DOKUMEN')
             @if($dokumen->status_id == 1)
-            <form action="{{ route('dokumen.penerimaanDokumenIP', $dokumen->id)}}" method="POST">
+            <form action="{{ route('dokumen.terima', $dokumen->id)}}" method="POST">
+            {{ csrf_field() }}
+            <button class="btn btn-danger pull-right" style="margin: 10px" type="submit" onclick="konfirm()">TERIMA DOK (BERI NOMOR)</button>
+            </form>
+            {{-- <form action="{{ route('dokumen.penerimaanDokumenIP', $dokumen->id)}}" method="POST">
             {{ csrf_field() }}
             <button class="btn btn-danger pull-right" style="margin: 10px" type="submit" onclick="konfirmBtn('#TerimaDok')" id="TerimaDok">TERIMA DOK (BERI NOMOR DAN IP)</button>
             
-            </form>
+            </form> --}}
             @endif
       @endcan
 

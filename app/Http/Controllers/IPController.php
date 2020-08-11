@@ -9,6 +9,7 @@ use App\User;
 use App\Role;
 use App\Status;
 use App\LogStatus;
+use App\Presensi;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use DataTables;
@@ -119,6 +120,35 @@ class IPController extends Controller
         return view('instruksipemeriksaan.create', compact('dokumen', 'users'));
     }
 
+    public function randomPemeriksa(){
+        //cek ada pemeriksa yang availabel
+        // perlu test jika pemeriksanya 1,2 dst
+        $availabelPemeriksa = Presensi::where('end','>',now())->where('start','<', now())->get();
+        $jumlahpemeriksa = $availabelPemeriksa->count();
+
+        //cek kondisi jumlah pemeriksa
+        if($jumlahpemeriksa > 1){
+            //beri ruang 1 untuk pemeriksa
+            $nl = $jumlahpemeriksa-1;
+            //get latest ip limit by jumlah pemeriksa - minus one
+            $ip = Ip::latest()->limit($nl)->get();
+
+            do {
+                //get random pemeriksa id
+                //selama cek true loop until false
+                $pemeriksa_id = $availabelPemeriksa->random()->user_id;
+                $cek = $ip->contains('pemeriksa_id',$pemeriksa_id);
+            } while ($cek);
+
+        } elseif($jumlahpemeriksa == 1){
+            $pemeriksa_id = $availabelPemeriksa->first()->user_id;
+        } else {
+            return;
+        }
+        
+        return User::findOrFail($pemeriksa_id);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -134,12 +164,12 @@ class IPController extends Controller
         }
 
         $this->validate($request,[
-            'pemeriksa' => 'required',
             'tingkat_periksa' => 'required',
         ]);
         try{
             DB::beginTransaction();
-            $pemeriksa = User::findOrFail($request->pemeriksa);
+            // $pemeriksa = User::findOrFail($request->pemeriksa);
+            $pemeriksa = $this->randomPemeriksa();
             $status = Status::findOrFail(3);
 
             $dokumen = Dokumen::findOrFail($id);
@@ -213,6 +243,9 @@ class IPController extends Controller
         $users= User::where('active', 1)->where('hadir', 1)->whereHas('roles', function($q){
             $q->where('name', 'PEMERIKSA');
         })->get();
+        $users = $users->forget(0);
+
+        // dd($users);
 
         return view('instruksipemeriksaan.edit', compact('dokumen', 'users'));
     }

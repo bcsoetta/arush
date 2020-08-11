@@ -26,7 +26,7 @@ Rekam IP
                         <form class="form-horizontal" method="POST" action="{{ route('instruksi-pemeriksaan.store', $dokumen->id) }}">
                             {{ csrf_field() }}
 
-                            <div class="form-group{{ $errors->has('pemeriksa') ? ' has-error' : '' }}">
+                            <!-- <div class="form-group{{ $errors->has('pemeriksa') ? ' has-error' : '' }}">
                                 <label for="user" class="col-md-4 control-label">Nama Pemeriksa</label>
 
                                 <div class="col-md-6">
@@ -42,7 +42,7 @@ Rekam IP
                                     </span>
                                     @endif
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="form-group{{ $errors->has('tingkat_periksa') ? ' has-error' : '' }}">
                                 <label for="tingkat_periksa" class="col-md-4 control-label">Tingkat Pemeriksa</label>
@@ -137,9 +137,9 @@ Rekam IP
                             </div>
 
                             <div class="form-group">
-                                <div class="col-md-4 col-md-offset-8">
+                                <div class="col-md-4 col-md-offset-3">
                                     <button type="submit" class="btn btn-primary" onclick="konfirm()">
-                                        Simpan
+                                        Simpan (Pemeriksa akan dipilih secara random)
                                     </button>
 
                                 </div>

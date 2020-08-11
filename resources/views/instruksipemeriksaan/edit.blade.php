@@ -32,9 +32,8 @@ Rekam IP
 
                                 <div class="col-md-6">
                                     <select class="form-control" name="pemeriksa" id="pilih" autofocus>
-                                        <option value="{{$dokumen->ip->pemeriksa_id}}" selected>{{$dokumen->ip->pemeriksa_nama}} {{$dokumen->ip->pemeriksa_nip}}</option>
                                         @foreach($users as $user)
-                                        <option value="{{$user->id}}">{{$user->name}} {{$user->nip}}</option>
+                                        <option value="{{$user->id}}" {{$dokumen->ip->pemeriksa_id == $user->id ? 'selected': ''}}>{{$user->name}} {{$user->nip}}</option>
                                         @endforeach
                                     </select>
                                     @if ($errors->has('pemeriksa'))

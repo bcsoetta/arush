@@ -166,10 +166,16 @@ class IPController extends Controller
         $this->validate($request,[
             'tingkat_periksa' => 'required',
         ]);
+
         try{
             DB::beginTransaction();
             // $pemeriksa = User::findOrFail($request->pemeriksa);
             $pemeriksa = $this->randomPemeriksa();
+
+            if(empty($pemeriksa)){
+                Alert::error('cek absensi pemeriksa');
+                return back();
+            }
             $status = Status::findOrFail(3);
 
             $dokumen = Dokumen::findOrFail($id);

@@ -18,8 +18,7 @@ class PendokController extends Controller
 {
     public function index()
     {
-        if(Gate::denies('PENDOK'))
-        {
+        if (Gate::denies('PENDOK')) {
             Alert::error('Sorry');
             return back();
         }
@@ -29,23 +28,22 @@ class PendokController extends Controller
 
     public function search(Request $request)
     {
-        if(Gate::denies('PENDOK'))
-        {
+        if (Gate::denies('PENDOK')) {
             Alert::error('Sorry');
             return back();
         }
 
-        $this->validate($request,[
+        $this->validate($request, [
             'search' => 'required'
         ]);
 
         $search = $request->search;
-        $dokumen = Dokumen::where('daftar_no','LIKE','%'.$search.'%')
-        ->orWhere('mawb_no','LIKE','%'.$search.'%')
-        ->orWhere('hawb_no','LIKE','%'.$search.'%')
-        ->orWhere('importir_nm','LIKE','%'.$search.'%')
-        ->orWhere('ppjk_nm','LIKE','%'.$search.'%')
-        ->get();
+        $dokumen = Dokumen::where('daftar_no', 'LIKE', '%' . $search . '%')
+            ->orWhere('mawb_no', 'LIKE', '%' . $search . '%')
+            ->orWhere('hawb_no', 'LIKE', '%' . $search . '%')
+            ->orWhere('importir_nm', 'LIKE', '%' . $search . '%')
+            ->orWhere('ppjk_nm', 'LIKE', '%' . $search . '%')
+            ->get();
 
         return view('pendok.search', compact('dokumen'));
     }
@@ -54,13 +52,13 @@ class PendokController extends Controller
     {
         $dokumen = Dokumen::findOrFail($id);
         $detailBarang = $dokumen->detail;
-        
+
         return view('pendok.create', compact('dokumen', 'detailBarang'));
     }
 
     public function store(Request $request, $id)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'jenis' => 'required',
             'nomor' => 'required',
             'tanggal' => 'required|date',
@@ -69,7 +67,7 @@ class PendokController extends Controller
             // 'tgl_ntpn' => 'required|date'
         ]);
 
-        try{
+        try {
             DB::beginTransaction();
             $status = Status::findOrFail(7);
             $dokumen = Dokumen::findOrFail($id);
@@ -93,9 +91,9 @@ class PendokController extends Controller
             $dokumen->save();
 
             $StatusLog = new LogStatus;
-            $StatusLog->dokumen_id= $dokumen->id;
-            $StatusLog->status_id= $status->id;
-            $StatusLog->status_label= $status->label;
+            $StatusLog->dokumen_id = $dokumen->id;
+            $StatusLog->status_id = $status->id;
+            $StatusLog->status_label = $status->label;
             $StatusLog->user_id = auth()->user()->id;
             $StatusLog->user_name = auth()->user()->name;
             $StatusLog->save();
@@ -104,9 +102,7 @@ class PendokController extends Controller
             Alert::success('Penerimaan dokumen berhasil');
 
             return redirect()->route('gateout.index');
-            
-
-        } catch(\Exception $e){
+        } catch (\Exception $e) {
             DB::rollback();
 
             Alert::error($e->getMessage());
@@ -114,22 +110,24 @@ class PendokController extends Controller
         }
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $dokumen = Dokumen::findOrFail($id);
         $detailBarang = $dokumen->detail;
-        
+
         return view('pendok.edit', compact('dokumen', 'detailBarang'));
     }
 
-    public function update(Request $request, $id){
-        $this->validate($request,[
+    public function update(Request $request, $id)
+    {
+        $this->validate($request, [
             'jenis' => 'required',
             'nomor' => 'required',
             'tanggal' => 'required|date'
         ]);
 
 
-        try{
+        try {
             DB::beginTransaction();
             //mau update kemana
             $definitif = DokumenDefinitif::findOrFail($id);
@@ -155,9 +153,7 @@ class PendokController extends Controller
 
             // return redirect()->route('pendok.index');
             return back();
-            
-
-        } catch(\Exception $e){
+        } catch (\Exception $e) {
             DB::rollback();
 
             Alert::error($e->getMessage());
@@ -165,10 +161,10 @@ class PendokController extends Controller
         }
     }
 
-    
-    public function data(){
-        if(Gate::denies('PENDOK'))
-        {
+
+    public function data()
+    {
+        if (Gate::denies('PENDOK')) {
             Alert::error('Sorry');
             return back();
         }
@@ -187,12 +183,13 @@ class PendokController extends Controller
             'dokumen_sppb.created_at',
             'dokumen.status_label'
         )
-        ->leftJoin('dokumen_sppb','dokumen.id','=','dokumen_sppb.dokumen_id')
-        ->where('dokumen.status_id', [5,6]);
+            ->leftJoin('dokumen_sppb', 'dokumen.id', '=', 'dokumen_sppb.dokumen_id')
+            ->where('dokumen.status_id', '>=', 5)
+            ->where('dokumen.status_id', '<=', 6);
 
         return Datatables::of($dokumen)
             ->addColumn('action', function ($dokumen) {
-                return '<a href="'. route('pendok.create', $dokumen->id) .'" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-edit"></i>Rekam Dokumen Definitif</a>';
+                return '<a href="' . route('pendok.create', $dokumen->id) . '" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-edit"></i>Rekam Dokumen Definitif</a>';
             })
             ->make(true);
     }

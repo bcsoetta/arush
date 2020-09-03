@@ -17,8 +17,7 @@ DashBoard
         <div class="row">
 
             <div class="col-md-3">
-                <h2>Dokumen Status :</h2>
-                <span>Keseluruhan Dokumen</span>
+                <h2>Dokumen Status : Tahun {{date('Y')}}</h2>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -33,17 +32,17 @@ DashBoard
                             <td class="text-right">{{$sts->jumlah}}</td>
                         </tr>
                         @endforeach
-                            <tr>
-                                <th class="text-center">TOTAL</th>
-                                <th class="text-right">{{$sumStatus}}</th>
-                            </tr>
-                        
+                        <tr>
+                            <th class="text-center">TOTAL</th>
+                            <th class="text-right">{{$sumStatus}}</th>
+                        </tr>
+
                     </tbody>
                 </table>
             </div>
             <div class="col-md-3">
                 <h2>Rata-rata Waktu Penyelesaian :</h2>
-                <span>Dari Penerimaan dokumen sampai SPPB: <a href="#">DETAIL</a></span>
+                <span>Dari Penerimaan dokumen sampai SPPB: Tahun {{date('Y')}}</span>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -56,16 +55,16 @@ DashBoard
                         @foreach($waktu as $wkt)
                         <tr>
                             <td class="text-center">{{$wkt->tahun}}</td>
-                            <td>{{$wkt->bulan}}</td>
+                            <td>{{$wkt->nama_bulan}}</td>
                             <td class="text-center"><b>{{number_format($wkt->ratarata,2)}}</b></td>
                         </tr>
                         @endforeach
 
-                        
+
                     </tbody>
                 </table>
             </div>
-             <!-- <div class="col-md-3">
+            <!-- <div class="col-md-3">
                 <h2>Dokumen Belum Rekam PIB/PIBK :</h2>
                 <h1>123123</h1>
             </div> -->
@@ -73,25 +72,15 @@ DashBoard
         <div class="row">
             <div class="col-md-6">
                 <h2>Dokumen RH Perbulan : {{date('Y')}}</h2>
-                <span>status SPPB/Keluar/Terima Definitif </span>
-                <!-- <form class="form-horizontal">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" style="text-align: left">Tahun</label>
-                        <div class="col-sm-5">
-                            <select class="form-control">
-                                <option>2019</option>
-                                <option>2020</option>
-                            </select>
-                        </div>
-                    </div>
-                </form> -->
+                <span>status dokumen SPPB + Keluar + Terima Definitif </span>
+
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#chartRhPerbulan">Chart</a></li>
                     <li><a data-toggle="tab" href="#TableRhPerbulan">Table</a></li>
                 </ul>
                 <div class="tab-content">
                     <div id="chartRhPerbulan" class="tab-pane fade in active">
-                    <br>
+                        <br>
                         <div class="row">
                             <div class="col-md-12">
                                 {!! $dokumenChart->container() !!}
@@ -109,12 +98,12 @@ DashBoard
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach($dokumen as $doc)
+                                @foreach($dokumen as $doc)
                                 <tr>
                                     <td>{{$doc->name}}</td>
                                     <td class="text-center">{{$doc->jumlah}}</td>
                                 </tr>
-                            @endforeach
+                                @endforeach
                                 <tr>
                                     <th class="text-center">Total</th>
                                     <th class="text-center">{{$sumDokumen}}</th>
@@ -132,7 +121,7 @@ DashBoard
                 </ul>
                 <div class="tab-content">
                     <div id="chartLhpPerbulan" class="tab-pane fade in active">
-                    <br>
+                        <br>
                         <div class="row">
                             <div class="col-md-12">
                                 {!! $lhpChart->container() !!}
@@ -150,12 +139,12 @@ DashBoard
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach($lhp as $doc)
+                                @foreach($lhp as $doc)
                                 <tr>
                                     <td>{{$doc->pemeriksa_nama}}</td>
                                     <td class="text-center">{{$doc->jumlah}}</td>
                                 </tr>
-                            @endforeach
+                                @endforeach
                                 <tr>
                                     <th class="text-center">Total</th>
                                     <th class="text-center">{{$sumLhp}}</th>
@@ -167,60 +156,60 @@ DashBoard
                     </div>
 
                 </div>
-                
+
             </div>
         </div>
         <br>
         <div class="row">
             <div class="col-md-6">
-                    <h2>10 Importir RH Terbanyak : {{date('Y')}}</h2>
-                    <div id="" class="table-responsive">
-                        <br>
-                        <table class="table table-striped table-hover table-condensed table-bordered">
-                            <thead>
-                                <tr>
+                <h2>10 Importir RH Terbanyak : {{date('Y')}}</h2>
+                <div id="" class="table-responsive">
+                    <br>
+                    <table class="table table-striped table-hover table-condensed table-bordered">
+                        <thead>
+                            <tr>
 
-                                    <th>Importir</th>
-                                    <th>NPWP</th>
-                                    <th>Jumlah</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                                <th>Importir</th>
+                                <th>NPWP</th>
+                                <th>Jumlah</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             @foreach($importirTerbanyak as $iter)
-                                <tr>
-                                    <td>{{$iter->nama}}</td>
-                                    <td>{{$iter->npwp}}</td>
-                                    <td class="text-center">{{$iter->jumlah}}</td>
-                                </tr>
+                            <tr>
+                                <td>{{$iter->nama}}</td>
+                                <td>{{$iter->npwp}}</td>
+                                <td class="text-center">{{$iter->jumlah}}</td>
+                            </tr>
                             @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="col-md-6">
-                    <h2>10 HS dokumen RH Terbanyak : {{date('Y')}}</h2>
-                    <div id="" class="table-responsive">
-                        <br>
-                        <table class="table table-striped table-hover table-condensed table-bordered">
-                            <thead>
-                                <tr>
+                <h2>10 HS dokumen RH Terbanyak : {{date('Y')}}</h2>
+                <div id="" class="table-responsive">
+                    <br>
+                    <table class="table table-striped table-hover table-condensed table-bordered">
+                        <thead>
+                            <tr>
 
-                                    <th>HS</th>
-                                    <th>Uraian Barang</th>
-                                    <th>Jumlah</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                                <th>HS</th>
+                                <th>Uraian Barang</th>
+                                <th>Jumlah</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             @foreach($hsTerbanyak as $hs)
-                                <tr>
-                                    <td>{{$hs->hs_code}}</td>
-                                    <td>{{strtoupper($hs->uraian_barang)}}</td>
-                                    <td class="text-center">{{$hs->jumlah}}</td>
-                                </tr>
+                            <tr>
+                                <td>{{$hs->hs_code}}</td>
+                                <td>{{strtoupper($hs->uraian_barang)}}</td>
+                                <td class="text-center">{{$hs->jumlah}}</td>
+                            </tr>
                             @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -233,43 +222,45 @@ DashBoard
 {!! $dokumenChart->script() !!}
 {!! $lhpChart->script() !!}
 <script>
+    $(document).ready(function() {
 
-$( document ).ready(function(){
+        //user online
+        const urlUser = {
+            {
+                route('userOnline')
+            }
+        };
+        $.ajax({
+            url: urlUser,
+            type: 'GET',
+            success: function(response) {
+                let tdData = '';
+                $.each(response, function(i, item) {
+                    tdData += '<tr>' +
+                        '<td>' + item.name + '</td>' +
+                        '<td>' + item.nip + '</td>' +
+                        '<td class="text-success text-center">' + 'online' + '</td>' +
+                        '</tr>'
+                })
+                $('#users-table').append(tdData);
+            }
+        });
 
-    //user online
-    const urlUser = {{route('userOnline')}};
-    $.ajax({
-        url: urlUser,
-        type: 'GET',
-        success: function(response){
-            let tdData = '';
-                $.each(response, function(i, item){
-                tdData += '<tr>' + 
-                '<td>' + item.name + '</td>' + 
-                '<td>' + item.nip + '</td>' + 
-                '<td class="text-success text-center">' + 'online' + '</td>' + 
-                '</tr>'
-            })
-            $('#users-table').append(tdData);
-        }
+        // dokumen status
+
+        let tahun = new Date().getFullYear();
+
+        const urlStatusDokumen = '/api/status-dokumen/' + tahun;
+
+        $.ajax({
+            url: urlStatusDokumen,
+            type: 'GET',
+            success: function(response) {
+                console.log(response)
+            }
+        });
+
     });
-
-    // dokumen status
-
-    let tahun = new Date().getFullYear();
-
-    const urlStatusDokumen = '/api/status-dokumen/'+ tahun;
-
-    $.ajax({
-        url: urlStatusDokumen,
-        type: 'GET',
-        success: function(response){
-            console.log(response)
-        }
-    });
-
-});
-
 </script>
 
 @endsection

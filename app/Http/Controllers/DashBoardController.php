@@ -12,7 +12,8 @@ use Carbon\carbon;
 
 class DashBoardController extends Controller
 {
-    public function index(){
+    public function index()
+    {
 
         $dokumen = DB::select('
                 SELECT
@@ -30,7 +31,7 @@ class DashBoardController extends Controller
         ');
 
         // dd($dokumen);
-        
+
         $labelDokumen = [];
         $dataDokumen = [];
         $sumDokumen = 0;
@@ -39,8 +40,8 @@ class DashBoardController extends Controller
             $labelDokumen[] = $doc->name;
             $dataDokumen[] = $doc->jumlah;
 
-            if(isset($doc->jumlah)){
-                $sumDokumen+= $doc->jumlah;
+            if (isset($doc->jumlah)) {
+                $sumDokumen += $doc->jumlah;
             }
         }
 
@@ -49,35 +50,35 @@ class DashBoardController extends Controller
         $dokumenChart->title("Data Dokumen Perbulan");
         $dokumenChart->labels($labelDokumen);
         $dokumenChart->dataset('Dokumen', 'bar', $dataDokumen)
-                ->backgroundColor(collect([
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ]))
-                ->color(collect([
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ]));
-        
+            ->backgroundColor(collect([
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ]))
+            ->color(collect([
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ]));
+
         $lhp = DB::select('
                 SELECT 
                     dl.pemeriksa_nama,
@@ -91,7 +92,7 @@ class DashBoardController extends Controller
                 GROUP BY dl.pemeriksa_id
                 ORDER BY dl.pemeriksa_nama
         ');
-   
+
         $labelLhp = [];
         $dataLhp = [];
         $sumLhp = 0;
@@ -100,8 +101,8 @@ class DashBoardController extends Controller
             $labelLhp[] = $doclhp->pemeriksa_nama;
             $dataLhp[] = $doclhp->jumlah;
 
-            if(isset($doclhp->jumlah)){
-                $sumLhp+= $doclhp->jumlah;
+            if (isset($doclhp->jumlah)) {
+                $sumLhp += $doclhp->jumlah;
             }
         }
 
@@ -110,59 +111,59 @@ class DashBoardController extends Controller
         $lhpChart->title("Data Dokumen LHP Perbulan");
         $lhpChart->labels($labelLhp);
         $lhpChart->dataset('Lhp', 'bar', $dataLhp)
-                ->backgroundColor(collect([
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ]))
-                ->color(collect([
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ]));
-        
+            ->backgroundColor(collect([
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ]))
+            ->color(collect([
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ]));
+
         $importirTerbanyak = DB::select('
                     SELECT
                         d.importir_npwp AS npwp,
@@ -186,51 +187,53 @@ class DashBoardController extends Controller
                     LIMIT 10
         ');
 
-        $status =DB::select('
-                    SELECT 
-                        s.label, 
-                        COUNT(d.status_id) AS jumlah 
-                    FROM status AS s 
-                    LEFT JOIN dokumen AS d ON s.id = d.status_id
-                    GROUP BY s.id 
-                    ORDER BY s.id 
+        $status = DB::select('
+        SELECT 
+                s.label, 
+                COUNT(d.status_id) AS jumlah 
+            FROM status AS s 
+            LEFT JOIN dokumen AS d ON s.id = d.status_id
+            WHERE YEAR(d.daftar_tgl) = YEAR(CURDATE())
+            GROUP BY s.id 
+            ORDER BY s.id 
         ');
 
 
         $sumStatus = 0;
 
         foreach ($status as $sts) {
-            if(isset($sts->jumlah)){
-                $sumStatus+= $sts->jumlah;
+            if (isset($sts->jumlah)) {
+                $sumStatus += $sts->jumlah;
             }
         }
 
         $waktu = DB::select("
-                SELECT
-                YEAR(b.created_at) AS tahun,
-                DATE_FORMAT(b.created_at, '%M') AS bulan,
-                avg(TIMESTAMPDIFF(SECOND,a.daftar_tgl,b.created_at)/3600) AS ratarata
-                FROM dokumen AS a
-                INNER JOIN dokumen_sppb AS b 
-                ON a.id = b.dokumen_id
-                GROUP BY MONTH(b.created_at)
-                ORDER BY MONTH(b.created_at) ASC
+                    SELECT
+                    YEAR(b.created_at) AS tahun,
+                    MONTH(b.created_at)AS bulan,
+                    DATE_FORMAT(b.created_at, '%M') AS nama_bulan,
+                    avg(TIMESTAMPDIFF(SECOND,a.daftar_tgl,b.created_at)/3600) AS ratarata
+                    FROM dokumen AS a
+                    INNER JOIN dokumen_sppb AS b 
+                    ON a.id = b.dokumen_id
+                    WHERE YEAR(b.created_at) = YEAR(CURDATE()) AND a.lokasi_periksa_gd_importir = 'N'
+                    GROUP BY bulan
             ");
 
 
-                    return view('dashboard.index', compact(
-                        'dokumen',
-                        'sumDokumen', 
-                        'dokumenChart',
-                        'lhp',
-                        'lhpChart',
-                        'sumLhp',
-                        'importirTerbanyak',
-                        'hsTerbanyak',
-                        'status',
-                        'sumStatus',
-                        'waktu'
-                    ));
+        return view('dashboard.index', compact(
+            'dokumen',
+            'sumDokumen',
+            'dokumenChart',
+            'lhp',
+            'lhpChart',
+            'sumLhp',
+            'importirTerbanyak',
+            'hsTerbanyak',
+            'status',
+            'sumStatus',
+            'waktu'
+        ));
     }
 
     // public function test(){

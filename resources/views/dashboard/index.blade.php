@@ -224,28 +224,6 @@ DashBoard
 <script>
     $(document).ready(function() {
 
-        //user online
-        const urlUser = {
-            {
-                route('userOnline')
-            }
-        };
-        $.ajax({
-            url: urlUser,
-            type: 'GET',
-            success: function(response) {
-                let tdData = '';
-                $.each(response, function(i, item) {
-                    tdData += '<tr>' +
-                        '<td>' + item.name + '</td>' +
-                        '<td>' + item.nip + '</td>' +
-                        '<td class="text-success text-center">' + 'online' + '</td>' +
-                        '</tr>'
-                })
-                $('#users-table').append(tdData);
-            }
-        });
-
         // dokumen status
 
         let tahun = new Date().getFullYear();

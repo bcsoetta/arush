@@ -27,7 +27,7 @@
     @endcan
 
     @can('LAPORAN-JAMINAN')
-     <li class="dropdown">
+    <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Laporan <span class="caret"></span></a>
         <ul class="dropdown-menu">
             <li><a href="{{route('cetak.formCetakJaminanHarian')}}">Cetak Jaminan Hariaan</a></li>
@@ -47,6 +47,9 @@
             @endcan
             @can('SET-PERUSAHAAN')
             <li><a href="{{ route('perusahaan.index')}}">Perusahaan</a></li>
+            @endcan
+            @can('SET-BLOKIR-KHUSUS')
+            <li><a href="{{ route('blokir-khusus.index')}}">Blokir Khusus</a></li>
             @endcan
             @can('ABSENSI')
             <li><a href="{{ route('presensi.index')}}">Presensi</a></li>
@@ -95,19 +98,19 @@
         </a>
 
         <ul class="dropdown-menu" role="menu">
-            {{-- <li><a href="{{ route('profile', Auth::user()->id) }}">Profile</a></li> --}}
-            <li>
-                <a href="{{ route('logout') }}"
-                onclick="event.preventDefault();
+            {{-- <li><a href="{{ route('profile', Auth::user()->id) }}">Profile</a>
+    </li> --}}
+    <li>
+        <a href="{{ route('logout') }}" onclick="event.preventDefault();
                 document.getElementById('logout-form').submit();">
-                Logout
-            </a>
+            Logout
+        </a>
 
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                {{ csrf_field() }}
-            </form>
-        </li>
-    </ul>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            {{ csrf_field() }}
+        </form>
+    </li>
+</ul>
 </li>
 @endguest
 </ul>

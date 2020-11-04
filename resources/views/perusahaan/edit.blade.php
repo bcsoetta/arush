@@ -25,7 +25,7 @@ Edit Perusahaan
                             <label for="nama" class="col-md-4 control-label">Nama</label>
 
                             <div class="col-md-8">
-                                <input id="nama" type="text" class="form-control" name="nama" value="{{ $perusahaan->nama }}"  autofocus>
+                                <input id="nama" type="text" class="form-control" name="nama" value="{{ $perusahaan->nama }}" autofocus>
 
                                 @if ($errors->has('nama'))
                                 <span class="help-block">
@@ -54,7 +54,7 @@ Edit Perusahaan
 
                             <div class="col-md-8">
                                 <select class="form-control" id="pilih" name="jenis_identitas">
-                                    
+
                                     @foreach ($jenis_identitas as $item)
                                     <option value="{{$item->uraian}}" {{$item->uraian == $perusahaan->jenis_identitas ? "selected": ""}}>{{$item->uraian}}</option>
                                     @endforeach
@@ -68,11 +68,11 @@ Edit Perusahaan
                             </div>
                         </div>
 
-                         <div class="form-group{{ $errors->has('no_identitas') ? ' has-error' : '' }}">
+                        <div class="form-group{{ $errors->has('no_identitas') ? ' has-error' : '' }}">
                             <label for="no_identitas" class="col-md-4 control-label">Nomor Identitas</label>
 
                             <div class="col-md-8">
-                                <input id="no_identitas" type="text" class="form-control" name="no_identitas" value="{{ $perusahaan->no_identitas }}" >
+                                <input id="no_identitas" type="text" class="form-control" name="no_identitas" value="{{ $perusahaan->no_identitas }}">
 
                                 @if ($errors->has('no_identitas'))
                                 <span class="help-block">
@@ -107,4 +107,3 @@ Edit Perusahaan
     });
 </script>
 @endsection
-

@@ -36,9 +36,8 @@ class BlokirKhususController extends Controller
             Alert::error('Sorry');
             return back();
         }
-        $perusahaan = Perusahaan::get();
 
-        return view('blokir-khusus.create', compact('perusahaan'));
+        return view('blokir-khusus.create');
     }
 
     /**

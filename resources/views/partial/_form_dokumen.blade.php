@@ -4,7 +4,7 @@
         <h3>Importir :</h3>
         <div class="form-group {{ $errors->has('importir_nm') ? ' has-error' : '' }}">
             <label for="importir_npwp">Nama</label>
-            <input type="text" class="form-control" name="importir_nm" value="{{ old('importir_nm') }}" placeholder="nama" id="importir_nm" autofocus>
+            <input type="text" class="form-control" name="importir_nm" value="{{ $header['importir_nm'] }}" placeholder="nama" id="importir_nm" readonly>
             @if ($errors->has('importir_nm'))
             <span class="help-block">
                 {{ $errors->first('importir_nm') }}
@@ -13,7 +13,7 @@
         </div>
         <div class="form-group {{ $errors->has('importir_npwp') ? ' has-error' : '' }}">
             <label for="importir_npwp">NPWP</label>
-            <input type="text" class="form-control" name="importir_npwp" value="{{ old('importir_npwp') }}" placeholder="npwp" id="importir_npwp">
+            <input type="text" class="form-control" name="importir_npwp" value="{{ $header['importir_npwp'] }}" placeholder="npwp" id="importir_npwp" readonly>
             @if ($errors->has('importir_npwp'))
             <span class="help-block">
                 {{ $errors->first('importir_npwp') }}
@@ -22,7 +22,7 @@
         </div>
         <div class="form-group {{ $errors->has('importir_alamat') ? ' has-error' : '' }}">
             <label for="importir_alamat">Alamat</label>
-            <textarea class="form-control" rows="2" name="importir_alamat" placeholder="alamat" id="importir_alamat">{{ old('importir_alamat') }}</textarea>
+            <textarea class="form-control" rows="2" name="importir_alamat" placeholder="alamat" id="importir_alamat" readonly>{{ $header['importir_alamat'] }}</textarea>
             @if ($errors->has('importir_alamat'))
             <span class="help-block">
                 {{ $errors->first('importir_alamat') }}
@@ -34,7 +34,7 @@
         <h3>PPJK :</h3>
         <div class="form-group {{ $errors->has('ppjk_nm') ? ' has-error' : '' }}">
             <label for="ppjk_nm">Nama</label>
-            <input type="text" class="form-control" name="ppjk_nm" value="{{ old('ppjk_nm') }}" placeholder="nama" id="ppjk_nm" autofocus>
+            <input type="text" class="form-control" name="ppjk_nm" value="{{ $header['ppjk_nm'] }}" placeholder="nama" id="ppjk_nm" readonly>
             @if ($errors->has('ppjk_nm'))
             <span class="help-block">
                 {{ $errors->first('ppjk_nm') }}
@@ -43,7 +43,7 @@
         </div>
         <div class="form-group {{ $errors->has('ppjk_npwp') ? ' has-error' : '' }}">
             <label for="ppjk_npwp">NPWP</label>
-            <input type="npwp" class="form-control" name="ppjk_npwp" value="{{ old('ppjk_npwp') }}" id="ppjk_npwp" placeholder="npwp">
+            <input type="npwp" class="form-control" name="ppjk_npwp" value="{{ $header['ppjk_npwp'] }}" id="ppjk_npwp" placeholder="npwp" readonly>
             @if ($errors->has('ppjk_npwp'))
             <span class="help-block">
                 {{ $errors->first('ppjk_npwp') }}
@@ -52,7 +52,7 @@
         </div>
         <div class="form-group {{ $errors->has('ppjk_alamat') ? ' has-error' : '' }}">
             <label for="ppjk_alamat">Alamat</label>
-            <textarea class="form-control" rows="2" name="ppjk_alamat" placeholder="alamat" id="ppjk_alamat" >{{ old('ppjk_alamat') }}</textarea>
+            <textarea class="form-control" rows="2" name="ppjk_alamat" placeholder="alamat" id="ppjk_alamat" readonly>{{ $header['ppjk_alamat'] }}</textarea>
             @if ($errors->has('ppjk_alamat'))
             <span class="help-block">
                 {{ $errors->first('ppjk_alamat') }}
@@ -89,7 +89,7 @@
                 {{ $errors->first('tiba_tgl') }}
             </span>
             @endif
-        </div>            
+        </div>
     </div>
 </div>
 
@@ -104,7 +104,7 @@
                 {{ $errors->first('hawb_no') }}
             </span>
             @endif
-        </div>            
+        </div>
     </div>
     <div class="col-md-3">
         <div class="form-group {{ $errors->has('hawb_tgl') ? ' has-error' : '' }}" id="tgl">
@@ -115,7 +115,7 @@
                 {{ $errors->first('hawb_tgl') }}
             </span>
             @endif
-        </div>            
+        </div>
     </div>
 </div>
 <div class="row">
@@ -220,7 +220,7 @@
             <label>Partial Manifes</label>
             <select class="form-control pilih-select" name="partial_manifes">
                 <option value="N" {{ old('partial_manifes') == 'N' ? 'selected':''}}>Tidak</option>
-                <option value="Y" {{ old('partial_manifes') == 'Y' ? 'selected':''}}>Ya</option>                
+                <option value="Y" {{ old('partial_manifes') == 'Y' ? 'selected':''}}>Ya</option>
             </select>
             @if ($errors->has('partial_manifes'))
             <span class="help-block">
@@ -235,15 +235,15 @@
             <select class="form-control pilih-select" name="partial_ke">
                 <option value="" selected></option>
                 <option value="1" {{ old('partial_ke') == '1' ? 'selected':''}}>1</option>
-                <option value="2" {{ old('partial_ke') == '2' ? 'selected':''}}>2</option>                
-                <option value="3" {{ old('partial_ke') == '3' ? 'selected':''}}>3</option>                
-                <option value="4" {{ old('partial_ke') == '4' ? 'selected':''}}>4</option>                
-                <option value="5" {{ old('partial_ke') == '5' ? 'selected':''}}>5</option>                
-                <option value="6" {{ old('partial_ke') == '6' ? 'selected':''}}>6</option>                
-                <option value="7" {{ old('partial_ke') == '7' ? 'selected':''}}>7</option>                
-                <option value="8" {{ old('partial_ke') == '8' ? 'selected':''}}>8</option>                
-                <option value="9" {{ old('partial_ke') == '9' ? 'selected':''}}>9</option>                
-                <option value="10" {{ old('partial_ke') == '10' ? 'selected':''}}>10</option>                
+                <option value="2" {{ old('partial_ke') == '2' ? 'selected':''}}>2</option>
+                <option value="3" {{ old('partial_ke') == '3' ? 'selected':''}}>3</option>
+                <option value="4" {{ old('partial_ke') == '4' ? 'selected':''}}>4</option>
+                <option value="5" {{ old('partial_ke') == '5' ? 'selected':''}}>5</option>
+                <option value="6" {{ old('partial_ke') == '6' ? 'selected':''}}>6</option>
+                <option value="7" {{ old('partial_ke') == '7' ? 'selected':''}}>7</option>
+                <option value="8" {{ old('partial_ke') == '8' ? 'selected':''}}>8</option>
+                <option value="9" {{ old('partial_ke') == '9' ? 'selected':''}}>9</option>
+                <option value="10" {{ old('partial_ke') == '10' ? 'selected':''}}>10</option>
             </select>
             @if ($errors->has('partial_manifes'))
             <span class="help-block">
@@ -261,7 +261,7 @@
                 {{ $errors->first('jumlah_kemasan_partial') }}
             </span>
             @endif
-        </div>            
+        </div>
     </div>
     <div class="col-md-3">
         <div class="form-group {{ $errors->has('jenis_kemasan_partial') ? ' has-error' : '' }}">
@@ -272,7 +272,7 @@
                 {{ $errors->first('jenis_kemasan_partial') }}
             </span>
             @endif
-        </div>            
+        </div>
     </div>
 </div>
 <div class="row">
@@ -296,7 +296,7 @@
             <label for="lokasi">Lokasi Periksa Gudang Importir</label>
             <select class="form-control pilih-select" name="lokasi_periksa_gudang_importir">
                 <option value="N" {{ old('lokasi_periksa_gudang_importir') == 'N' ? 'selected':''}}>Tidak</option>
-                <option value="Y" {{ old('lokasi_periksa_gudang_importir') == 'Y' ? 'selected':''}}>Ya</option>                
+                <option value="Y" {{ old('lokasi_periksa_gudang_importir') == 'Y' ? 'selected':''}}>Ya</option>
             </select>
             @if ($errors->has('lokasi_periksa_gudang_importir'))
             <span class="help-block">
@@ -313,7 +313,7 @@
     <div class="col-md-6">
         <div class="form-group {{ $errors->has('no_fasilitas') ? ' has-error' : '' }}">
             <label for="lokasi">Nomor</label>
-             <input type="text" class="form-control" name="no_fasilitas" value="{{ old('no_fasilitas') }}" placeholder="nomor">
+            <input type="text" class="form-control" name="no_fasilitas" value="{{ old('no_fasilitas') }}" placeholder="nomor">
             @if ($errors->has('no_fasilitas'))
             <span class="help-block">
                 {{ $errors->first('no_fasilitas') }}
@@ -324,7 +324,7 @@
     <div class="col-md-6">
         <div class="form-group {{ $errors->has('tgl_fasilitas') ? ' has-error' : '' }}" id="tgl">
             <label for="lokasi">Tanggal</label>
-             <input type="text" class="form-control" name="tgl_fasilitas" value="{{ old('tgl_fasilitas') }}" placeholder="tanggal">
+            <input type="text" class="form-control" name="tgl_fasilitas" value="{{ old('tgl_fasilitas') }}" placeholder="tanggal">
             @if ($errors->has('tgl_fasilitas'))
             <span class="help-block">
                 {{ $errors->first('tgl_fasilitas') }}

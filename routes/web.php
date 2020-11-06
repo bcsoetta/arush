@@ -187,6 +187,8 @@ Route::middleware(['auth'])->group(function () {
 
     //Blokir Khusus
     Route::resource('/blokir-khusus', 'BlokirKhususController');
+    Route::get('/blokir-khusus/buka/{id}', 'BlokirKhususController@buka')->name('blokir-khusus.buka');
+    Route::patch('/blokir-khusus/penyelesaian/{id}', 'BlokirKhususController@penyelesaian')->name('blokir-khusus.penyelesaian');
 
     //Perusahaan
     Route::resource('/perusahaan', 'PerusahaanController');

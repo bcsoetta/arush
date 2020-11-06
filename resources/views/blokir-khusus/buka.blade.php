@@ -14,18 +14,19 @@ Rekam Perusahaan
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-primary">
-                <div class="panel-heading">Rekam Blokir Perusahaan</div>
+                <div class="panel-heading">Buka Blokir Perusahaan</div>
 
                 <div class="panel-body">
-                    <a href="{{ route('blokir-khusus.index')}}"><button class="btn btn-primary" style="margin: 15px; margin-left: 0px;">Kembali</button></a>
-                    <form class="form-horizontal" method="POST" action="{{ route('blokir-khusus.update', $data->id) }}">
+                    <a href="{{ url()->previous() }}"><button class="btn btn-primary" style="margin: 15px; margin-left: 0px;">Kembali</button></a>
+
+                    <form class="form-horizontal" method="POST" action="{{ route('blokir-khusus.penyelesaian', $data->id) }}">
                         {{ csrf_field() }}
                         {{ method_field('PATCH') }}
                         <div class="form-group{{ $errors->has('no_identitas') ? ' has-error' : '' }}">
                             <label for="no_identitas" class="col-md-4 control-label">Nomor Identitas</label>
 
                             <div class="col-md-8">
-                                <input type="text" class="form-control" name="no_identitas" value="{{ $data->no_identitas }}" autofocus>
+                                <input type="text" class="form-control" name="no_identitas" value="{{ $data->no_identitas }}" readonly>
 
                                 @if ($errors->has('no_identitas'))
                                 <span class="help-block">
@@ -39,7 +40,7 @@ Rekam Perusahaan
                             <label for="nama" class="col-md-4 control-label">Nama</label>
 
                             <div class="col-md-8">
-                                <input type="text" class="form-control" name="nama" value="{{ $data->nama }}" autofocus>
+                                <input type="text" class="form-control" name="nama" value="{{ $data->nama }}" readonly>
 
                                 @if ($errors->has('nama'))
                                 <span class="help-block">
@@ -49,44 +50,32 @@ Rekam Perusahaan
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('nomor_surat') ? ' has-error' : '' }}">
-                            <label for="nomor_surat" class="col-md-4 control-label">Nomor Surat</label>
+                        <div class="form-group{{ $errors->has('blokir') ? ' has-error' : '' }}">
+                            <label for="blokir" class="col-md-4 control-label">Blokir</label>
 
                             <div class="col-md-8">
-                                <input type="text" class="form-control" name="nomor_surat" value="{{ $data->nomor_surat }}" autofocus>
+                                <select class="form-control" name="blokir">
+                                    <option value="Y" {{$data->blokir === 'Y' ? 'selected': ''}}>ACTIVE</option>
+                                    <option value="N" {{$data->blokir === 'N' ? 'selected': ''}}>TIDAK</option>
+                                </select>
 
-                                @if ($errors->has('nama'))
+                                @if ($errors->has('blokir'))
                                 <span class="help-block">
-                                    <strong>{{ $errors->first('nomor_surat') }}</strong>
+                                    <strong>{{ $errors->first('blokir') }}</strong>
                                 </span>
                                 @endif
                             </div>
                         </div>
 
-
-                        <div class="form-group{{ $errors->has('hal') ? ' has-error' : '' }}">
-                            <label for="hal" class="col-md-4 control-label">Hal</label>
-
-                            <div class="col-md-8">
-                                <input id="hal" type="text" class="form-control" name="hal" value="{{ $data->hal }}" autofocus>
-
-                                @if ($errors->has('hal'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('hal') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('keterangan') ? ' has-error' : '' }}">
-                            <label for="keterangan" class="col-md-4 control-label">Keterangan / Alasan Blokir</label>
+                        <div class="form-group{{ $errors->has('penyelesaian') ? ' has-error' : '' }}">
+                            <label for="penyelesaian" class="col-md-4 control-label">Penyelesaian Blokir</label>
 
                             <div class="col-md-8">
-                                <textarea class="form-control" rows="3" name="keterangan">{{ $data->keterangan }}</textarea>
+                                <textarea class="form-control" rows="3" name="penyelesaian">{{ $data->penyelesaian }}</textarea>
 
-                                @if ($errors->has('keterangan'))
+                                @if ($errors->has('penyelesaian'))
                                 <span class="help-block">
-                                    <strong>{{ $errors->first('keterangan') }}</strong>
+                                    <strong>{{ $errors->first('penyelesaian') }}</strong>
                                 </span>
                                 @endif
                             </div>

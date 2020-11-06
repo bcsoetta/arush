@@ -124,17 +124,17 @@ class DokumenController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         if (Gate::denies('CREATE-DOKUMEN')) {
             Alert::error('Sorry');
             return back();
         }
-
+        $header = $request->session()->get('header');
         $dokumen = new Dokumen;
         $lokasi = Lokasi::all();
         $pengangkut = Pengangkut::all();
-        return view('dokumen/create', compact('lokasi', 'pengangkut', 'dokumen'));
+        return view('dokumen/create', compact('lokasi', 'pengangkut', 'dokumen', 'header'));
     }
 
     /**
@@ -175,48 +175,21 @@ class DokumenController extends Controller
             'tgl_fasilitas' => 'date|nullable',
         ]);
 
-        // Cek jika dokumen yng masih belum definitif untuk importir ini cekDueDefenitif
-        $statusIdDokumen = [5, 6];
+        // Cek jika dokumen yng masih belum definitif untuk importir ini
+        if ($this->settingBlokirOn()) {
+            $dokumen = $this->cekDokumenBelumDefinitif($request);
+            $dokLewat = $dokumen->filter(function ($item) {
+                return $item->selisih_hari > 3;
+            });
+            $blokir = $this->cekBlokirKhusus($request);
 
-        // $importirBelumPib = $this->cekDueDefinitive($request, $statusIdDokumen);
-
-        // dd($importirBelumPib);
-
-        $importirBelumPib = Dokumen::whereIn('status_id', $statusIdDokumen)
-            ->Where(function ($q) use ($request) {
-                $q->where('importir_npwp', $request->importir_npwp)
-                    ->orWhere('ppjk_npwp', $request->ppjk_npwp);
-            })
-            ->get();
-
-        $blokir = [];
-
-        $importirBelumPib->map(function ($doc) {
-            $tglAwal = $doc->sppb->created_at;
-            $tglAwal = $tglAwal->toDateString();
-            $today = date('Y-m-d');
-
-            $selisih = hari_kerja($tglAwal, $today);
-
-            $doc['selisih_hari'] = $selisih;
-            return $doc;
-        });
-
-        dd($importirBelumPib);
-
-        foreach ($importirBelumPib as $dok) {
-            if ($dok->selisih_hari > 3) {
-                $blokir[] = 1;
-            }
+            if ($dokLewat->count() or $blokir->count()) {
+                // return view('dokumen/cek-dokumen', compact('dokumen', 'blokir'));
+                return view('dokumen/belum-definitif', compact('dokumen', 'blokir'));
+            };
         }
 
-        $set = DB::table('setting')->where('blokir', 'Y')->find(1);
-
-        // block them all
-        if (count($blokir) > 0 and isset($set->blokir)) {
-            //back to 
-            return view('dokumen/belum-definitif', compact('importirBelumPib'));
-        }
+        $header = $request->session()->get('header');
 
         // simpan ke DB
         try {
@@ -229,12 +202,12 @@ class DokumenController extends Controller
             $dokumen = new Dokumen;
             // $dokumen->daftar_no = $nomor;
             $dokumen->daftar_tgl = date('Y-m-d H:i:s');
-            $dokumen->importir_nm = $request->importir_nm;
-            $dokumen->importir_npwp = $request->importir_npwp;
-            $dokumen->importir_alamat = $request->importir_alamat;
-            $dokumen->ppjk_npwp = $request->ppjk_npwp;
-            $dokumen->ppjk_nm = $request->ppjk_nm;
-            $dokumen->ppjk_alamat = $request->ppjk_alamat;
+            $dokumen->importir_nm = $header['importir_nm'];
+            $dokumen->importir_npwp =  $header['importir_npwp'];
+            $dokumen->importir_alamat =  $header['importir_alamat'];
+            $dokumen->ppjk_npwp =  $header['ppjk_npwp'];
+            $dokumen->ppjk_nm =  $header['ppjk_nm'];
+            $dokumen->ppjk_alamat =  $header['ppjk_alamat'];
             $dokumen->pengangkut_id = $pengangkut->id;
             $dokumen->pengangkut_kode = $pengangkut->kode;
             $dokumen->pengangkut_nama = $pengangkut->pesawat;
@@ -278,6 +251,8 @@ class DokumenController extends Controller
             $StatusLog->save();
 
             DB::commit();
+            $request->session()->forget('header');
+
             Alert::success('Berhasil Disimpan');
             return redirect()->route('dokumen.show', $dokumen->id);
         } catch (\Exception $e) {
@@ -288,10 +263,6 @@ class DokumenController extends Controller
 
             return $e->getMessage();
         }
-    }
-
-    public function cekDueDefinitive()
-    {
     }
 
     /**
@@ -306,13 +277,6 @@ class DokumenController extends Controller
             Alert::error('Sorry');
             return back();
         }
-
-
-        //cek user pengguna jasa
-        // if (auth()->user()->hasRole('PENGGUNA-JASA') AND $dokumen->user_id != auth()->user()->id) {           
-        //     Alert::error('Sorry');
-        //     return back();
-        // }
 
         $dokumen = Dokumen::findOrFail($id);
 
@@ -555,7 +519,7 @@ class DokumenController extends Controller
             return back();
         }
 
-        return view('dokumen/cek-dokumen');
+        return view('dokumen/cek-dokumen',);
     }
 
     public function prosesCekDokumen(Request $request)
@@ -565,14 +529,41 @@ class DokumenController extends Controller
             return back();
         }
 
+        $this->validate($request, [
+            'importir_nm' =>   'required|min:3',
+            'importir_npwp' => 'required',
+            'importir_alamat' => 'required|min:6'
+        ]);
+
+        if ($this->settingBlokirOn()) {
+
+            $dokumen = $this->cekDokumenBelumDefinitif($request);
+            $dokLewat = $dokumen->filter(function ($item) {
+                return $item->selisih_hari > 3;
+            });
+            $blokir = $this->cekBlokirKhusus($request);
+
+            //Jika ada dokumen belum defenitif  dan npwp terblokir khusus
+            if ($dokLewat->count() or $blokir->count()) {
+                // return view('dokumen/cek-dokumen', compact('dokumen', 'blokir'));
+                return view('dokumen/belum-definitif', compact('dokumen', 'blokir'));
+            };
+        }
+
+        $rheader = $request->except('_token');
+        $request->session()->put('header', $rheader);
+
+        return redirect()->route('dokumen.create');
+    }
+
+    public function cekDokumenBelumDefinitif(Request $request)
+    {
         $dokumen = Dokumen::whereIn('status_id', [5, 6])
             ->Where(function ($q) use ($request) {
                 $q->where('importir_npwp', $request->importir_npwp)
                     ->orWhere('ppjk_npwp', $request->ppjk_npwp);
             })
             ->get();
-
-        $blokir = [];
 
         $dokumen->map(function ($doc) {
             $tglAwal = $doc->sppb->created_at;
@@ -581,17 +572,28 @@ class DokumenController extends Controller
             $today = date('Y-m-d');
 
             $selisih = hari_kerja($tglAwal, $today);
-
             $doc['selisih_hari'] = $selisih;
 
             return $doc;
         });
 
-        $blokir = BlokirKhusus::where('no_identitas', $request->importir_npwp)
-            ->orWhere('no_identitas', $request->ppjk_npwp)
-            ->get();
+        return $dokumen;
+    }
 
-        return view('dokumen/cek-dokumen', compact('dokumen', 'blokir'));
+    public function cekBlokirKhusus(Request $request)
+    {
+        $blokir = BlokirKhusus::whereIn('no_identitas', [$request->importir_npwp, $request->ppjk_npwp])
+            ->where('blokir', 'Y')
+            ->get();
+        return $blokir;
+    }
+
+    public function settingBlokirOn()
+    {
+        //setting blokir nyala
+        $set = DB::table('setting')->where('blokir', 'Y')->find(1);
+
+        return isset($set->blokir);
     }
 
     public function cekNpwp($npwp)

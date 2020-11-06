@@ -6,6 +6,7 @@ use App\BlokirKhusus;
 use App\Perusahaan;
 use Illuminate\Http\Request;
 use Alert;
+use Illuminate\Support\Facades\Gate;
 
 class BlokirKhususController extends Controller
 {
@@ -16,6 +17,10 @@ class BlokirKhususController extends Controller
      */
     public function index()
     {
+        if (Gate::denies('SET-BLOKIR-KHUSUS')) {
+            Alert::error('Sorry');
+            return back();
+        }
         $blokir = BlokirKhusus::get();
         return view('blokir-khusus.index', compact('blokir'));
     }
@@ -27,6 +32,10 @@ class BlokirKhususController extends Controller
      */
     public function create()
     {
+        if (Gate::denies('SET-BLOKIR-KHUSUS')) {
+            Alert::error('Sorry');
+            return back();
+        }
         $perusahaan = Perusahaan::get();
 
         return view('blokir-khusus.create', compact('perusahaan'));
@@ -40,6 +49,10 @@ class BlokirKhususController extends Controller
      */
     public function store(Request $request)
     {
+        if (Gate::denies('SET-BLOKIR-KHUSUS')) {
+            Alert::error('Sorry');
+            return back();
+        }
         $this->validate($request, [
             'no_identitas' => 'required',
             'nama' => 'required',
@@ -54,6 +67,7 @@ class BlokirKhususController extends Controller
         $blokir->nomor_surat = $request->nomor_surat;
         $blokir->hal = $request->hal;
         $blokir->keterangan = $request->keterangan;
+        $blokir->perekam_id = auth()->user()->id;
         $blokir->save();
 
 
@@ -80,6 +94,10 @@ class BlokirKhususController extends Controller
      */
     public function edit($id)
     {
+        if (Gate::denies('SET-BLOKIR-KHUSUS')) {
+            Alert::error('Sorry');
+            return back();
+        }
 
         $data = BlokirKhusus::findOrFail($id);
         return view('blokir-khusus.edit', compact('data'));
@@ -94,6 +112,10 @@ class BlokirKhususController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (Gate::denies('SET-BLOKIR-KHUSUS')) {
+            Alert::error('Sorry');
+            return back();
+        }
         $this->validate($request, [
             'no_identitas' => 'required',
             'nama' => 'required',
@@ -123,5 +145,36 @@ class BlokirKhususController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function buka($id)
+    {
+        if (Gate::denies('SET-BLOKIR-KHUSUS')) {
+            Alert::error('Sorry');
+            return back();
+        }
+        $data = BlokirKhusus::findOrFail($id);
+        return view('blokir-khusus.buka', compact('data'));
+    }
+
+    public function penyelesaian(Request $request, $id)
+    {
+        if (Gate::denies('SET-BLOKIR-KHUSUS')) {
+            Alert::error('Sorry');
+            return back();
+        }
+        $this->validate($request, [
+            'penyelesaian' => 'required',
+            'blokir' => 'required',
+        ]);
+
+        $blokir = BlokirKhusus::findOrFail($id);
+        $blokir->blokir = $request->blokir;
+        $blokir->penyelesaian = $request->penyelesaian;
+        $blokir->updated_by = auth()->user()->id;
+        $blokir->update();
+
+        Alert::success('Berhasil diupdate');
+        return back();
     }
 }

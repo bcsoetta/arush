@@ -5,6 +5,7 @@ Rekam Perusahaan
 @endsection
 
 @section('styles')
+<link href="{{ asset('css/jquery-ui.min.css') }}" rel="stylesheet">
 <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
 @endsection
 
@@ -17,17 +18,13 @@ Rekam Perusahaan
                 <div class="panel-heading">Rekam Blokir Perusahaan</div>
 
                 <div class="panel-body">
+                    <a href="{{ route('blokir-khusus.index')}}"><button class="btn btn-primary" style="margin: 15px; margin-left: 0px;">Kembali</button></a>
 
                     <div class="form-group{{ $errors->has('jenis_identitas') ? ' has-error' : '' }}">
-                        <label for="jenis_identitas" class="col-md-4 control-label">Pilih Perusahaan</label>
+                        <label for="jenis_identitas" class="col-md-4 control-label">Cari Perusahaan</label>
 
                         <div class="col-md-8">
-                            <select class="form-control pilih" name="jenis_identitas">
-                                <option value="" selected>pilih</option>
-                                @foreach($perusahaan as $data)
-                                <option value="#">{{$data->nama}}</option>
-                                @endforeach
-                            </select>
+                            <input type="text" class="form-control" name="importir_nm" value="{{ old('importir_nm') }}" placeholder="nama" id="importir_nm" autofocus>
                         </div>
 
                     </div>
@@ -41,7 +38,7 @@ Rekam Perusahaan
                             <label for="no_identitas" class="col-md-4 control-label">Nomor Identitas</label>
 
                             <div class="col-md-8">
-                                <input type="text" class="form-control" name="no_identitas" value="{{ old('no_identitas') }}" autofocus>
+                                <input type="text" class="form-control" name="no_identitas" id="no_identitas" value="{{ old('no_identitas') }}" autofocus>
 
                                 @if ($errors->has('no_identitas'))
                                 <span class="help-block">
@@ -55,7 +52,7 @@ Rekam Perusahaan
                             <label for="nama" class="col-md-4 control-label">Nama</label>
 
                             <div class="col-md-8">
-                                <input type="text" class="form-control" name="nama" value="{{ old('nama') }}" autofocus>
+                                <input type="text" class="form-control" name="nama" id="nama" value="{{ old('nama') }}" autofocus>
 
                                 @if ($errors->has('nama'))
                                 <span class="help-block">
@@ -126,11 +123,24 @@ Rekam Perusahaan
 @endsection
 
 @section('scripts')
+<script src="{{ asset('js/jquery-ui.min.js') }}"></script>
 <script src="{{ asset('js/select2.min.js') }}"></script>
 <script>
     $(".pilih").select2({
         placeholder: "Pilih",
         allowClear: true
+    });
+
+    $(function() {
+        $("#importir_nm").autocomplete({
+            source: "{{route('auto.importir')}}",
+            minLength: 1,
+            autoFocus: true,
+            select: function(event, ui) {
+                $('#nama').val(ui.item.value);
+                $('#no_identitas').val(ui.item.npwp);
+            }
+        });
     });
 </script>
 @endsection

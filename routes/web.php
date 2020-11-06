@@ -192,4 +192,8 @@ Route::middleware(['auth'])->group(function () {
 
     //Perusahaan
     Route::resource('/perusahaan', 'PerusahaanController');
+
+    Route::get('/time', function () {
+        dd(now());
+    });
 });

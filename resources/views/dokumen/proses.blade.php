@@ -19,7 +19,9 @@ Dokumen
     <div class="panel-body">
         @include('partial.dokumen-nav-tabs')
         @can("CREATE-DOKUMEN")
-        <a href="{{ route('dokumen.cekDokumen')}}"><button class="btn btn-primary" style="margin: 15px; margin-left: 0px;"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Rekam</button></a>
+        <a href="{{ route('dokumen.cekDokumen')}}">
+            <button class="btn btn-primary" style="margin: 15px; margin-left: 0px;"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Rekam</button>
+        </a>
         @endcan
 
         <div class="table-responsive" style="margin-top: 2rem;">

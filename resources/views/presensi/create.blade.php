@@ -14,7 +14,7 @@ Isi daftar Hadir
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-primary">
-                <div class="panel-heading">Isi Daftar Waktu Kerja</div>
+                <div class="panel-heading">Isi Daftar Waktu Kerja Untuk Pemeriksa</div>
                 <div class="panel-body">
                 @if(Session::has('success'))
                     <div class="alert alert-info">

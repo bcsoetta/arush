@@ -42,6 +42,7 @@ class IPController extends Controller
             Alert::error('Sorry');
             return back();
         }
+
         
         if (auth()->user()->hasRole('PEMERIKSA')) {
             $ip = DB::table('dokumen_ip')
@@ -64,26 +65,25 @@ class IPController extends Controller
                     ->join('dokumen', 'dokumen_ip.dokumen_id', '=','dokumen.id')
                     ->where('dokumen_ip.pemeriksa_id', auth()->user()->id);
         }
-        
-        if (auth()->user()->hasRole('ADMIN')) {
-            $ip = DB::table('dokumen_ip')
-                    ->select(
-                        'dokumen.id',
-                        'dokumen.status_id',
-                        'dokumen.daftar_no',
-                        'dokumen.daftar_tgl',
-                        'dokumen.importir_nm',
-                        'dokumen.hawb_no',
-                        'dokumen_ip.no_ip',
-                        'dokumen_ip.created_at',
-                        'dokumen_ip.pemeriksa_nama',
-                        'dokumen_ip.tingkat_periksa',
-                        'dokumen_ip.aju_contoh',
-                        'dokumen_ip.aju_foto',
-                        'dokumen.updated_at'
-                        )
-                    ->join('dokumen', 'dokumen_ip.dokumen_id', '=','dokumen.id');
-        }
+
+        $ip = DB::table('dokumen_ip')
+        ->select(
+            'dokumen.id',
+            'dokumen.status_id',
+            'dokumen.daftar_no',
+            'dokumen.daftar_tgl',
+            'dokumen.importir_nm',
+            'dokumen.hawb_no',
+            'dokumen_ip.no_ip',
+            'dokumen_ip.created_at',
+            'dokumen_ip.pemeriksa_nama',
+            'dokumen_ip.tingkat_periksa',
+            'dokumen_ip.aju_contoh',
+            'dokumen_ip.aju_foto',
+            'dokumen.updated_at'
+        )
+            ->join('dokumen', 'dokumen_ip.dokumen_id', '=', 'dokumen.id');
+            
             return Datatables::of($ip)
                 ->addColumn('action', function ($ip) {
                     //$ip->id adalah dokumen.id (automatis alias jadi id)

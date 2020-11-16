@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Presensi;
+use Alert;
 use App\WaktuKerja;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -23,6 +24,11 @@ class PresensiController extends Controller
     }
 
     public function store(Request $r){
+        if (!auth()->user()->hasRole('PEMERIKSA')) {
+            Alert::error('Sorry, bukan pemeriksa');
+            return back();
+        }
+
         $this->validate($r,[
             'waktu_kerja' => 'required'
         ]);

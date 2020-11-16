@@ -76,6 +76,24 @@ class LHPController extends Controller
                     ->join('dokumen', 'dokumen_lhp.dokumen_id', '=','dokumen.id')
                     ->where('dokumen_lhp.pemeriksa_id', auth()->user()->id);
         }
+        
+        if (auth()->user()->hasRole('ADMIN')) {
+            $lhp = DB::table('dokumen_lhp')
+                    ->select(
+                        'dokumen.id',
+                        'dokumen.status_id',
+                        'dokumen.daftar_no',
+                        'dokumen.daftar_tgl',
+                        'dokumen.importir_nm',
+                        'dokumen.hawb_no',
+                        'dokumen_lhp.no_lhp',
+                        'dokumen_lhp.created_at',
+                        'dokumen_lhp.pemeriksa_nama',
+                        'dokumen.updated_at'
+                        )
+                    ->join('dokumen', 'dokumen_lhp.dokumen_id', '=','dokumen.id');
+        }
+
 
 
             return Datatables::of($lhp)

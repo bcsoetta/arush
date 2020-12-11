@@ -421,10 +421,10 @@ class LaporanController extends Controller
                 $detail->chunk(500, function($detailInstance) use($sheet) {
                     foreach ($detailInstance as $val) {
                         $sheet->appendRow([
-                            $val->dokumen->daftar_no, 
-                            $val->dokumen->daftar_tgl,
-                            $val->dokumen->importir_nm,
-                            $val->dokumen->importir_npwp,
+                            $val->dokumen ? $val->dokumen->daftar_no : '',
+                            $val->dokumen ? $val->dokumen->daftar_tgl : '',
+                            $val->dokumen ? $val->dokumen->importir_nm : '',
+                            $val->dokumen ? $val->dokumen->importir_npwp : '',
                             $val->uraian_barang,
                             $val->kemasan_jumlah,
                             $val->kemasan_jenis,

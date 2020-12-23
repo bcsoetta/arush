@@ -128,15 +128,15 @@ class IPController extends Controller
             Alert::error('Sorry');
             return back();
         }
-
+        
         $dokumen = Dokumen::findOrFail($id);
+        
+        // $users= User::where('active', 1)->where('hadir', 1)->whereHas('roles', function($q){
+        //     $q->where('name', 'PEMERIKSA');
+        // })->get();
 
-        $users= User::where('active', 1)->where('hadir', 1)->whereHas('roles', function($q){
-            $q->where('name', 'PEMERIKSA');
-        })->get();
 
-
-        return view('instruksipemeriksaan.create', compact('dokumen', 'users'));
+        return view('instruksipemeriksaan.create', compact('dokumen'));
     }
 
     public function randomPemeriksa(){
